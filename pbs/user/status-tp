@@ -1,0 +1,95 @@
+#/bin/sh!
+pbsstat()
+{
+
+nodelist=`mktemp`;
+pbsnodes -a -s $servername > $nodelist
+export Total=0;
+export Free=0;
+jobs="";
+cat $nodelist |
+while read line; do
+env=`echo $line|cut -d" " -f1`
+case $env in
+	state)
+	state=`echo $line|cut -d" " -f3`
+	;;
+	np)
+	np=`echo $line|cut -d" " -f3`
+#	echo "np=$np"
+	;;
+	properties)
+	properties=`echo $line|cut -d" " -f3`
+	;;
+	ntype)
+	ntype=`echo $line|cut -d" " -f3`
+	;;
+	jobs)
+	jobs=`echo $line|cut -d"=" -f2`
+	;; 
+	status)
+#	echo "env=$env Total=$Total;np=$np";
+	if [ ! "$state" = down ]; then
+		Total=`expr $Total + $np`;
+	fi
+	if [ "$state" = "free" ]; then
+		fn=`for i in $jobs; do echo $i; done|wc -l`;
+		Free=`expr $Free + $np - $fn`;
+	fi
+	jobs="";
+	;;		
+esac
+#export Total;
+#export Free;
+echo "Total=$Total" > ${nodelist}.nn;
+echo "Free=$Free" >> ${nodelist}.nn;
+
+
+#k=`expr $k + 1`
+done
+rm -f  $nodelist;
+cat ${nodelist}.nn;
+rm -f ${nodelist}.nn;
+#echo "Free=$Free";
+#echo "Total=$Total";
+
+}
+export servername=pbs-tp.hpc.spbu.ru
+
+while [ -n "$1" ]; do
+  case "$1" in
+	-f)
+	shift
+	qstat -f $1 @"$servername";
+	shift
+	;;
+	-q)
+	shift
+	qstat -n ${1}-${USER}@"$servername"
+	shift
+	;;
+	-a)
+	qstat -n @"$servername"
+	shift
+	;;
+	-p)
+	pbsstat;
+	shift
+	;;
+	--help|-h)
+	cat << EOF
+	-f jobaname	#inforamtion abou "jobname"
+	-q queue	#information about "queue"
+	-a		#information about all queues
+	-p		#information about cluster
+	-h		#this message
+EOF
+	exit
+	;;
+	*)
+	echo "that is $1?"
+	exit
+	;;
+  esac
+done
+
