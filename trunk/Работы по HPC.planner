@@ -20,7 +20,7 @@
     </calendar>
   </calendars>
   <tasks>
-    <task id="1" name="HPC" note="" work="2102400" start="20101130T000000Z" end="20110408T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+    <task id="1" name="HPC" note="" work="2131200" start="20101130T000000Z" end="20110408T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
       <task id="2" name="Job manager for PBS" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
       <task id="3" name="HCGM -&gt; GRID" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
       <task id="4" name="&#x421;&#x435;&#x440;&#x432;&#x435;&#x440;" note="&#x421;&#x43E;&#x437;&#x434;&#x430;&#x43D; &#x43D;&#x430; &#x43D;&#x43E;&#x434;&#x435; (&#x432;&#x440;&#x435;&#x43C;&#x435;&#x43D;&#x43D;&#x43E;&#x435; &#x440;&#x435;&#x448;&#x435;&#x43D;&#x438;&#x435;). &#x414;&#x43B;&#x44F; &#x441;&#x435;&#x440;&#x432;&#x435;&#x440;&#x430; &#x43D;&#x430; &#x441;&#x435;&#x440;&#x432;&#x435;&#x440;&#x435; &#x43D;&#x435;&#x43E;&#x431;&#x445;&#x43E;&#x434;&#x438;&#x43C; &#x418;&#x411; &#x43D;&#x430; &#x441;&#x435;&#x440;&#x432;&#x435;&#x440;&#x435;. &#x416;&#x434;&#x435;&#x43C; &#x43F;&#x43E;&#x434;&#x434;&#x435;&#x440;&#x436;&#x43A;&#x438; &#x422;-&#x43F;&#x43B;&#x430;&#x442;&#x444;&#x43E;&#x440;&#x43C; .&#x412;&#x418; &#x43E;&#x431;&#x435;&#x449;&#x430;&#x43B; &#x441;&#x43E;&#x434;&#x435;&#x439;&#x441;&#x442;&#x432;&#x43E;&#x432;&#x430;&#x442;&#x44C;" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
@@ -56,7 +56,7 @@
           <constraint type="must-start-on" time="20110407T000000Z"/>
         </task>
       </task>
-      <task id="21" name="&#x423;&#x441;&#x442;&#x430;&#x43D;&#x43E;&#x432;&#x43A;&#x430; &#x41F;&#x41E;" note="" work="576000" start="20101130T000000Z" end="20110404T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+      <task id="21" name="&#x423;&#x441;&#x442;&#x430;&#x43D;&#x43E;&#x432;&#x43A;&#x430; &#x41F;&#x41E;" note="" work="604800" start="20101130T000000Z" end="20110404T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
         <task id="22" name="Gaussian 03" note="" work="115200" start="20101130T000000Z" end="20110111T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
           <task id="23" name="&#x423;&#x441;&#x442;&#x430;&#x43D;&#x43E;&#x432;&#x43A;&#x430;" note="" work="28800" start="20110111T000000Z" end="20110111T170000Z" work-start="20110111T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
             <constraint type="must-start-on" time="20110111T000000Z"/>
@@ -85,7 +85,7 @@
           </task>
         </task>
         <task id="35" name="gromacs" note="" work="57600" start="20110304T000000Z" end="20110307T170000Z" work-start="20110304T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-          <task id="36" name="4.5.3" note="" work="57600" start="20110304T000000Z" end="20110307T170000Z" work-start="20110304T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="36" name="4.5.3" note="" work="57600" start="20110304T000000Z" end="20110307T170000Z" work-start="20110304T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
             <constraint type="must-start-on" time="20110304T000000Z"/>
           </task>
         </task>
@@ -112,6 +112,7 @@
         </task>
         <task id="46" name="Quantum-Espresso" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
         <task id="47" name="Vasp" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="48" name="ADF" note="Amsterdam Density Functional&#10;http://www.scm.com/&#10;&#x2116;110" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
       </task>
     </task>
   </tasks>
@@ -119,27 +120,27 @@
     <group id="1" name="HPC-support" admin-name="&#x412;&#x418;&#x417;" admin-phone="" admin-email="viz@ptc.spbu.r"/>
   </resource-groups>
   <resources>
-    <resource group="1" id="1" name="&#x417;&#x430;&#x440;&#x43E;&#x447;&#x435;&#x43D;&#x446;&#x435;&#x432; &#x410;&#x43D;&#x434;&#x440;&#x435;&#x439;" short-name="zar" type="1" units="0" email="andrey.zar@gmail.com" note="" std-rate="0"/>
-    <resource group="1" id="2" name="&#x41B;&#x44B;&#x441;&#x43E;&#x432; &#x412;&#x438;&#x442;&#x430;&#x43B;&#x438;&#x439;" short-name="vij" type="1" units="0" email="vij@ptc.spbu.ru" note="" std-rate="0"/>
+    <resource group="1" id="1" name="&#x41B;&#x44B;&#x441;&#x43E;&#x432; &#x412;&#x438;&#x442;&#x430;&#x43B;&#x438;&#x439;" short-name="vij" type="1" units="0" email="vij@ptc.spbu.ru" note="" std-rate="0"/>
+    <resource group="1" id="2" name="&#x417;&#x430;&#x440;&#x43E;&#x447;&#x435;&#x43D;&#x446;&#x435;&#x432; &#x410;&#x43D;&#x434;&#x440;&#x435;&#x439;" short-name="zar" type="1" units="0" email="andrey.zar@gmail.com" note="" std-rate="0"/>
   </resources>
   <allocations>
-    <allocation task-id="17" resource-id="1" units="100"/>
+    <allocation task-id="23" resource-id="1" units="100"/>
+    <allocation task-id="38" resource-id="1" units="100"/>
     <allocation task-id="11" resource-id="1" units="100"/>
-    <allocation task-id="43" resource-id="1" units="100"/>
-    <allocation task-id="32" resource-id="1" units="100"/>
-    <allocation task-id="41" resource-id="1" units="100"/>
-    <allocation task-id="40" resource-id="1" units="100"/>
-    <allocation task-id="9" resource-id="1" units="100"/>
-    <allocation task-id="2" resource-id="1" units="100"/>
-    <allocation task-id="6" resource-id="1" units="100"/>
-    <allocation task-id="23" resource-id="2" units="100"/>
-    <allocation task-id="38" resource-id="2" units="100"/>
+    <allocation task-id="31" resource-id="1" units="100"/>
+    <allocation task-id="29" resource-id="1" units="100"/>
+    <allocation task-id="36" resource-id="1" units="100"/>
+    <allocation task-id="7" resource-id="1" units="100"/>
+    <allocation task-id="34" resource-id="1" units="100"/>
+    <allocation task-id="20" resource-id="1" units="50"/>
+    <allocation task-id="17" resource-id="2" units="100"/>
     <allocation task-id="11" resource-id="2" units="100"/>
-    <allocation task-id="31" resource-id="2" units="100"/>
-    <allocation task-id="29" resource-id="2" units="100"/>
-    <allocation task-id="36" resource-id="2" units="100"/>
-    <allocation task-id="7" resource-id="2" units="100"/>
-    <allocation task-id="34" resource-id="2" units="100"/>
-    <allocation task-id="20" resource-id="2" units="50"/>
+    <allocation task-id="43" resource-id="2" units="100"/>
+    <allocation task-id="32" resource-id="2" units="100"/>
+    <allocation task-id="41" resource-id="2" units="100"/>
+    <allocation task-id="40" resource-id="2" units="100"/>
+    <allocation task-id="9" resource-id="2" units="100"/>
+    <allocation task-id="2" resource-id="2" units="100"/>
+    <allocation task-id="6" resource-id="2" units="100"/>
   </allocations>
 </project>
