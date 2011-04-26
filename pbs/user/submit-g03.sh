@@ -17,7 +17,7 @@ if [ -f $OUTFILE ]; then
         #mv $OUTFILE /home/viz/;
         mv $OUTFILE $OUTPUT;
 else
-        echo "No outputfile";
+        echo "No output file";
 fi
 
 
