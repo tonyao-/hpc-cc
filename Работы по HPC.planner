@@ -43,107 +43,111 @@
       </task>
       <task id="12" name="HDD" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
       <task id="13" name="username -&gt; UID" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="14" name="accounting" note="&#x415;&#x441;&#x442;&#x44C; &#x441;&#x43A;&#x440;&#x438;&#x43F;&#x442;&#x44B;. &#x41D;&#x435;&#x442; &#x432;&#x435;&#x431;&#x430;" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="15" name="&#x421;&#x440;&#x435;&#x434;&#x430; &#x43E;&#x442;&#x43B;&#x430;&#x434;&#x43A;&#x438; &#x438; &#x440;&#x430;&#x437;&#x440;&#x430;&#x431;&#x43E;&#x442;&#x43A;&#x438; &#x41F;&#x41E;" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-        <task id="16" name="sandbox" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="14" name="accounting" note="&#x415;&#x441;&#x442;&#x44C; &#x441;&#x43A;&#x440;&#x438;&#x43F;&#x442;&#x44B;. &#x41D;&#x435;&#x442; &#x432;&#x435;&#x431;&#x430;" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="15" name="&#x41F;&#x43E;&#x442;&#x440;&#x435;&#x431;&#x43B;&#x435;&#x43D;&#x43D;&#x44B;&#x435; &#x440;&#x435;&#x441;&#x443;&#x440;&#x441;&#x44B; &#x43F;&#x43E;&#x43B;&#x44C;&#x437;&#x43E;&#x432;&#x430;&#x442;&#x435;&#x43B;&#x435;&#x43C;" note="&#x412;&#x44B;&#x432;&#x43E;&#x434; &#x438;&#x43D;&#x444;&#x43E;&#x440;&#x43C;&#x430;&#x446;&#x438;&#x438; &#x43E; &#x43F;&#x43E;&#x442;&#x440;&#x435;&#x431;&#x43B;&#x435;&#x43D;&#x43D;&#x44B;&#x445; &#x440;&#x435;&#x441;&#x443;&#x440;&#x441;&#x430;&#x445; &#x43F;&#x43E;&#x43B;&#x44C;&#x437;&#x43E;&#x432;&#x430;&#x442;&#x435;&#x43B;&#x435;&#x43C;.&#10;&#x412;&#x441;&#x435;&#x433;&#x43E;, &#x412;&#x441;&#x435;&#x433;&#x43E; &#x441; &#x443;&#x441;&#x43F;&#x435;&#x448;&#x43D;&#x44B;&#x43C; &#x437;&#x430;&#x432;&#x435;&#x440;&#x448;&#x435;&#x43D;&#x438;&#x435;&#x43C; &#x437;&#x430;&#x434;&#x430;&#x447;&#x438;, &#x412;&#x441;&#x435;&#x433;&#x43E; &#x441; &#x43E;&#x448;&#x438;&#x431;&#x43E;&#x447;&#x43D;&#x44B;&#x43C;" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
       </task>
-      <task id="17" name="&#x410;&#x432;&#x442;&#x43E;&#x43C;&#x430;&#x442;&#x438;&#x447;&#x435;&#x441;&#x43A;&#x43E;&#x435; &#x440;&#x430;&#x437;&#x432;&#x435;&#x440;&#x442;&#x44B;&#x432;&#x430;&#x43D;&#x438;&#x435; &#x43A;&#x43B;&#x430;&#x441;&#x442;&#x435;&#x440;&#x430;" note="" work="28800" start="20110311T000000Z" end="20110311T170000Z" work-start="20110311T080000Z" percent-complete="60" priority="0" type="normal" scheduling="fixed-work">
+      <task id="16" name="&#x421;&#x440;&#x435;&#x434;&#x430; &#x43E;&#x442;&#x43B;&#x430;&#x434;&#x43A;&#x438; &#x438; &#x440;&#x430;&#x437;&#x440;&#x430;&#x431;&#x43E;&#x442;&#x43A;&#x438; &#x41F;&#x41E;" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="17" name="sandbox" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      </task>
+      <task id="18" name="&#x410;&#x432;&#x442;&#x43E;&#x43C;&#x430;&#x442;&#x438;&#x447;&#x435;&#x441;&#x43A;&#x43E;&#x435; &#x440;&#x430;&#x437;&#x432;&#x435;&#x440;&#x442;&#x44B;&#x432;&#x430;&#x43D;&#x438;&#x435; &#x43A;&#x43B;&#x430;&#x441;&#x442;&#x435;&#x440;&#x430;" note="" work="28800" start="20110311T000000Z" end="20110311T170000Z" work-start="20110311T080000Z" percent-complete="60" priority="0" type="normal" scheduling="fixed-work">
         <constraint type="must-start-on" time="20110311T000000Z"/>
       </task>
-      <task id="18" name="Walltime" note="&#x41D;&#x435; &#x441;&#x43E;&#x431;&#x43B;&#x44E;&#x434;&#x430;&#x44E;&#x442;&#x441;&#x44F; &#x43B;&#x438;&#x43C;&#x438;&#x442;&#x44B; &#x43D;&#x430; &#x440;&#x435;&#x441;&#x443;&#x440;&#x441;&#x44B;: walltime, cput" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="19" name="&#x420;&#x435;&#x43F;&#x43E;&#x437;&#x438;&#x442;&#x43E;&#x440;&#x438;&#x439; &#x434;&#x43B;&#x44F; &#x444;&#x430;&#x439;&#x43B;&#x43E;&#x432; &#x43F;&#x440;&#x43E;&#x435;&#x43A;&#x442;&#x430;" note="" work="28800" start="20110407T000000Z" end="20110408T170000Z" work-start="20110407T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-        <task id="20" name="&#x421;&#x442;&#x440;&#x443;&#x43A;&#x442;&#x443;&#x440;&#x430; &#x424;&#x421; &#x43F;&#x440;&#x43E;&#x435;&#x43A;&#x442;&#x430;" note="HPC.spbu&#10;{doc, pbs/scripts}" work="28800" duration="57600" start="20110407T000000Z" end="20110408T170000Z" work-start="20110407T080000Z" percent-complete="40" priority="0" type="normal" scheduling="fixed-duration">
+      <task id="19" name="Walltime" note="&#x41D;&#x435; &#x441;&#x43E;&#x431;&#x43B;&#x44E;&#x434;&#x430;&#x44E;&#x442;&#x441;&#x44F; &#x43B;&#x438;&#x43C;&#x438;&#x442;&#x44B; &#x43D;&#x430; &#x440;&#x435;&#x441;&#x443;&#x440;&#x441;&#x44B;: walltime, cput" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="20" name="&#x420;&#x435;&#x43F;&#x43E;&#x437;&#x438;&#x442;&#x43E;&#x440;&#x438;&#x439; &#x434;&#x43B;&#x44F; &#x444;&#x430;&#x439;&#x43B;&#x43E;&#x432; &#x43F;&#x440;&#x43E;&#x435;&#x43A;&#x442;&#x430;" note="" work="28800" start="20110407T000000Z" end="20110408T170000Z" work-start="20110407T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="21" name="&#x421;&#x442;&#x440;&#x443;&#x43A;&#x442;&#x443;&#x440;&#x430; &#x424;&#x421; &#x43F;&#x440;&#x43E;&#x435;&#x43A;&#x442;&#x430;" note="HPC.spbu&#10;{doc, pbs/scripts}" work="28800" duration="57600" start="20110407T000000Z" end="20110408T170000Z" work-start="20110407T080000Z" percent-complete="40" priority="0" type="normal" scheduling="fixed-duration">
           <constraint type="must-start-on" time="20110407T000000Z"/>
         </task>
       </task>
-      <task id="21" name="&#x423;&#x441;&#x442;&#x430;&#x43D;&#x43E;&#x432;&#x43A;&#x430; &#x41F;&#x41E;" note="" work="633600" start="20101130T000000Z" end="20110404T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-        <task id="22" name="Gaussian 03" note="" work="115200" start="20101130T000000Z" end="20110111T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-          <task id="23" name="&#x423;&#x441;&#x442;&#x430;&#x43D;&#x43E;&#x432;&#x43A;&#x430;" note="" work="28800" start="20110111T000000Z" end="20110111T170000Z" work-start="20110111T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
+      <task id="22" name="&#x423;&#x441;&#x442;&#x430;&#x43D;&#x43E;&#x432;&#x43A;&#x430; &#x41F;&#x41E;" note="" work="633600" start="20101130T000000Z" end="20110404T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+        <task id="23" name="Gaussian 03" note="" work="115200" start="20101130T000000Z" end="20110111T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="24" name="&#x423;&#x441;&#x442;&#x430;&#x43D;&#x43E;&#x432;&#x43A;&#x430;" note="" work="28800" start="20110111T000000Z" end="20110111T170000Z" work-start="20110111T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
             <constraint type="must-start-on" time="20110111T000000Z"/>
           </task>
-          <task id="24" name="Linda" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-          <task id="25" name="subg03" note="&#x415;&#x441;&#x442;&#x44C; &#x43D;&#x435;&#x43A;&#x438;&#x439; &#x441;&#x43A;&#x440;&#x438;&#x43F;&#x442;...&#10;http://www.uic.edu/depts/accc/hardware/argo/g03.html" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-          <task id="26" name="Default 4 cores" note="&#x417;&#x430;&#x43F;&#x443;&#x441;&#x43A;&#x430;&#x435;&#x442;&#x441;&#x44F; &#x43F;&#x43E; &#x443;&#x43C;&#x43E;&#x43B;&#x447;&#x430;&#x43D;&#x438;&#x44E; &#x43D;&#x430; &#x43E;&#x434;&#x43D;&#x43E;&#x43C; &#x43F;&#x440;&#x43E;&#x446;&#x435;&#x441;&#x441;&#x43E;&#x440;&#x435;, &#x43D;&#x430;&#x434;&#x43E; &#x43D;&#x430; 4-&#x445;" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="25" name="Linda" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="26" name="subg03" note="&#x415;&#x441;&#x442;&#x44C; &#x43D;&#x435;&#x43A;&#x438;&#x439; &#x441;&#x43A;&#x440;&#x438;&#x43F;&#x442;...&#10;http://www.uic.edu/depts/accc/hardware/argo/g03.html" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="27" name="Default 4 cores" note="&#x417;&#x430;&#x43F;&#x443;&#x441;&#x43A;&#x430;&#x435;&#x442;&#x441;&#x44F; &#x43F;&#x43E; &#x443;&#x43C;&#x43E;&#x43B;&#x447;&#x430;&#x43D;&#x438;&#x44E; &#x43D;&#x430; &#x43E;&#x434;&#x43D;&#x43E;&#x43C; &#x43F;&#x440;&#x43E;&#x446;&#x435;&#x441;&#x441;&#x43E;&#x440;&#x435;, &#x43D;&#x430;&#x434;&#x43E; &#x43D;&#x430; 4-&#x445;" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
         </task>
-        <task id="27" name="OpenFOAM" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-        <task id="28" name="Wien2k" note="" work="57600" start="20101130T000000Z" end="20110404T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-          <task id="29" name="10.1_exec" note="" work="28800" start="20110404T000000Z" end="20110404T170000Z" work-start="20110404T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
+        <task id="28" name="OpenFOAM" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="29" name="Wien2k" note="" work="57600" start="20101130T000000Z" end="20110404T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="30" name="10.1_exec" note="" work="28800" start="20110404T000000Z" end="20110404T170000Z" work-start="20110404T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
             <constraint type="must-start-on" time="20110404T000000Z"/>
           </task>
-          <task id="30" name="11" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+          <task id="31" name="11" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
         </task>
-        <task id="31" name="Intel Composer XE" note="" work="57600" start="20110125T000000Z" end="20110311T170000Z" work-start="20110125T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-          <task id="32" name="2011.2.137" note="MKL, C, Fortran" work="28800" start="20110311T000000Z" end="20110311T170000Z" work-start="20110311T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
+        <task id="32" name="Intel Composer XE" note="" work="57600" start="20110125T000000Z" end="20110311T170000Z" work-start="20110125T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="33" name="2011.2.137" note="MKL, C, Fortran" work="28800" start="20110311T000000Z" end="20110311T170000Z" work-start="20110311T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
             <constraint type="must-start-on" time="20110311T000000Z"/>
           </task>
-          <task id="33" name="2011.1.107" note="MKL, C" work="28800" start="20110125T000000Z" end="20110125T170000Z" work-start="20110125T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
+          <task id="34" name="2011.1.107" note="MKL, C" work="28800" start="20110125T000000Z" end="20110125T170000Z" work-start="20110125T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
             <constraint type="must-start-on" time="20110125T000000Z"/>
           </task>
         </task>
-        <task id="34" name="Firefly" note="" work="28800" start="20110113T000000Z" end="20110113T170000Z" work-start="20110113T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-          <task id="35" name="71g" note="" work="28800" start="20110113T000000Z" end="20110113T170000Z" work-start="20110113T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
+        <task id="35" name="Firefly" note="" work="28800" start="20110113T000000Z" end="20110113T170000Z" work-start="20110113T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="36" name="71g" note="" work="28800" start="20110113T000000Z" end="20110113T170000Z" work-start="20110113T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
             <constraint type="must-start-on" time="20110113T000000Z"/>
           </task>
         </task>
-        <task id="36" name="gromacs" note="" work="57600" start="20110304T000000Z" end="20110307T170000Z" work-start="20110304T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-          <task id="37" name="4.5.3" note="" work="57600" start="20110304T000000Z" end="20110307T170000Z" work-start="20110304T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
+        <task id="37" name="gromacs" note="" work="57600" start="20110304T000000Z" end="20110307T170000Z" work-start="20110304T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="38" name="4.5.3" note="" work="57600" start="20110304T000000Z" end="20110307T170000Z" work-start="20110304T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
             <constraint type="must-start-on" time="20110304T000000Z"/>
           </task>
         </task>
-        <task id="38" name="MOLECULAR DYNAMICS" note="" work="57600" start="20110316T000000Z" end="20110317T170000Z" work-start="20110316T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-          <task id="39" name="v5.2.3" note="" work="57600" start="20110316T000000Z" end="20110317T170000Z" work-start="20110316T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
+        <task id="39" name="MOLECULAR DYNAMICS" note="" work="57600" start="20110316T000000Z" end="20110317T170000Z" work-start="20110316T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="40" name="v5.2.3" note="" work="57600" start="20110316T000000Z" end="20110317T170000Z" work-start="20110316T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
             <constraint type="must-start-on" time="20110316T000000Z"/>
           </task>
         </task>
-        <task id="40" name="openmpi" note="" work="86400" start="20110124T000000Z" end="20110131T170000Z" work-start="20110124T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-          <task id="41" name="1.4.3" note="" work="28800" start="20110124T000000Z" end="20110124T170000Z" work-start="20110124T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
+        <task id="41" name="openmpi" note="" work="86400" start="20110124T000000Z" end="20110131T170000Z" work-start="20110124T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="42" name="1.4.3" note="" work="28800" start="20110124T000000Z" end="20110124T170000Z" work-start="20110124T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
             <constraint type="must-start-on" time="20110124T000000Z"/>
           </task>
-          <task id="42" name="1.4.3-ib" note="&#x42D;&#x442;&#x43E; &#x447;&#x442;&#x43E;?" work="57600" start="20110128T000000Z" end="20110131T170000Z" work-start="20110128T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="43" name="1.4.3-ib" note="&#x42D;&#x442;&#x43E; &#x447;&#x442;&#x43E;?" work="57600" start="20110128T000000Z" end="20110131T170000Z" work-start="20110128T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
             <constraint type="must-start-on" time="20110128T000000Z"/>
           </task>
         </task>
-        <task id="43" name="scilab" note="" work="28800" start="20101215T000000Z" end="20101215T170000Z" work-start="20101215T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-          <task id="44" name="5.3.0" note="" work="28800" start="20101215T000000Z" end="20101215T170000Z" work-start="20101215T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
+        <task id="44" name="scilab" note="" work="28800" start="20101215T000000Z" end="20101215T170000Z" work-start="20101215T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="45" name="5.3.0" note="" work="28800" start="20101215T000000Z" end="20101215T170000Z" work-start="20101215T080000Z" percent-complete="100" priority="0" type="normal" scheduling="fixed-work">
             <constraint type="must-start-on" time="20101215T000000Z"/>
           </task>
         </task>
-        <task id="45" name="GNU Compilers" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
-          <task id="46" name="4.5.2" note="&#x425;&#x43E;&#x442;&#x44F;&#x442;:&#10;komolkin@nmr.phys.spbu.ru" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="46" name="GNU Compilers" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+          <task id="47" name="4.5.2" note="&#x425;&#x43E;&#x442;&#x44F;&#x442;:&#10;komolkin@nmr.phys.spbu.ru" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
         </task>
-        <task id="47" name="Quantum-Espresso" note="&#x2116; 41" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-        <task id="48" name="Vasp" note="&#x2116; 41" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-        <task id="49" name="ADF" note="Amsterdam Density Functional&#10;http://www.scm.com/&#10;&#x2116;110" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="48" name="Quantum-Espresso" note="&#x2116; 41" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="49" name="Vasp" note="&#x2116; 41" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+        <task id="50" name="ADF" note="Amsterdam Density Functional&#10;http://www.scm.com/&#10;&#x2116;110" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
       </task>
-      <task id="50" name="&#x41E;&#x447;&#x438;&#x441;&#x442;&#x43A;&#x430; &#x434;&#x438;&#x441;&#x43A;&#x43E;&#x432;&#x43E;&#x439; &#x43F;&#x430;&#x43C;&#x44F;&#x442;&#x438;" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
-      <task id="51" name="&#x41E;&#x441;&#x442;&#x430;&#x43D;&#x43E;&#x432;&#x43A;&#x430; slave-&#x43F;&#x440;&#x43E;&#x446;&#x435;&#x441;&#x441;&#x43E;&#x432;" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="51" name="&#x41E;&#x447;&#x438;&#x441;&#x442;&#x43A;&#x430; &#x434;&#x438;&#x441;&#x43A;&#x43E;&#x432;&#x43E;&#x439; &#x43F;&#x430;&#x43C;&#x44F;&#x442;&#x438;" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
+      <task id="52" name="&#x41E;&#x441;&#x442;&#x430;&#x43D;&#x43E;&#x432;&#x43A;&#x430; slave-&#x43F;&#x440;&#x43E;&#x446;&#x435;&#x441;&#x441;&#x43E;&#x432;" note="" work="28800" start="20101130T000000Z" end="20101130T170000Z" work-start="20101130T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work"/>
     </task>
   </tasks>
   <resource-groups default_group="1">
     <group id="1" name="HPC-support" admin-name="&#x412;&#x418;&#x417;" admin-phone="" admin-email="viz@ptc.spbu.r"/>
   </resource-groups>
   <resources>
-    <resource group="1" id="1" name="&#x41B;&#x44B;&#x441;&#x43E;&#x432; &#x412;&#x438;&#x442;&#x430;&#x43B;&#x438;&#x439;" short-name="vij" type="1" units="0" email="vij@ptc.spbu.ru" note="" std-rate="0"/>
-    <resource group="1" id="2" name="&#x417;&#x430;&#x440;&#x43E;&#x447;&#x435;&#x43D;&#x446;&#x435;&#x432; &#x410;&#x43D;&#x434;&#x440;&#x435;&#x439;" short-name="zar" type="1" units="0" email="andrey.zar@gmail.com" note="" std-rate="0"/>
+    <resource group="1" id="1" name="&#x417;&#x430;&#x440;&#x43E;&#x447;&#x435;&#x43D;&#x446;&#x435;&#x432; &#x410;&#x43D;&#x434;&#x440;&#x435;&#x439;" short-name="zar" type="1" units="0" email="andrey.zar@gmail.com" note="" std-rate="0"/>
+    <resource group="1" id="2" name="&#x41B;&#x44B;&#x441;&#x43E;&#x432; &#x412;&#x438;&#x442;&#x430;&#x43B;&#x438;&#x439;" short-name="vij" type="1" units="0" email="vij@ptc.spbu.ru" note="" std-rate="0"/>
   </resources>
   <allocations>
-    <allocation task-id="23" resource-id="1" units="100"/>
-    <allocation task-id="39" resource-id="1" units="100"/>
+    <allocation task-id="52" resource-id="1" units="100"/>
+    <allocation task-id="51" resource-id="1" units="100"/>
+    <allocation task-id="18" resource-id="1" units="100"/>
     <allocation task-id="11" resource-id="1" units="100"/>
-    <allocation task-id="32" resource-id="1" units="100"/>
-    <allocation task-id="29" resource-id="1" units="100"/>
-    <allocation task-id="37" resource-id="1" units="100"/>
-    <allocation task-id="7" resource-id="1" units="100"/>
-    <allocation task-id="35" resource-id="1" units="100"/>
-    <allocation task-id="20" resource-id="1" units="50"/>
-    <allocation task-id="17" resource-id="2" units="100"/>
+    <allocation task-id="45" resource-id="1" units="100"/>
+    <allocation task-id="34" resource-id="1" units="100"/>
+    <allocation task-id="43" resource-id="1" units="100"/>
+    <allocation task-id="42" resource-id="1" units="100"/>
+    <allocation task-id="9" resource-id="1" units="100"/>
+    <allocation task-id="2" resource-id="1" units="100"/>
+    <allocation task-id="6" resource-id="1" units="100"/>
+    <allocation task-id="24" resource-id="2" units="100"/>
+    <allocation task-id="40" resource-id="2" units="100"/>
     <allocation task-id="11" resource-id="2" units="100"/>
-    <allocation task-id="44" resource-id="2" units="100"/>
     <allocation task-id="33" resource-id="2" units="100"/>
-    <allocation task-id="42" resource-id="2" units="100"/>
-    <allocation task-id="41" resource-id="2" units="100"/>
-    <allocation task-id="9" resource-id="2" units="100"/>
-    <allocation task-id="2" resource-id="2" units="100"/>
-    <allocation task-id="6" resource-id="2" units="100"/>
+    <allocation task-id="30" resource-id="2" units="100"/>
+    <allocation task-id="38" resource-id="2" units="100"/>
+    <allocation task-id="7" resource-id="2" units="100"/>
+    <allocation task-id="36" resource-id="2" units="100"/>
+    <allocation task-id="21" resource-id="2" units="50"/>
   </allocations>
 </project>
