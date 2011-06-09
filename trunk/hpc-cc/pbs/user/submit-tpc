@@ -1,0 +1,283 @@
+#/bin/sh!
+severname=pbs-tp.hpc.cc.spbu.ru
+export NN=`pbsnodes -l free -s $severname| wc -l`; #number free nodes
+if [ $NN -eq 0 ]; then
+	echo "All nodes are full now, sorry. But your  job will be  queued on one node.";
+	NN=1;
+fi
+export NP=8;# core number
+PWD=`pwd`;
+submitfile=file`date +%s`.sh;
+rm -f $submitfile;
+#severname=pbs-tp.hpc.spbu.ru
+jobname=job.`date +%s`
+inputfile="";
+np="";
+ex="";
+mpifile="";
+PREFIXopenmpi=/usr/lib64/openmpi/1.4-gcc
+PREFIXmvapich=/usr/lib64/mvapich/1.2.0-gcc
+PREFIXmvapich2=/usr/lib64/mvapich2/1.4-gcc
+PREFIXmpich2=/usr
+
+while [ -n "$1" ]; do
+  case "$1" in
+  --input|-i) 
+	shift;
+	inputfile=$1
+	shift
+        ;;
+  --output|-o)	
+	shift;
+	outputfile=$1
+	shift
+        ;;
+  --np|-n)
+	shift
+	np=$1
+	shift
+	;;
+  --dir|-d)
+	shift
+	ex=$1
+	shift
+	;;
+  --file|-f)
+	shift
+	mpifile=$1
+	shift
+	;;
+  --queue|-q)
+	shift
+	queue=$1
+	shift
+	;;
+  --mpiver|-v)
+	shift
+	ver=$1
+	shift
+	;;
+  --jobname|-j)
+	shift
+	jobname=$1
+	shift
+	;;
+   --array|-r)
+	shift
+	array=$1
+	shift
+	;;
+  --help|-h)
+	cat << EOF
+usage:  
+        --input -i filename        	#input file
+        --np -n N                  	#number of threads. Default 1
+        --dir -d dirname         	#exec dirname
+        --file -f filename   		#exec file
+	--queue -q queue		#queue name (short, long or infi). Default short
+	--mpiver -v version 		#MPI version (mvapich, mvapich2, openmpi,mpich2). Defaul without mpi
+	--output -o  filename       	#output file
+	--help -h 			#This message
+	--jobname -j jobname		#Name of job. Default $jobname
+	--array -r numbers		#numbers jobs in array
+	
+EOF
+	exit
+	;;	
+  *)
+	echo "not understand input $1";
+	exit
+	;;
+  esac
+done
+
+
+
+rm -f $submitfile;
+cat << EOF >> $submitfile
+#/bin/sh!
+EOF
+
+mpiarg="";
+pbsarg="";
+
+ALLNP=`expr $NN  \* $NP` 
+if [ -n "$np" ];then
+	if [ "$np" -gt "$ALLNP" ]; then
+		echo "Sorry, we have $ALLNP cores only, less $np";
+		exit
+	else
+		mpiarg="$mpiarg -np $np";
+		
+	fi
+else
+	np=1;
+fi
+
+if [ -n "$mpifile" ];then
+        mpiarg="$mpiarg $mpifile";
+else
+        echo "Sorry, what we want to submit?"
+	exit
+fi
+
+if [ -n "$inputfile" ];then
+        mpiarg="$mpiarg -i $inputfile";
+
+fi
+
+if [ ! -n "$queue" ];then
+	queue=long;
+else
+	queue=${queue};
+fi
+
+mpich2arg="";
+	
+#if [ "$ver" = "pbs" ]; then
+#        count="1:ppn=$np";
+#else
+        if [ $np -ge $NN ]; then
+                t=`expr $np \/ $NN`;
+                k=`expr $t \* $NN`;
+                i=`expr $np - $k`;
+                if [ $i -eq 0 ]; then
+                	count=$NN:ppn=$t;
+		else
+                        count="`expr $NN - $i`:ppn=$t+$i:ppn=`expr $t + 1`";	
+                fi
+		mpich2arg="--ncpus=$t --totalnum=$NN"
+        else
+                count=$np;
+		mpich2arg="--totalnum=$NN"
+        fi
+#fi
+
+if [ -n "$array" ]; then
+        pbsarg="-t $array";
+fi
+
+
+
+if [ -n "$outputfile" ];then
+
+#	outputfile=/tmp/$jobname.out
+	mpiarg="$mpiarg -o $outputfile";
+
+fi
+
+if [ -n "$ver" ];then
+	case $ver in
+		openmpi|mvapich)
+		D="PREFIX$ver"
+		prefix=${!D}
+		cat << EOF >> $submitfile
+export PATH=${prefix}/bin:$PATH
+export LD_LIBRARY_PATH=${prefix}/lib:$LD_LIBRARY_PATH
+PREFIX=$prefix
+
+if [ -n "$ex" ];then
+        cd $ex;
+fi
+
+
+TMPDIR=\`mktemp -d\`
+\$PREFIX/bin/mpirun -machinefile \$PBS_NODEFILE $mpiarg -t \$TMPDIR
+
+if [ -f "$outputfile" ]; then
+	cp $outputfile $PWD/
+	rm -f $outputfile;
+else
+	echo "no outputfile";
+fi
+
+EOF
+		;;
+                mpich2|mvapich2)
+              	D="PREFIX$ver"
+		prefix=${!D}
+		cat << EOF >> $submitfile
+export PATH=${prefix}/bin:$PATH
+export LD_LIBRARY_PATH=${prefix}/lib:$LD_LIBRARY_PATH
+PREFIX=$prefix
+
+if [ -n "$ex" ];then
+        cd $ex;
+fi
+
+
+NODEFILE=`pwd`/file.$RANDOM
+rm -f \$NODEFILE
+touch \$NODEFILE
+TMPDIR=\`mktemp -d\`
+if [ ! -f ~/.mpd.conf ]; then
+	touch ~/.mpd.conf;
+	echo "pass-$RANDOM" > ~/.mpd.conf;
+	chmod 400 ~/.mpd.conf;
+else
+	chmod 400 ~/.mpd.conf
+fi
+
+for i in \`cat \$PBS_NODEFILE | uniq\`; do echo "\${i}:\`grep \$i \$PBS_NODEFILE|wc -l\`"; done  >> \$NODEFILE
+
+
+\$PREFIX/bin/mpdboot -f \$NODEFILE $mpich2arg;
+
+\$PREFIX/bin/mpirun -machinefile \$NODEFILE -n $np  $mpiarg -t \$TMPDIR
+
+if [ -f "$outputfile" ]; then
+	cp $outputfile $PWD/
+	rm -f $outputfile;
+else
+	echo "no outputfile";
+fi
+rm -f \$NODEFILE
+\$PREFIX/bin/mpdexit \`\$PREFIX/bin/mpdtrace -l| cut -d" " -f 1\`
+
+EOF
+		;;
+		pbs)
+		cat << EOF >> $submitfile
+
+if [ -n "$ex" ];then
+        cd $ex;
+fi
+
+$mpifile $inputfile $outputfile
+
+EOF
+		;;
+		*)
+		echo "MPI version $ver not exist on hpc-tp service";
+		exit
+		;;
+	esac
+else
+	ver=pbs;
+	cat << EOF >> $submitfile
+
+if [ -n "$ex" ];then
+        cd $ex;
+fi
+
+$mpifile $inputfile $outputfile
+
+EOF
+
+fi
+
+
+if [ -n "$array" ]; then
+	pbsarg="-t $array";
+fi
+
+
+#qsub $pbsarg -N $jobname -l nodes=$count -q "$queue"@"$severname" $submitfile
+cat $submitfile | qsub $pbsarg -N $jobname -l nodes=$count -q "$queue"@"$severname" 
+#echo "cat $submitfile | qsub $pbsarg -N $jobname -l nodes=$count -q" "$queue"@"$severname"
+
+#sleep 10;
+rm  $submitfile
+
+
+
