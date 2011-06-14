@@ -207,7 +207,7 @@ fi
 
 
 NODEFILE=`pwd`/file.$RANDOM
-rm -f \$NODEFILE
+#rm -f \$NODEFILE
 touch \$NODEFILE
 TMPDIR=\`mktemp -d\`
 if [ ! -f ~/.mpd.conf ]; then
@@ -231,7 +231,7 @@ if [ -f "$outputfile" ]; then
 else
 	echo "no outputfile";
 fi
-rm -f \$NODEFILE
+#rm -f \$NODEFILE
 \$PREFIX/bin/mpdexit \`\$PREFIX/bin/mpdtrace -l| cut -d" " -f 1\`
 
 EOF
@@ -274,10 +274,10 @@ fi
 
 #qsub $pbsarg -N $jobname -l nodes=$count -q "$queue"@"$severname" $submitfile
 cat $submitfile | qsub $pbsarg -N $jobname -l nodes=$count -q "$queue"@"$severname" 
-#echo "cat $submitfile | qsub $pbsarg -N $jobname -l nodes=$count -q" "$queue"@"$severname"
+echo "cat $submitfile | qsub $pbsarg -N $jobname -l nodes=$count -q" "$queue"@"$severname"
 
 #sleep 10;
-rm  $submitfile
+#rm  $submitfile
 
 
 
