@@ -54,7 +54,9 @@ rm -f ${nodelist}.nn;
 #echo "Total=$Total";
 
 }
-export servername=pbs-tp.hpc.spbu.ru
+#export servername=pbs-tp.hpc.spbu.ru
+#export servername=oscar-tp.hpc.spbu.ru
+export servername=pbs-tp.hpc.cc.spbu.ru
 
 while [ -n "$1" ]; do
   case "$1" in
