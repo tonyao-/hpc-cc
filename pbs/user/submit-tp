@@ -18,7 +18,8 @@ mpifile="";
 PREFIXopenmpi=/usr/lib64/openmpi/1.4-gcc
 PREFIXmvapich=/usr/lib64/mvapich/1.2.0-gcc
 PREFIXmvapich2=/usr/lib64/mvapich2/1.4-gcc
-PREFIXmpich2=/usr
+#PREFIXmpich2=/usr
+PREFIXmpich2=/usr/local/mpich2-hydra
 
 while [ -n "$1" ]; do
   case "$1" in
@@ -75,7 +76,8 @@ usage:
         --dir -d dirname         	#exec dirname
         --file -f filename   		#exec file
 	--queue -q queue		#queue name (short, long or infi). Default short
-	--mpiver -v version 		#MPI version (mvapich, mvapich2, openmpi,mpich2). Defaul without mpi
+\#	--mpiver -v version 		#MPI version (mvapich, mvapich2, openmpi,mpich2). Defaul without mpi
+	--mpiver -v version             #MPI version (openmpi,mpich2). Defaul without mpi
 	--output -o  filename       	#output file
 	--help -h 			#This message
 	--jobname -j jobname		#Name of job. Default $jobname
@@ -149,7 +151,7 @@ mpich2arg="";
 		mpich2arg="--ncpus=$t --totalnum=$NN"
         else
                 count=$np;
-		mpich2arg="--totalnum=$NN"
+		mpich2arg="--totalnum=$np"
         fi
 #fi
 
@@ -168,7 +170,8 @@ fi
 
 if [ -n "$ver" ];then
 	case $ver in
-		openmpi|mvapich)
+#		openmpi|mvapichi)
+		openmpi|mpich2)
 		D="PREFIX$ver"
 		prefix=${!D}
 		cat << EOF >> $submitfile
@@ -193,7 +196,9 @@ fi
 
 EOF
 		;;
-                mpich2|mvapich2)
+                mvapich2)
+		echo "mpich2-mpd and mvapich2 are not supported now. Use it, please, please by hand."
+		exit 1
               	D="PREFIX$ver"
 		prefix=${!D}
 		cat << EOF >> $submitfile
@@ -248,7 +253,7 @@ $mpifile $inputfile $outputfile
 EOF
 		;;
 		*)
-		echo "MPI version $ver not exist on hpc-tp service";
+		echo "MPI version $ver is not exist on hpc-tp service or it is not support";
 		exit
 		;;
 	esac
