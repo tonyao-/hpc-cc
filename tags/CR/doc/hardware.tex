@@ -1,0 +1,51 @@
+\chapter{Аппаратное обеспечение}
+
+\section{Кластер виртуальных машин}
+Вычислительный модуль HP (Шкафы HP 10647 G2, 47U).
+\begin{itemize}
+ \item Две корзины блейд-серверов состоят из:
+    \begin{itemize}
+      \item HP BladeSystem c7000
+      \item VC-Flex-10 (10 GbE)
+      \item QDR IB
+      \item 16xBL460G7 (2 x X5670, 96GB RAM, 2 x 10GbE, 2 x QDR IB)
+    \end{itemize}
+  \item Две системы хранения HP состоят из:
+    \begin{itemize}
+      \item StorageWorks P4500 G2
+      \item 240 NB сырой ёмкости (120 x 2TB SAS HDD)
+    \end{itemize}
+  \item Два коммутатора ProCurve E6600-48G-4XG (48 x 1GbE и 4 x 10GbE)
+  \item Два  источника бесперебойного питания R12000/3 (3-фазное питание 12КВт)
+\end{itemize}
+
+Итого: 32 сервера, 64 процессора, 384 ядра, 3 TB RAM, 480 TB HDD, 40Gbps IB, пиковая производительность 4,5TFlop
+
+\section{Кластер Т-Платформ}
+Вычислительный кластер Т-Платформы T-EDGE96 HPC-0011828-001.
+\begin{itemize}
+ \item  48 вычислительных узлов. Всего: 96 процессоров, ядер 384, 768 Гб ОЗУ, 7,68 Тб дискового пространства.
+  \begin{itemize}
+    \item Размер: 2U
+    \item Процессор: 2 процессора E5335 2.0ГГц
+    \item ОЗУ: 16 Гб
+    \item Диск: 160 Гб
+\end{itemize}
+  \item Управляющий узел 2 x X5640, 8 ГБ RAM, 3 ТБ
+  \item Коммутаторы Gigabit Ethernet DGS-3324SR (10/100/1000), DGS-1224T
+  \item Коммутаторы Infiniband Mellanox MHGS18-XSC 20 Гбит/с, полный дуплекс 10 Гбит/с, 4X SDR, F-X430046, F-X430047
+  \item Аппаратные шкафы (АШ) APC, NetShelter SX 19"42U, AR3100
+\end{itemize}
+
+Итого: 48 серверов, 96 проц, 384 ядра, 768 ГБ RAM, 7,68 ТБ HDD, 20Gbps IB, пиковая производительность 3,07TFlops
+
+
+\section{Кластер Itanium}
+Один вычислительный узел IBM xSeries 450.
+\begin{itemize}
+  \item Размер: 4U
+  \item Процессор: 4 ядра Itanium 2 1.4 ГГц
+  \item ОЗУ: 8 Гб
+  \item Диск: 40 Гб
+\end{itemize}
+
