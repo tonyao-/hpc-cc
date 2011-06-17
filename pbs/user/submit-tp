@@ -16,6 +16,7 @@ np="";
 ex="";
 mpifile="";
 PREFIXopenmpi=/usr/lib64/openmpi/1.4-gcc
+PREFIXopenmpi32=/usr/lib/openmpi/1.4-gcc
 PREFIXmvapich=/usr/lib64/mvapich/1.2.0-gcc
 PREFIXmvapich2=/usr/lib64/mvapich2/1.4-gcc
 #PREFIXmpich2=/usr
@@ -77,7 +78,7 @@ usage:
         --file -f filename   		#exec file
 	--queue -q queue		#queue name (short, long or infi). Default short
 \#	--mpiver -v version 		#MPI version (mvapich, mvapich2, openmpi,mpich2). Defaul without mpi
-	--mpiver -v version             #MPI version (openmpi,mpich2). Defaul without mpi
+	--mpiver -v version             #MPI version (openmpi,mpich2,openmpi32). Defaul without mpi
 	--output -o  filename       	#output file
 	--help -h 			#This message
 	--jobname -j jobname		#Name of job. Default $jobname
@@ -136,9 +137,9 @@ fi
 
 mpich2arg="";
 	
-#if [ "$ver" = "pbs" ]; then
-#        count="1:ppn=$np";
-#else
+if [ "$ver" = "pbs" ]; then
+        count="1:ppn=$np";
+else
         if [ $np -ge $NN ]; then
                 t=`expr $np \/ $NN`;
                 k=`expr $t \* $NN`;
@@ -150,10 +151,10 @@ mpich2arg="";
                 fi
 		mpich2arg="--ncpus=$t --totalnum=$NN"
         else
-                count=$np;
+                count="${np}:ppn=1";
 		mpich2arg="--totalnum=$np"
         fi
-#fi
+fi
 
 if [ -n "$array" ]; then
         pbsarg="-t $array";
@@ -171,7 +172,7 @@ fi
 if [ -n "$ver" ];then
 	case $ver in
 #		openmpi|mvapichi)
-		openmpi|mpich2)
+		openmpi|mpich2|openmpi32)
 		D="PREFIX$ver"
 		prefix=${!D}
 		cat << EOF >> $submitfile
