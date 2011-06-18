@@ -77,7 +77,6 @@ usage:
         --dir -d dirname         	#exec dirname
         --file -f filename   		#exec file
 	--queue -q queue		#queue name (short, long or infi). Default short
-\#	--mpiver -v version 		#MPI version (mvapich, mvapich2, openmpi,mpich2). Defaul without mpi
 	--mpiver -v version             #MPI version (openmpi,mpich2,openmpi32). Defaul without mpi
 	--output -o  filename       	#output file
 	--help -h 			#This message
