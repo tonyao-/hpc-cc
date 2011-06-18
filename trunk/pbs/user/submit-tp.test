@@ -20,7 +20,7 @@ PREFIXopenmpi32=/usr/lib/openmpi/1.4-gcc
 PREFIXmvapich=/usr/lib64/mvapich/1.2.0-gcc
 PREFIXmvapich2=/usr/lib64/mvapich2/1.4-gcc
 #PREFIXmpich2=/usr
-PREFIXmpich2=/usr/local/mpich2-hydra
+PREFIXmpich2=/usr/local/mpich2-hydra-1.4
 
 while [ -n "$1" ]; do
   case "$1" in
@@ -186,6 +186,10 @@ fi
 
 
 TMPDIR=\`mktemp -d\`
+mkdir \${TMPDIR}.0
+for adrr in \`cat \$PBS_NODEFILE\`;do
+        ssh \$adrr /usr/lib64/mvapich/1.2.0-gcc/sbin/cleanipcs;
+done
 \$PREFIX/bin/mpirun -machinefile \$PBS_NODEFILE $mpiarg -t \$TMPDIR
 
 if [ -f "$outputfile" ]; then
