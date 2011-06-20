@@ -1,29 +1,14 @@
 #/bin/sh!
-severname=pbs-tp.hpc.cc.spbu.ru
-export NN=`pbsnodes -l free -s $severname| wc -l`; #number free nodes
-if [ $NN -eq 0 ]; then
-	echo "All nodes are full now, sorry. But your  job will be  queued on one node.";
-	NN=1;
+if [ -z $1 ];then
+	$0 --help
+	exit
 fi
-export NP=8;# core number
-PWD=`pwd`;
-submitfile=file`date +%s`.sh;
-rm -f $submitfile;
-#severname=pbs-tp.hpc.spbu.ru
-jobname=job.`date +%s`
-inputfile="";
-np="";
-ex="";
-mpifile="";
-PREFIXopenmpi=/usr/lib64/openmpi/1.4-gcc
-PREFIXopenmpi32=/usr/lib/openmpi/1.4-gcc
-PREFIXmvapich=/usr/lib64/mvapich/1.2.0-gcc
-PREFIXmvapich2=/usr/lib64/mvapich2/1.4-gcc
-#PREFIXmpich2=/usr
-PREFIXmpich2=/usr/local/mpich2-hydra-1.4
-
 while [ -n "$1" ]; do
   case "$1" in
+  --debug)
+  shift;
+  debug=1
+  ;;
   --input|-i) 
 	shift;
 	inputfile=$1
@@ -82,20 +67,43 @@ usage:
 	--help -h 			#This message
 	--jobname -j jobname		#Name of job. Default $jobname
 	--array -r numbers		#numbers jobs in array
+	--debug				#Debug option
 	
 EOF
 	exit
 	;;	
-  *)
-	echo "not understand input $1";
-	exit
-	;;
-  esac
+    *)
+        echo "not understand input $1";
+        exit
+        ;;
+    esac
 done
 
-
-
+severname=pbs-tp.hpc.cc.spbu.ru
+export NN=`pbsnodes -l free -s $severname| wc -l`; #number free nodes
+if [ $NN -eq 0 ]; then
+	echo "All nodes are full now, sorry. But your  job will be  queued on one node.";
+	NN=1;
+fi
+export NP=8;# core number
+PWD=`pwd`;
+submitfile=file`date +%s`.sh;
 rm -f $submitfile;
+#severname=pbs-tp.hpc.spbu.ru
+jobname=job.`date +%s`
+inputfile="";
+np="";
+ex="";
+mpifile="";
+debug=0;
+PREFIXopenmpi=/usr/lib64/openmpi/1.4-gcc
+PREFIXopenmpi32=/usr/lib/openmpi/1.4-gcc
+PREFIXmvapich=/usr/lib64/mvapich/1.2.0-gcc
+PREFIXmvapich2=/usr/lib64/mvapich2/1.4-gcc
+#PREFIXmpich2=/usr
+PREFIXmpich2=/usr/local/mpich2-hydra-1.4
+
+
 cat << EOF >> $submitfile
 #/bin/sh!
 EOF
@@ -282,10 +290,11 @@ fi
 
 #qsub $pbsarg -N $jobname -l nodes=$count -q "$queue"@"$severname" $submitfile
 cat $submitfile | qsub $pbsarg -N $jobname -l nodes=$count -q "$queue"@"$severname" 
-#echo "cat $submitfile | qsub $pbsarg -N $jobname -l nodes=$count -q" "$queue"@"$severname"
-
-#sleep 10;
-rm  $submitfile
+if [ $debug -eq "1" ]; then
+	echo "cat $submitfile | qsub $pbsarg -N $jobname -l nodes=$count -q" "$queue"@"$severname"
+else
+	rm $submitfile;
+fi
 
 
 
