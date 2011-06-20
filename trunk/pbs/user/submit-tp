@@ -185,9 +185,8 @@ fi
 
 
 TMPDIR=\`mktemp -d\`
-TMPDIR=\${TMPDIR}.0
-for adrr in `cat \$PBS_NODEFILE`;do 
-	ssh $adrr /usr/lib64/mvapich/1.2.0-gcc/sbin/cleanipcs;
+for adrr in \`cat \$PBS_NODEFILE\`;do
+	ssh \$adrr /usr/lib64/mvapich/1.2.0-gcc/sbin/cleanipcs;
 done
 \$PREFIX/bin/mpirun -machinefile \$PBS_NODEFILE $mpiarg -t \$TMPDIR
 
