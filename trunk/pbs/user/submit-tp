@@ -3,6 +3,13 @@ if [ -z $1 ];then
 	$0 --help
 	exit
 fi
+
+inputfile="";
+np="";
+ex="";
+mpifile="";
+debug=0;
+
 while [ -n "$1" ]; do
   case "$1" in
   --debug)
@@ -91,11 +98,6 @@ submitfile=file`date +%s`.sh;
 rm -f $submitfile;
 #severname=pbs-tp.hpc.spbu.ru
 jobname=job.`date +%s`
-inputfile="";
-np="";
-ex="";
-mpifile="";
-debug=0;
 PREFIXopenmpi=/usr/lib64/openmpi/1.4-gcc
 PREFIXopenmpi32=/usr/lib/openmpi/1.4-gcc
 PREFIXmvapich=/usr/lib64/mvapich/1.2.0-gcc
