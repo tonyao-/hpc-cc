@@ -4,6 +4,7 @@ if [ -z $1 ];then
 	exit
 fi
 
+jobname=job.`date +%s`
 inputfile="";
 np="";
 ex="";
@@ -97,13 +98,13 @@ PWD=`pwd`;
 submitfile=file`date +%s`.sh;
 rm -f $submitfile;
 #severname=pbs-tp.hpc.spbu.ru
-jobname=job.`date +%s`
 PREFIXopenmpi=/usr/lib64/openmpi/1.4-gcc
 PREFIXopenmpi32=/usr/lib/openmpi/1.4-gcc
 PREFIXmvapich=/usr/lib64/mvapich/1.2.0-gcc
 PREFIXmvapich2=/usr/lib64/mvapich2/1.4-gcc
 #PREFIXmpich2=/usr
-PREFIXmpich2=/usr/local/mpich2-hydra-1.4
+#PREFIXmpich2=/usr/local/mpich2-hydra-1.4
+PREFIXmpich2=/usr/local/mpich2-1.4.20110620
 
 
 cat << EOF >> $submitfile
@@ -186,7 +187,7 @@ if [ -n "$ver" ];then
 		prefix=${!D}
 		cat << EOF >> $submitfile
 export PATH=${prefix}/bin:$PATH
-export LD_LIBRARY_PATH=${prefix}/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=${prefix}/lib:$LD_LIBRARY_PATH:/usr/lib/mpich2/lib:/usr/lib64/mpich2/lib/
 PREFIX=$prefix
 
 if [ -n "$ex" ];then
@@ -196,7 +197,7 @@ fi
 
 TMPDIR=\`mktemp -d\`
 for adrr in \`cat \$PBS_NODEFILE\`;do
-	ssh \$adrr /usr/lib64/mvapich/1.2.0-gcc/sbin/cleanipcs;
+	ssh \$adrr /usr/local/sbin/cleanipcs;
 done
 \$PREFIX/bin/mpirun -machinefile \$PBS_NODEFILE $mpiarg -t \$TMPDIR
 
