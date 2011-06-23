@@ -270,7 +270,7 @@ Free=352
 Здесь выводится полное кол-во доступных ядер <computeroutput>Total</computeroutput> и количество свободных ядер <computeroutput>Free</computeroutput>.
 </section> 
 
-<section id="ex_"><title>Запуск пакета <computeroutput>Gaussian</computeroutput> с тестовым примером</title>
+<section id="ex_"><title>Запуск пакета <command>Gaussian</command> с тестовым примером</title>
 <screen><![CDATA[
 $ ~/submit-tp -n 4 -f ~/submit-g03.sh -i ~/test695.com -o ~/test695-n1.log
 2983.pbs-tp.hpc.spbu.ru
