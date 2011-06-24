@@ -109,6 +109,7 @@ PREFIXmpich2=/usr/local/mpich2-1.4.20110620
 
 cat << EOF >> $submitfile
 #/bin/sh!
+TMPDIR=\`mktemp -d\`
 EOF
 
 mpiarg="";
@@ -175,7 +176,7 @@ fi
 if [ -n "$outputfile" ];then
 
 #	outputfile=/tmp/$jobname.out
-	mpiarg="$mpiarg -o $outputfile";
+	mpiarg="$mpiarg -o \$TMPDIR/$outputfile";
 
 fi
 
@@ -195,15 +196,13 @@ if [ -n "$ex" ];then
 fi
 
 
-TMPDIR=\`mktemp -d\`
 for adrr in \`cat \$PBS_NODEFILE\`;do
 	ssh \$adrr /usr/local/sbin/cleanipcs;
 done
 \$PREFIX/bin/mpirun -machinefile \$PBS_NODEFILE $mpiarg -t \$TMPDIR
 
-if [ -f "$outputfile" ]; then
-	cp $outputfile $PWD/
-	rm -f $outputfile;
+if [ -f "\$TMPDIR/$outputfile" ]; then
+	mv \$TMPDIR/$outputfile $PWD/
 else
 	echo "no outputfile";
 fi
