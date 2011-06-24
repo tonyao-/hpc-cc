@@ -14,9 +14,14 @@ debug=0;
 while [ -n "$1" ]; do
   case "$1" in
   --debug)
-  shift;
-  debug=1
-  ;;
+  	shift;
+  	debug=1
+  	;;
+  --count|-c)
+	shift;
+	countbyus=$1;
+	shift
+	;;
   --input|-i) 
 	shift;
 	inputfile=$1
@@ -76,6 +81,7 @@ usage:
 	--jobname -j jobname		#Name of job. Default $jobname
 	--array -r numbers		#numbers jobs in array
 	--debug				#Debug option
+	--count -c			#count by user (for advanced)			
 	
 EOF
 	exit
@@ -171,6 +177,9 @@ if [ -n "$array" ]; then
         pbsarg="-t $array";
 fi
 
+if [ -n $countbyus ]; then
+	count=$countbyus;
+fi
 
 
 if [ -n "$outputfile" ];then
@@ -188,7 +197,7 @@ if [ -n "$ver" ];then
 		prefix=${!D}
 		cat << EOF >> $submitfile
 export PATH=${prefix}/bin:$PATH
-export LD_LIBRARY_PATH=${prefix}/lib:$LD_LIBRARY_PATH:/usr/lib/mpich2/lib:/usr/lib64/mpich2/lib/
+export LD_LIBRARY_PATH=${prefix}/lib:$LD_LIBRARY_PATH:/usr/lib/mpich2/lib:/usr/lib64/mpich2/lib/:/usr/lib64/openmpi/lib/
 PREFIX=$prefix
 
 if [ -n "$ex" ];then
@@ -205,6 +214,10 @@ if [ -f "\$TMPDIR/$outputfile" ]; then
 	mv \$TMPDIR/$outputfile $PWD/
 else
 	echo "no outputfile";
+fi
+
+if [ -n "\$TMPDIR" ]; then 
+	rm -rf $TMPDIR;
 fi
 
 EOF
