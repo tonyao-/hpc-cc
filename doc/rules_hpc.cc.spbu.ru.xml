@@ -102,8 +102,8 @@ RHEL 5, RHEL 6 и т.д. необходимо предварительно со�
   <listitem><para>Процессорное время ограничено 6-ю часами</para></listitem>
   <listitem><para>Память ограничена 2 ГБ на процесс</para></listitem>
   <listitem><para>Реальное время ограничено 9 часами</para></listitem>
-  <listitem><para>Количество задач разрешенных на выполнение одним пользователем &#160;&#8212; 5</para></listitem>
-  <listitem><para>Количество задач в очереди от одного пользователя 20</para></listitem>
+  <listitem><para>Количество задач разрешенных на выполнение одним пользователем &#160;&#8212; 3</para></listitem>
+  <listitem><para>Количество задач в очереди от одного пользователя 6</para></listitem>
 </itemizedlist>
 </section>
 
@@ -115,8 +115,8 @@ RHEL 5, RHEL 6 и т.д. необходимо предварительно со�
  <listitem><para>Процессорное время ограничено 48-ю часами</para></listitem>
  <listitem><para>Память ограничена 2 ГБ на процесс</para></listitem>
  <listitem><para>Реальное время ограничено 72-мя часами</para></listitem>
- <listitem><para>Количество задач разрешенных на выполнение одним пользователем &#160;&#8212; 2</para></listitem>
- <listitem><para>Количество задач в очереди от одного пользователя 10</para></listitem>
+ <listitem><para>Количество задач разрешенных на выполнение одним пользователем &#160;&#8212; 3</para></listitem>
+ <listitem><para>Количество задач в очереди от одного пользователя 6</para></listitem>
 </itemizedlist>
 </section>
 
@@ -128,8 +128,8 @@ RHEL 5, RHEL 6 и т.д. необходимо предварительно со�
  <listitem><para>Процессорное время не ограничено</para></listitem>
  <listitem><para>Память ограничена 2 ГБ на процесс</para></listitem>
  <listitem><para>Реальное время не ограничено</para></listitem>
- <listitem><para>Количество задач разрешенных на выполнение одним пользователем &#160;&#8212; 1</para></listitem>
- <listitem><para>Количество задач в очереди от одного пользователя 5</para></listitem>
+ <listitem><para>Количество задач разрешенных на выполнение одним пользователем &#160;&#8212; 3</para></listitem>
+ <listitem><para>Количество задач в очереди от одного пользователя 6</para></listitem>
 </itemizedlist>
 </section>
 <para>
@@ -184,11 +184,10 @@ $ ~/status-tp --help
     <section id="start-tasks">
     <title>Примеры запуска задач</title>
 
-    <section id="ex_hello-world">
-    <title>Запуск скрипта <quote>Hello World</quote> на 1 ядре</title>
-
+<section id="ex_hello-world">
+<title>Запуск скрипта <quote>Hello World</quote> на 1 ядре</title>
 <screen><![CDATA[
-$ ~/submit-tp –f  ~/helloword.sh
+$ ~/submit-tp -f ~/examples/helloworld.sh
 2880.pbs-tp.hpc.spbu.ru
 
 $ ll *2880
@@ -197,16 +196,32 @@ $ ll *2880
 ]]></screen>
 </section>
 
-<section id="ex_pi"><title>Запуск программы <command>Pi</command> скомпилированной <command>openmpi-1.4</command> на 4-х нодах</title>
+<section id="ex_compile-pi">
+<title>Компиляция программы <command>Pi</command> в среде <command>openmpi</command></title>
 <screen><![CDATA[
-$ ~/submit-tp -v openmpi-1.4 -j Pi-6 -n 4 -f Pi01 
+~/submit-tp -f ~/examples/Pi/Pi.comp-openmpi.sh -d ~/examples/Pi
+]]></screen>
+Содержимое скрипта <filename>~/examples/Pi/Pi.comp-openmpi.sh</filename>:
+<programlisting>
+#!/bin/sh
+export prefix="/usr/lib64/openmpi/1.4-gcc"
+
+export PATH=$prefix/bin:$PATH
+export LD_LIBRARY_PATH=$prefix/lib:$LD_LIBRARY_PATH
+mpif77 Pi.f -o Pi.openmpi
+</programlisting>
+</section>
+
+<section id="ex_pi"><title>Запуск программы <command>Pi</command> скомпилированной <command>openmpi</command> на 4-х ядрах</title>
+<screen><![CDATA[
+$ ~/submit-tp -v openmpi -j Pi-6 -n 4 -f ~/examples/Pi/Pi.openmpi
 2882.pbs-tp.hpc.spbu.ru
 ]]></screen>
 <para>
 Просмотр всех очередей: 
 </para>
 <screen><![CDATA[
-$ ./status-tp -a
+$ ~/status-tp -a
 
 pbs-tp.hpc.spbu.ru: 
                                                                          Req'd  Req'd   Elap
@@ -229,48 +244,46 @@ $ ll Pi-6.*
 
 <section id="ex_ff"><title>Запуск пакета <command>Firefly</command> с тестовым примером.</title>
 <screen><![CDATA[
-$ ./submit-tp -i /usr/local/firefly/samples/condircbk.inp -n 2  \
--d /usr/local/firefly/mpich-dyn -f  /usr/local/firefly/mpich-dyn/firefly \
--j fireflay -v mpich -q short
+$ ~/submit-tp -d /usr/local/firefly/mpich2 -f /usr/local/firefly/mpich2/firefly \
+-v mpich2 -j firefly -q short \
+-i /usr/local/firefly/samples/condircbk.inp -o firefly.out -n 32
 2861.pbs-tp.hpc.spbu.ru
 ]]></screen>
-<para>
-Результат
-</para>
+Результат:
 <screen><![CDATA[
-$ ll fireflay.*
--rw------- 1 viz users      0 Jan 25 18:02 fireflay.e2861
--rw------- 1 viz users      0 Jan 25 18:02 fireflay.o2861
--rw-r--r-- 1 viz users 992847 Jan 25 18:05 fireflay.out
+$ ll firefly.*
+-rw------- 1 viz users      0 Jan 25 18:02 firefly.e2861
+-rw------- 1 viz users      0 Jan 25 18:02 firefly.o2861
+-rw-r--r-- 1 viz users 992847 Jan 25 18:05 firefly.out
 ]]></screen>
 <para>
-В этом случае стандартного вывода нет &#160;&#8212; файл <filename>fireflay.o2861</filename> пустой, но создан файл <filename>fireflay.out</filename>, где <filename>fireflay</filename> &#160;&#8212; это имя задачи, ключ <code language="bash">-j</code>.
+В этом случае стандартного вывода нет &#160;&#8212; файл <filename>firefly.o2861</filename> пустой, 
+но создан файл <filename>firefly.out</filename>, где <filename>firefly</filename> &#160;&#8212; это имя задачи, ключ <code language="bash">-j</code>.
 </para>
 </section>
 
 <section id="ex_linpack"><title>Запуск теста <command>linpack</command> на 4 ядрах</title>
 <screen><![CDATA[
-./submit-tp -i ~/linpack_10.3.0/benchmarks/mp_linpack/bin/linux/HPL.dat \
--n 4 -d ~/linpack_10.3.0/benchmarks/mp_linpack/bin/linux/ \
--f ~/linpack_10.3.0/benchmarks/mp_linpack/bin/linux/xhpl -q short \
--v mpich -j hpl4
+~/submit-tp --input ~/linpack_10.3.3/benchmarks/mp_linpack/bin/intel64_mpich2_hydra/HPL.dat \
+-n 4 --dir ~/linpack_10.3.3/benchmarks/mp_linpack/bin/intel64_mpich2_hydra \
+-f ~/linpack_10.3.3/benchmarks/mp_linpack/bin/intel64_mpich2_hydra/xhpl -q infi -v mpich2 -j hplmpich2-4
 ]]></screen>
 <para>
-В этом случае создается файл в директории: <filename>~/linpack_10.3.0/benchmarks/mp_linpack/bin/linux</filename>,
-имя которого было  указано во входном файле <filename>~/linpack_10.3.0/benchmarks/mp_linpack/bin/linux/HPL</filename>.
+В этом случае создается файл в директории: <filename>~/linpack_10.3.3/benchmarks/mp_linpack/bin/intel64_mpich2</filename>,
+имя которого было указано во входном файле <filename>~/linpack_10.3.3/benchmarks/mp_linpack/bin/intel64_mpich2/HPL.dat</filename>.
 </para>
 </section>
 
 <section id="ex_stat"><title>Мониторинг загруженности кластера</title>
 <screen><![CDATA[ 
-$ ./status-tp -p 
+$ ~/status-tp -p 
 Total=368 
 Free=352 
 ]]></screen> 
 Здесь выводится полное кол-во доступных ядер <computeroutput>Total</computeroutput> и количество свободных ядер <computeroutput>Free</computeroutput>.
 </section> 
 
-<section id="ex_"><title>Запуск пакета <command>Gaussian</command> с тестовым примером</title>
+<section id="ex_g03"><title>Запуск пакета <command>Gaussian</command> с тестовым примером</title>
 <screen><![CDATA[
 $ ~/submit-tp -n 4 -f ~/submit-g03.sh -i ~/test695.com -o ~/test695-n1.log
 2983.pbs-tp.hpc.spbu.ru
@@ -286,9 +299,9 @@ $ ~/submit-tp -n 4 -f ~/submit-g03.sh -i ~/test695.com -o ~/test695-n1.log
 В этом случае стандартного вывода нет – файл  <filename>job.1296209888.o2983</filename> пустой, но создан файл <filename>test695-n1.log</filename>.
 </section>
 
-<section id="ex_"><title>Запуск массива задач в среде <command>scilab</command> с различным параметрами</title>
+<section id="ex_array"><title>Запуск массива задач в среде <command>scilab</command> с различным параметрами</title>
 <screen><![CDATA[
-$ ./submit-tp -v pbs -q long -r 6-7 -f ./impkvart01.sh -j scilab-impedanec
+$ ~/submit-tp -v pbs -q long -r 6-7 -f ./impkvart01.sh -j scilab-impedanec
 3096.pbs-tp.hpc.spbu.ru
 $
 ]]></screen>
@@ -391,7 +404,7 @@ exit
 Мы видим, что последний параметр, который у нас и был переменным в папке с префиксом <computeroutput>-6</computeroutput> и равен 0.6. В папке с префиксом <computeroutput>-7</computeroutput> &#160;&#8212; соответственно 0.7.
 </section>
 
-<section id="ex_"><title>Мониторинг и удаление задания</title>
+<section id="ex_qdel"><title>Мониторинг и удаление задания</title>
 
 Видим в очереди задание, <computeroutput>Job Id</computeroutput> = <quote>имя задания</quote>
 <screen><![CDATA[
@@ -455,12 +468,17 @@ Job Id: 3097-5.pbs-tp.hpc.spbu.ru
 
 Удаляем задание:
 <screen><![CDATA[
-$qdel 3097.pbs-tp.hpc.spbu.ru@pbs-tp.hpc.spbu.ru
+$ qdel 3097.pbs-tp.hpc.cc.spbu.ru@pbs-tp.hpc.cc.spbu.ru
+]]></screen>
+
+Так же можно воспользоваться скриптом <filename>~/qdel</filename>
+<screen><![CDATA[
+$ ~/qdel 3097
 ]]></screen>
 
 Проверяем удаление:
 <screen><![CDATA[
-$ ./status-tp -f 3097.pbs-tp.hpc.spbu.ru
+$ ~/status-tp -f 3097.pbs-tp.hpc.spbu.ru
 qstat: Unknown Job Id 3097.pbs-tp.hpc.spbu.ru
 $
 ]]></screen>
