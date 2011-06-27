@@ -67,7 +67,6 @@
 	<para>Жёсткий диск: /home &#160;&#8212; 50 Гб, системные разделы &#160;&#8212; 8 Гб. Управление разбиением &#160;&#8212; lvm.</para>
     </listitem>
 </itemizedlist>
-<para>
 Список официально поддерживаемых операционных систем (ОС) опубликован в 
 <ulink url="http://www.vmware.com/pdf/vsphere4/r40/vsp_compatibility_matrix.pdf" >документе</ulink> (Таблица 14, столбец Guest OS Cust).
 Не требуют согласования заявки на виртуальные машины со следующими предустановленными ОС: 
@@ -76,8 +75,10 @@ SLES 11 SP1, CentOS 5.5, Scientific Linux 5.5, Debian 5, Debian 6, Ubuntu 10.04 
 Установку коммерческих программных продуктов, требующих наличия лицензий, например, 
 RHEL 5, RHEL 6 и т.д. необходимо предварительно согласовать со службой технической поддержки &#160;&#8212; noc@ptc.spbu.ru.
 
-В системе заводятся дополнительно два пользователя: 
-</para>
+В системе заводится пользователь username, которого основан на фамилии и имени человека подавшего заявку на получение 
+виртуальной машины. Наделён правами постановки задач в очереди на имеющиеся HPC-ресурсы. При старте задачи его 
+домашний каталог монтируется на соответствующие вычислительные узлы.
+<!-- В системе заводятся дополнительно два пользователя: 
 <itemizedlist>
     <listitem>
 	<para>vmuser &#160;&#8212; пользователь с административными (средствами <command>sudo</command>) правами, </para>
@@ -88,6 +89,7 @@ RHEL 5, RHEL 6 и т.д. необходимо предварительно со�
 домашний каталог монтируется на соответствующие вычислительные узлы.</para>
     </listitem>
 </itemizedlist>
+-->
 </section>
 
     <section id="queues">
@@ -141,6 +143,10 @@ RHEL 5, RHEL 6 и т.д. необходимо предварительно со�
 Доступная дисковая память на ноде (<filename>/tmp</filename>) 3GB на процесс.
 Дисковая память в домашней директории (<filename>/home/$username</filename>) определяется конфигурацией ВМ и не рекомендуется для 
 записи временных файлов из-за метода монтирования этой директории на рабочие узлы.
+
+Связь нода - pbs-сервер происходит через форвардинг между инетрфейсам ib-eth, что
+позволяет не задействовать дополнительную машину с IB интерфейсом в качестве
+сервера или роутера.
 </para>
 </section>
 
@@ -212,7 +218,7 @@ mpif77 Pi.f -o Pi.openmpi
 </programlisting>
 </section>
 
-<section id="ex_pi"><title>Запуск программы <command>Pi</command> скомпилированной <command>openmpi</command> на 4-х ядрах</title>
+<section id="ex_pi"><title>Запуск на 4-х ядрах программы <command>Pi</command> в среде <command>openmpi</command></title>
 <screen><![CDATA[
 $ ~/submit-tp -v openmpi -j Pi-6 -n 4 -f ~/examples/Pi/Pi.openmpi
 2882.pbs-tp.hpc.spbu.ru
@@ -299,7 +305,7 @@ $ ~/submit-tp -n 4 -f ~/submit-g03.sh -i ~/test695.com -o ~/test695-n1.log
 В этом случае стандартного вывода нет – файл  <filename>job.1296209888.o2983</filename> пустой, но создан файл <filename>test695-n1.log</filename>.
 </section>
 
-<section id="ex_array"><title>Запуск массива задач в среде <command>scilab</command> с различным параметрами</title>
+<section id="ex_array-scilab"><title>Запуск массива задач в среде <command>scilab</command> с различным параметрами</title>
 <screen><![CDATA[
 $ ~/submit-tp -v pbs -q long -r 6-7 -f ./impkvart01.sh -j scilab-impedanec
 3096.pbs-tp.hpc.spbu.ru
@@ -507,13 +513,27 @@ OpenPBS Software License. <command>TORQUE</command> разрабатываетс
 используется совместно с <command>TORQUE</command>. Возможна интеграция <command>TORQUE</command> с <command>OpenMP</command> и <command>MPICH</command>.
 <itemizedlist>
  <listitem> Версия: 2.4.8 </listitem>
- <listitem> Расположение: <filename>/usr/local</filename></listitem>
+ <listitem> Расположение: <filename>/usr/bin</filename></listitem>
  <listitem> Ссылки: <ulink url="http://www.clusterresources.com/products/torque-resource-manager.php">WWW</ulink></listitem>
 </itemizedlist>
 
 </section> <!-- Torque -->
 
-</section> <!-- Очереди -->
+<section id="soft_queue_maui"><title>Maui</title>
+<command>Maui cluster scheduler</command> &#160;&#8212; планировщик заданий в параллельных и распределенных вычислительных системах (кластерах).
+Как правило используется совместно с менеджером распределенных ресурсов <command>TORQUE</command>.
+
+Maui позволяет выбирать различные политики планирования, поддерживает динамическое изменение приоритетов, исключения.
+Все это улучшает управляемость и эффективность машин, начиная от простых кластеров до суперкомпьютеров.
+<itemizedlist>
+ <listitem> Версия: 3.3.1 </listitem>
+ <listitem> Расположение: <filename>/usr/local</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.clusterresources.com/products/maui-cluster-scheduler.php">WWW</ulink></listitem>
+</itemizedlist>
+
+</section> <!-- soft_queue_maui -->
+
+</section> <!-- soft_queue -->
 
 <section id="soft_libs"><title>Библиотеки</title>
 <section id="soft_libs_openmpi"><title>OpenMPI</title>
@@ -521,23 +541,25 @@ OpenPBS Software License. <command>TORQUE</command> разрабатываетс
 Описывает совокупность директив компилятора, библиотечных процедур и переменных окружения, которые предназначены 
 для программирования многопоточных приложений на многопроцессорных системах с общей памятью.
 <itemizedlist>
- <listitem> Версия: 1.2, 1.4.</listitem>
- <listitem> Расположение: <filename>/usr/mpi/gcc/openmpi-1.2.5rc1</filename>, <filename>/usr/local/openmpi-1.4.3</filename></listitem>
- <listitem> Ссылки: <ulink url="http://www.open-mpi.org/">WWW</ulink></listitem>
+ <listitem> Версия: 1.4.4</listitem>
+ <listitem> Расположение: <filename>/usr/lib64/openmpi/1.4-gcc</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.open-mpi.org/">WWW</ulink>, <link linkend="ex_compile-pi">Пример компиляции</link>, <link linkend="ex_pi">Пример запуска</link></listitem>
 </itemizedlist>
-</section> <!-- OpenMPI -->
+</section> <!-- soft_libs_openmpi -->
 
-<section id="soft_libs_mpich"><title>MPICH</title>
-<command>MPICH</command> (Message Passing Interface Chameleon) — это одна из самых первых разработанных библиотек MPI. 
+<section id="soft_libs_mpich"><title>MPICH2</title>
+<command>MPICH2</command> (Message Passing Interface Chameleon) — это одна из самых первых разработанных библиотек MPI. 
 На её базе было создано большое количество других библиотек как OpenSource, так и коммерческих.
-
+В настоящее время существует две ветви исходных кодов: MPICH1 и MPICH2. Разработка ветви MPICH1 заморожена. 
+Ветвь MPICH2 активно разрабатывается в Арагонской лаборатории, с участием IBM, Cray, SiCortex, Microsoft, Intel, 
+NetEffect, Qlogic, Myricom, Ohio state university, UBC.
 <itemizedlist>
- <listitem> Версия: 1.2.</listitem>
- <listitem> Расположение: <filename>/opt/mpich/ch-p4</filename>, <filename>/opt/mpich/ch-p4mpd</filename></listitem>
+ <listitem> Версия: 1.2.1p1, 1.4</listitem>
+ <listitem> Расположение: <filename>/usr/lib/mpich2</filename>, <filename>/usr/local/mpich2-1.4.20110620</filename></listitem>
  <listitem> Ссылки: <ulink url="http://www.mcs.anl.gov/research/projects/mpich2/">WWW</ulink></listitem>
 </itemizedlist>
-</section> <!-- MPICH -->
-</section> <!-- Библиотеки -->
+</section> <!-- soft_libs_mpich -->
+</section> <!-- soft_libs -->
 
 <section id="soft_compilers"><title>Компиляторы</title>
 <section id="soft_compilers_intel"><title>Intel Composer XE</title>
@@ -560,18 +582,18 @@ OpenPBS Software License. <command>TORQUE</command> разрабатываетс
 операционных систем.
 В пакет входят компиляторы C, C++, Fortran и др.
 <itemizedlist>
- <listitem> Версия: 4.1</listitem>
+ <listitem> Версия: 4.1, 4.4</listitem>
  <listitem> Расположение: <filename>/usr/</filename></listitem>
  <listitem> Ссылки: <ulink url="http://gcc.gnu.org/">WWW</ulink></listitem>
 </itemizedlist>
-</section> <!-- GNU Compiler Collection -->
-</section> <!-- Компиляторы -->
+</section> <!-- soft_compilers_gcc -->
+</section> <!-- soft_compilers -->
 
 <section id="soft_apps"><title>Пакеты прикладных программ</title>
 <section id="soft_apps_ff"><title>Firefly</title>
 программный пакет для ab initio квантовохимических расчётов. Работает на Intel-совместимых процессорах 
 архитектур x86 и x86-64 (только 32-битная версия). Основана на коде пакета программ GAMESS (US). Автором 
-было переписано 60-70\% кода. Наибольшие изменения коснулись платформозависимых частей программы 
+было переписано 60-70% кода. Наибольшие изменения коснулись платформозависимых частей программы 
 (выделение памяти, дисковый ввод-вывод, параллельный запуск), математических функций (например, 
 матричные операции) и квантовохимических методов (метод Хартри-Фока, теория Мёллера-Плессе 
 (англ. Møller–Plesset perturbation theory), теория функционала плотности). Вследствие этого PC GAMESS 
@@ -580,10 +602,10 @@ OpenPBS Software License. <command>TORQUE</command> разрабатываетс
 имени использовались наравне друг с другом.
 <itemizedlist>
  <listitem> Версия: 7.1.G</listitem>
- <listitem> Расположение: <filename>/usr/local/firefly/mpich-dyn</filename></listitem>
+ <listitem> Расположение: <filename>/usr/local/firefly/mpich2</filename></listitem>
  <listitem> Ссылки: <ulink url="http://classic.chem.msu.su/gran/gamess/">WWW</ulink>, <link linkend="ex_ff">Пример запуска</link></listitem>
 </itemizedlist>
-</section> <!-- Firefly -->
+</section> <!-- soft_apps_ff -->
 
 <section id="soft_apps_g03"><title>Gaussian</title>
 <command>Gaussian</command> (читается как гауссиан) &#160;&#8212; компьютерная программа для расчета структуры и свойств молекулярных 
@@ -593,9 +615,9 @@ OpenPBS Software License. <command>TORQUE</command> разрабатываетс
 <itemizedlist>
  <listitem> Версия: 03</listitem>
  <listitem> Расположение: <filename>/usr/local/g03/</filename></listitem>
- <listitem> Ссылки: <ulink url="http://www.gaussian.com/">WWW</ulink></listitem>
+ <listitem> Ссылки: <ulink url="http://www.gaussian.com/">WWW</ulink>, <link linkend="ex_g03">Пример запуска</link></listitem>
 </itemizedlist>
-</section> <!-- Gaussian -->
+</section> <!-- soft_apps_g03 -->
 
 <section id="soft_apps_scilab"><title>Scilab</title>
 <command>Scilab</command> &#160;&#8212; пакет прикладных математических программ, предоставляющий мощное открытое окружение для
@@ -603,10 +625,9 @@ OpenPBS Software License. <command>TORQUE</command> разрабатываетс
 <itemizedlist>
  <listitem> Версия: 5.3.0</listitem>
  <listitem> Расположение: <filename>/usr/local/scilab-5.3.0/</filename></listitem>
- <listitem> Ссылки: <ulink url="http://www.scilab.org/">WWW</ulink></listitem>
+ <listitem> Ссылки: <ulink url="http://www.scilab.org/">WWW</ulink>, <link linkend="ex_array-scilab">Пример запуска</link></listitem>
 </itemizedlist>
-</section> <!-- Scilab -->
-
+</section> <!-- soft_apps_scilab -->
 <section id="soft_apps_gromacs"><title>GROMACS</title>
 <command>GROMACS</command> (GROningen MAchine for Chemical Simulations, дословный перевод названия &#160;&#8212; Гронингенская 
 Машина для Химического Моделирования) пакет молекулярной динамики для моделирования физико-химических 
@@ -618,11 +639,11 @@ OpenPBS Software License. <command>TORQUE</command> разрабатываетс
 это один из самых быстрых инструментов. <command>GROMACS</command> является программным обеспечением с открытым исходным 
 кодом, выпущенным под лицензией GPL.
 <itemizedlist>
- <listitem> Версия: 4.5.3 (30.10.2010)</listitem>
- <listitem> Расположение: <filename>/usr/local/gromacs</filename></listitem>
+ <listitem> Версия: 4.5.3</listitem>
+ <listitem> Расположение: <filename>/usr</filename></listitem>
  <listitem> Ссылки: <ulink url="http://www.gromacs.org/">WWW</ulink></listitem>
 </itemizedlist>
-</section> <!-- GROMACS -->
+</section> <!-- soft_apps_gromacs -->
 
 <section id="soft_apps_mdynamix"><title>MDynaMix</title>
 <command>MDynaMix</command> (Molecular Dynamics of Mixtures)
@@ -631,7 +652,7 @@ OpenPBS Software License. <command>TORQUE</command> разрабатываетс
  <listitem> Расположение: <filename>/usr/local/md52</filename></listitem>
  <listitem> Ссылки: <ulink url="http://www.fos.su.se/~sasha/mdynamix/">WWW</ulink></listitem>
 </itemizedlist>
-</section> <!-- MDynaMix -->
+</section> <!-- soft_apps_mdynamix -->
 
 <section id="soft_apps_wien2k"><title>WIEN2k</title>
 <command>WIEN2k</command> – программный пакет для расчетов электронных структур в твердом веществе, использующий теорию
@@ -643,12 +664,12 @@ OpenPBS Software License. <command>TORQUE</command> разрабатываетс
 прототип последовательности операций для работы в гриде. Пакет разрешено использовать только обладателям
 действительной лицензии <command>WIEN2k</command>.
 <itemizedlist>
- <listitem> Версия: 10.1</listitem>
- <listitem> Расположение: <filename>/usr/local/WIEN2k/WIEN2k_10.1_exec</filename></listitem>
+ <listitem> Версия: 11</listitem>
+ <listitem> Расположение: <filename>/usr/local/WIEN2k/WIEN2k_11_executables</filename></listitem>
  <listitem> Ссылки: <ulink url="http://www.wien2k.at/">WWW</ulink></listitem>
 </itemizedlist>
-</section> <!-- WIEN2k -->
-</section> <!-- Пакеты прикладных программ -->
+</section> <!-- soft_apps_wien2k -->
+</section> <!-- soft_apps -->
 
 </section> <!-- Программное обеспечение -->
 
