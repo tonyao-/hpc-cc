@@ -193,6 +193,20 @@ if [ -n "$outputfile" ];then
 fi
 
 if [ -n "$ver" ];then
+        case $ver in
+		openmpi|openmpi32)
+		mpiarg="$mpiarg -x LD_LIBRARY_PATH"
+		;;
+		mpich2)
+		mpiarg="$mpiarg -env LD_LIBRARY_PATH"
+		;;
+		*)
+		;;
+	esac
+fi
+
+
+if [ -n "$ver" ];then
 	case $ver in
 #		openmpi|mvapichi)
 		openmpi|mpich2|openmpi32)
