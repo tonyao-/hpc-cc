@@ -1,0 +1,2 @@
+#/bin/sh!
+qdel $1.pbs-tp.hpc.cc.spbu.ru@pbs-tp.hpc.cc.spbu.ru
