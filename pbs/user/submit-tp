@@ -178,9 +178,11 @@ if [ -n "$array" ]; then
         pbsarg="-t $array";
 fi
 
-if [ -n $countbyus ]; then
+
+if [ -n "$countbyus" ]; then
 	count=$countbyus;
 fi
+
 
 
 if [ -n "$outputfile" ];then
