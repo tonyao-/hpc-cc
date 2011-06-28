@@ -94,7 +94,9 @@ EOF
 done
 
 severname=pbs-tp.hpc.cc.spbu.ru
-export NN=`pbsnodes -l free -s $severname| wc -l`; #number free nodes
+#export NN=`pbsnodes -l free -s $severname| wc -l`; #number free nodes
+NN=`pbsnodes -s $severname |awk '{if ($1 == "state") {state=$3} if ($1 == "properties") {properties=$3} if ($1 == "status") {if (properties == "green") {print state}}}' | grep free |wc -l` #number free green nodes
+
 if [ $NN -eq 0 ]; then
 	echo "All nodes are full now, sorry. But your  job will be  queued on one node.";
 	NN=1;
@@ -225,7 +227,7 @@ fi
 for adrr in \`cat \$PBS_NODEFILE\`;do
 	ssh \$adrr /usr/local/sbin/cleanipcs;
 done
-\$PREFIX/bin/mpirun -machinefile \$PBS_NODEFILE $mpiarg -t \$TMPDIR
+\$PREFIX/bin/mpirun $mpiarg -machinefile \$PBS_NODEFILE  -t \$TMPDIR
 
 if [ -f "\$TMPDIR/$outputfile" ]; then
 	mv \$TMPDIR/$outputfile $PWD/
