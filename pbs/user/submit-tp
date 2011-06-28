@@ -236,7 +236,7 @@ else
 fi
 
 if [ -n "\$TMPDIR" ]; then 
-	rm -rf $TMPDIR;
+	rm -rf \$TMPDIR;
 fi
 
 EOF
