@@ -13,6 +13,11 @@ debug=0;
 
 while [ -n "$1" ]; do
   case "$1" in
+  --nodelimit)
+	shift;
+	nd=$1;
+	shift
+	;;
   --debug)
   	shift;
   	debug=1
@@ -81,7 +86,7 @@ usage:
 	--jobname -j jobname		#Name of job. Default $jobname
 	--array -r numbers		#numbers jobs in array
 	--debug				#Debug option
-	--count -c			#count by user (for advanced)			
+	--count -c			#count by user (for advanced)			--nodelimit limit		#limit jobs per node (fore more RAM per cpu)
 	
 EOF
 	exit
@@ -239,10 +244,20 @@ if [ -n "$ex" ];then
 fi
 
 
+if [ -n "$nd" ]; then
+	NODEFILE=~/file.$RANDOM
+	rm -f \$NODEFILE
+	touch \$NODEFILE
+	for i in \`cat \$PBS_NODEFILE | uniq\`; do echo "\${i}:$nd";  done  >> \$NODEFILE
+else
+	NODEFILE=\$PBS_NODEFILE
+fi
+
+
 for adrr in \`cat \$PBS_NODEFILE\`;do
 	ssh \$adrr /usr/local/sbin/cleanipcs;
 done
-\$PREFIX/bin/mpirun  -machinefile \$PBS_NODEFILE $mpiarg -t \$TMPDIR
+\$PREFIX/bin/mpirun  -machinefile \$NODEFILE $mpiarg -t \$TMPDIR
 
 if [ -f "\$TMPDIR/$outputfile" ]; then
 	mv \$TMPDIR/$outputfile $PWD/
@@ -252,6 +267,10 @@ fi
 
 if [ -n "\$TMPDIR" ]; then 
 	rm -rf \$TMPDIR;
+fi
+
+if [ -n "$nd" ]; then
+        rm -f \$NODEFILE
 fi
 
 EOF
