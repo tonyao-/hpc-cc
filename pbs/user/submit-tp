@@ -197,10 +197,10 @@ fi
 if [ -n "$ver" ];then
         case $ver in
 		openmpi|openmpi32)
-		mpiarg="$mpiarg -x LD_LIBRARY_PATH"
+		mpiarg=" -x LD_LIBRARY_PATH $mpiarg"
 		;;
 		mpich2)
-		mpiarg="$mpiarg -env LD_LIBRARY_PATH"
+		mpiarg=" -envlist LD_LIBRARY_PATH $mpiarg"
 		;;
 		*)
 		;;
@@ -227,7 +227,7 @@ fi
 for adrr in \`cat \$PBS_NODEFILE\`;do
 	ssh \$adrr /usr/local/sbin/cleanipcs;
 done
-\$PREFIX/bin/mpirun $mpiarg -machinefile \$PBS_NODEFILE  -t \$TMPDIR
+\$PREFIX/bin/mpirun  -machinefile \$PBS_NODEFILE $mpiarg -t \$TMPDIR
 
 if [ -f "\$TMPDIR/$outputfile" ]; then
 	mv \$TMPDIR/$outputfile $PWD/
