@@ -94,8 +94,29 @@ EOF
 done
 
 severname=pbs-tp.hpc.cc.spbu.ru
+
+if [ ! -n "$queue" ];then
+        queue=long;
+else
+        queue=${queue};
+fi
+
+case $queue in
+	long|short|infi)
+	qolor=green
+	;;
+	test)
+	qolor=red
+	;;
+	virtshort)
+	qolor=blue
+	;;
+esac
+
+
+
 #export NN=`pbsnodes -l free -s $severname| wc -l`; #number free nodes
-NN=`pbsnodes -s $severname |awk '{if ($1 == "state") {state=$3} if ($1 == "properties") {properties=$3} if ($1 == "status") {if (properties == "green") {print state}}}' | grep free |wc -l` #number free green nodes
+NN=`pbsnodes -s $severname |awk -v qolor=$qolor '{if ($1 == "state") {state=$3} if ($1 == "properties") {properties=$3} if ($1 == "status") {if (properties == qolor) {print state}}}' | grep free |wc -l` #number free green nodes
 
 if [ $NN -eq 0 ]; then
 	echo "All nodes are full now, sorry. But your  job will be  queued on one node.";
@@ -147,12 +168,6 @@ fi
 if [ -n "$inputfile" ];then
         mpiarg="$mpiarg -i $inputfile";
 
-fi
-
-if [ ! -n "$queue" ];then
-	queue=long;
-else
-	queue=${queue};
 fi
 
 mpich2arg="";
