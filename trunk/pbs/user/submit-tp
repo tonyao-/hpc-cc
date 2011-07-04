@@ -86,7 +86,8 @@ usage:
 	--jobname -j jobname		#Name of job. Default $jobname
 	--array -r numbers		#numbers jobs in array
 	--debug				#Debug option
-	--count -c			#count by user (for advanced)			--nodelimit limit		#limit jobs per node (fore more RAM per cpu)
+	--count -c			#count by user (for advanced)
+	--nodelimit limit		#limit jobs per node (fore more RAM per cpu)
 	
 EOF
 	exit
