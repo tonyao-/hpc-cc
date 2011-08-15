@@ -179,7 +179,7 @@ fi
 mpich2arg="";
 	
 if [ "$ver" = "pbs" ]; then
-        count="1:ppn=$np";
+        count="$np";
 else
         if [ $np -ge $NN ]; then
                 t=`expr $np \/ $NN`;
