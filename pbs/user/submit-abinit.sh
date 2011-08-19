@@ -96,10 +96,9 @@ cat << EOF >> $submitfile
 . /usr/local/intel/bin/compilervars.sh intel64
 cd $PWD;
 if [ -n "$logfile" ]; then
-	$MPICH2_PREFIX/bin/mpirun -np $np  -machinefile  \$PBS_NODEFILE /usr/local/abinit-6.8.1/bin/abinit < $input > $logfile
-else
-	$MPICH2_PREFIX/bin/mpirun -np $np  -machinefile  \$PBS_NODEFILE /usr/local/abinit-6.8.1/bin/abinit < $input
+	logfile=" > $logfile";
 fi
+$MPICH2_PREFIX/bin/mpirun -np $np  -machinefile  \$PBS_NODEFILE /usr/local/abinit-6.8.1/bin/abinit < $input  $logfile
 
 EOF
 
