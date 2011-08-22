@@ -10,6 +10,7 @@ np="";
 ex="";
 mpifile="";
 debug=0;
+mail=1;
 
 while [ -n "$1" ]; do
   case "$1" in
@@ -22,6 +23,11 @@ while [ -n "$1" ]; do
   	shift;
   	debug=1
   	;;
+  --mail|-m)
+        shift;
+        mail=$1;
+	shift
+        ;;
   --count|-c)
 	shift;
 	countbyus=$1;
@@ -88,6 +94,7 @@ usage:
 	--debug				#Debug option
 	--count -c			#count by user (for advanced)
 	--nodelimit limit		#limit jobs per node (fore more RAM per cpu)
+	--mail -c a(be)			#Sends email to the submitter when the job aborts (a), begins(b),  ends (e).
 	
 EOF
 	exit
@@ -354,6 +361,13 @@ fi
 
 if [ -n "$array" ]; then
 	pbsarg="-t $array";
+fi
+
+if [ $mail != "0" ]; then
+	mailon=`ldapsearch -LLL  -x  -h 192.168.0.90  -b  "uid=$USER,ou=people,dc=ptc,dc=spbu,dc=ru"  mail | grep mail | cut -d" " -f 2`;
+	if [ -n "$mailon" ]; then
+		pbsarg="$pbsarg -m $mail -M $mailon "
+	fi
 fi
 
 
