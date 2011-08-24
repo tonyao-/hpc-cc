@@ -7,22 +7,52 @@
 	<title>Правила пользования ресурсом hpc.cc.spbu.ru</title>
 	<authors>
 	    <author>
-		<firstname>Андрей</firstname><surname>Зароченцев</surname>
+		<firstname>Андрей</firstname>
+		<surname>Зароченцев</surname>
+		<othername role="middle">Константинович</othername>
 		<email>andrey.zar@gmail.com</email>
 	    </author>
 	    <author>
-		<firstname>Виталий</firstname><surname>Лысов</surname>
+		<firstname>Виталий</firstname>
+		<surname>Лысов</surname>
+		<othername role="middle">Константинович</othername>
 		<email>vij@ptc.spbu.ru</email>
+		<affiliation>
+		 <jobtitle>программист</jobtitle>
+		 <orgname>УСИТ СПбГУ</orgname>
+		</affiliation>
 	    </author>
 	</authors>
 	<copyright>
 	    <year>2011</year>
 	    <holder>Андрей Зароченцев, Виталий Лысов</holder>
 	</copyright>
+	<collabname>Лысов Виталий</collabname>
+	<revhistory>
+	 <revision>
+	  <revnumber>0.1</revnumber>
+	  <date>2011-01-23</date>
+	  <authorinitials>ЗАК</authorinitials>
+	  <revremark>Черновая версия</revremark>
+	 </revision>
+	 <revision>
+	  <revnumber>1.1</revnumber>
+	  <date>2011-05-11</date>
+	  <authorinitials>ЛВК</authorinitials>
+	  <revremark>Черновая docbook-версия</revremark>
+	 </revision>
+	 <revision>
+          <revnumber>2.0</revnumber>
+          <date>2011-06-27</date>
+          <authorinitials>ЛВК</authorinitials>
+          <revremark>Опубликовано на сайте</revremark>
+         </revision>
+	</revhistory>
+
     </articleinfo>
     <abstract>
     <para>
-Назначение &#160;&#8212; сервис создан в дополнение к сервису <quote>Виртуальная машина</quote> (ВМ) для проведения расчетов по программам,
+Сервис создан в дополнение к сервису <quote>Виртуальная машина</quote> (ВМ) для проведения расчетов по программам,
 требующих большую вычислительную мощность (терафлопного уровня). Основные работы по отладке программ, 
 подготовки данных и визуализации результатов проводятся на ВМ (рабочая среда). Выполнение расчетов на 
 высокопроизводительном кластере проводится с использованием системы очередей. 
@@ -55,7 +85,7 @@
 </para>
 <itemizedlist>
     <listitem>
-	<para>ОС: CentOS 5.5</para>
+	<para>ОС: CentOS 5.6</para>
     </listitem>
     <listitem>
 	<para>Количество ядер CPU: 4</para>
@@ -152,7 +182,9 @@ RHEL 5, RHEL 6 и т.д. необходимо предварительно со�
 
     <section id="run-tasks">
     <title>Запуск задач</title>
-
+<note>
+Все рассматриваемые скрипты и исходные коды программ доступны вам и располагаются в домашней директории пользователя (<command>~/</command>), имеющего доступ к постановке задач в очередь для счёта на кластере. Отсутствующий файл вы можете скачать <ulink url="http://v105.ptc.spbu.ru/arch/user/">здесь</ulink>.
+</note>
     <section id="pbs-scripts">
     <title>Скрипты для управления задачами</title>
 <para>
@@ -194,12 +226,29 @@ $ ~/status-tp --help
 <title>Запуск скрипта <quote>Hello World</quote> на 1 ядре</title>
 <screen><![CDATA[
 $ ~/submit-tp -f ~/examples/helloworld.sh
-2880.pbs-tp.hpc.spbu.ru
+2880.pbs-tp.hpc.cc.spbu.ru
 
 $ ll *2880
 -rw------- 1 zar users 11 Jan 26 11:19 job.1296029939.e2880
 -rw------- 1 zar users 11 Jan 26 11:19 job.1296029939.o2880
 ]]></screen>
+</section>
+
+<section id="ex_intel">
+<title>Запуск компиляторов <orgname>Intel</orgname></title>
+<screen><![CDATA[
+~/submit-tp -f ~/examples/intel.sh
+]]></screen>
+В результате вы получите информацию о версиях соответствующих компиляторов.
+Содержимое скрипта <filename>~/examples/intel.sh</filename>:
+<programlisting>
+#/bin/sh!
+. /usr/local/intel/mkl/bin/mklvars.sh intel64
+. /usr/local/intel/bin/compilervars.sh intel64
+icc -V
+icpc -V
+ifort -V
+</programlisting>
 </section>
 
 <section id="ex_compile-pi">
@@ -221,7 +270,7 @@ mpif77 Pi.f -o Pi.openmpi
 <section id="ex_pi"><title>Запуск на 4-х ядрах программы <command>Pi</command> в среде <command>openmpi</command></title>
 <screen><![CDATA[
 $ ~/submit-tp -v openmpi -j Pi-6 -n 4 -f ~/examples/Pi/Pi.openmpi
-2882.pbs-tp.hpc.spbu.ru
+2882.pbs-tp.hpc.cc.spbu.ru
 ]]></screen>
 <para>
 Просмотр всех очередей: 
@@ -229,7 +278,7 @@ $ ~/submit-tp -v openmpi -j Pi-6 -n 4 -f ~/examples/Pi/Pi.openmpi
 <screen><![CDATA[
 $ ~/status-tp -a
 
-pbs-tp.hpc.spbu.ru: 
+pbs-tp.hpc.cc.spbu.ru: 
                                                                          Req'd  Req'd   Elap
 Job ID               Username Queue    Jobname          SessID NDS   TSK Memory Time  S Time
 -------------------- -------- -------- ---------------- ------ ----- --- ------ ----- - -----
@@ -253,7 +302,7 @@ $ ll Pi-6.*
 $ ~/submit-tp -d /usr/local/firefly/mpich2 -f /usr/local/firefly/mpich2/firefly \
 -v mpich2 -j firefly -q short \
 -i /usr/local/firefly/samples/condircbk.inp -o firefly.out -n 32
-2861.pbs-tp.hpc.spbu.ru
+2861.pbs-tp.hpc.cc.spbu.ru
 ]]></screen>
 Результат:
 <screen><![CDATA[
@@ -292,7 +341,7 @@ Free=352
 <section id="ex_g03"><title>Запуск пакета <command>Gaussian</command> с тестовым примером</title>
 <screen><![CDATA[
 $ ~/submit-tp -n 4 -f ~/submit-g03.sh -i ~/test695.com -o ~/test695-n1.log
-2983.pbs-tp.hpc.spbu.ru
+2983.pbs-tp.hpc.cc.spbu.ru
 ]]></screen>
 
 Результат:
@@ -308,7 +357,7 @@ $ ~/submit-tp -n 4 -f ~/submit-g03.sh -i ~/test695.com -o ~/test695-n1.log
 <section id="ex_array-scilab"><title>Запуск массива задач в среде <command>scilab</command> с различным параметрами</title>
 <screen><![CDATA[
 $ ~/submit-tp -v pbs -q long -r 6-7 -f ./impkvart01.sh -j scilab-impedanec
-3096.pbs-tp.hpc.spbu.ru
+3096.pbs-tp.hpc.cc.spbu.ru
 $
 ]]></screen>
 
@@ -397,15 +446,16 @@ total 6750
 -rw-r--r-- 1 zar users 1717355 Feb  6 14:47 XYSQS00-RE.357.1000.100
 -rw-r--r-- 1 zar users 1717355 Feb  6 14:47 YXSQS00-IM.357.1000.100
 -rw-r--r-- 1 zar users 1717355 Feb  6 14:47 YXSQS00-RE.357.1000.100
-$
-$ cat /home/zar/scilab-impedanec-6.outdir/startall 
+]]></screen>
+Содержимое файла <filename>/home/zar/scilab-impedanec-6.outdir/startall</filename>: 
+<programlisting>
 exec('/home/zar/mathlab/all09.03.sce');
 stacksize('max');
 rt=stacksize()
 SQS03('/home/zar/math/B23_0708.ts',200,1000,100,0.6);
 tr=stacksize()
 exit
-]]></screen>
+</programlisting>
 
 Мы видим, что последний параметр, который у нас и был переменным в папке с префиксом <computeroutput>-6</computeroutput> и равен 0.6. В папке с префиксом <computeroutput>-7</computeroutput> &#160;&#8212; соответственно 0.7.
 </section>
@@ -414,9 +464,9 @@ exit
 
 Видим в очереди задание, <computeroutput>Job Id</computeroutput> = <quote>имя задания</quote>
 <screen><![CDATA[
-$ ./status-tp -a
+$ ~/status-tp -a
 
-pbs-tp.hpc.spbu.ru: 
+pbs-tp.hpc.cc.spbu.ru: 
                                                                          Req'd  Req'd   Elap
 Job ID               Username Queue    Jobname          SessID NDS   TSK Memory Time  S Time
 -------------------- -------- -------- ---------------- ------ ----- --- ------ ----- - -----
@@ -426,12 +476,9 @@ Job ID               Username Queue    Jobname          SessID NDS   TSK Memory 
 
 Смотрим подробные  характеристики задания
 <screen><![CDATA[
-$ qstat -f 3097.pbs-tp.hpc.spbu.ru pbs-tp.hpc.spbu.ru
-qstat: Unknown Job Id 3097.pbs-tp.hpc.spbu.ru
-qstat: illegally formed destination: pbs-tp.hpc.spbu.ru
-[zar@alice24 ~]$ ./status-tp -f 3097.pbs-tp.hpc.spbu.ru
-qstat: Unknown Job Id 3097.pbs-tp.hpc.spbu.ru
-Job Id: 3097-5.pbs-tp.hpc.spbu.ru
+$ ~/status-tp -f 3097.pbs-tp.hpc.cc.spbu.ru
+qstat: Unknown Job Id 3097.pbs-tp.hpc.cc.spbu.ru
+Job Id: 3097-5.pbs-tp.hpc.cc.spbu.ru
     Job_Name = scilab-impedanec-5
     Job_Owner = zar@alice24.spbu.ru
     resources_used.cput = 00:02:58
@@ -440,7 +487,7 @@ Job Id: 3097-5.pbs-tp.hpc.spbu.ru
     resources_used.walltime = 00:02:59
     job_state = R
     queue = long-3046
-    server = pbs-tp.hpc.spbu.ru
+    server = pbs-tp.hpc.cc.spbu.ru
     Checkpoint = u
     ctime = Sun Feb  6 19:25:17 2011
     Error_Path = alice24.spbu.ru:/home/zar/scilab-impedanec.e3097-5
@@ -465,7 +512,7 @@ Job Id: 3097-5.pbs-tp.hpc.spbu.ru
     comment = Job started on Sun Feb 06 at 19:25
     etime = Sun Feb  6 19:25:18 2011
     submit_args = -t 5 -N scilab-impedanec -l nodes=1:ppn=1 -q long-3046@pbs-t
-        p.hpc.spbu.ru file1297009516.sh
+        p.hpc.cc.spbu.ru file1297009516.sh
     job_array_id = 5
     job_array_request = 5
     start_time = Sun Feb  6 19:25:18 2011
@@ -484,11 +531,54 @@ $ ~/qdel 3097
 
 Проверяем удаление:
 <screen><![CDATA[
-$ ~/status-tp -f 3097.pbs-tp.hpc.spbu.ru
-qstat: Unknown Job Id 3097.pbs-tp.hpc.spbu.ru
+$ ~/status-tp -f 3097.pbs-tp.hpc.cc.spbu.ru
+qstat: Unknown Job Id 3097.pbs-tp.hpc.cc.spbu.ru
 $
 ]]></screen>
 </section>
+
+<section id="ex_abinit"><title>Запуск тестовой задачи <command>abinit</command> на 24-х ядрах</title>
+<screen><![CDATA[
+$ cd examples/
+$ cd abinit01/
+$ ll
+total 1
+-rw-r--r-- 1 zar users 167 Aug 24 15:22 tparal_1.files
+$ ~/submit-abinit.sh ./tparal_1.files 24 ./log long
+10876.pbs-tp.hpc.cc.spbu.ru
+$ ~/status-tp -a
+
+pbs-tp.hpc.cc.spbu.ru:
+                                                                        Req'd  Req'd   Elap
+Job ID               Username Queue    Jobname          SessID NDS   TSK Memory Time  S Time
+-------------------- -------- -------- ---------------- ------ ----- --- ------ ----- - -----
+10876.pbs-tp.hpc     zar      long     abinit.131418499    --     24  --    --  48:00 R   --
+  node-ib-47/7+node-ib-47/6+node-ib-47/5+node-ib-47/4+node-ib-47/3
+  +node-ib-47/2+node-ib-47/1+node-ib-47/0+node-ib-46/7+node-ib-46/6
+  +node-ib-46/5+node-ib-46/4+node-ib-46/3+node-ib-46/2+node-ib-46/1
+  +node-ib-46/0+node-ib-32/7+node-ib-32/6+node-ib-32/5+node-ib-32/4
+  +node-ib-32/3+node-ib-32/2+node-ib-32/1+node-ib-32/0
+
+]]></screen>
+<para>
+Среди созданных фалов будут созданы следующие:
+<filename>tparal_1.out</filename> - результат
+<filename>log</filename>  - аутпут работы команды по которому Вы можете следить за работой в процессе.
+Обязательным параметром является только первый  - с перечислением входных и выходных файлов. Кол-во ядер по умолчанию - 1 , очередь - long, лог пишеться в аутпут (<filename>abinit.1314184998.o10876</filename>)
+</para>
+<para>
+Сам собранный пакет расположен
+<filename>/usr/local/abinit-6.8.1/</filename>
+Исполняемый файл
+<filename>/usr/local/abinit-6.8.1/bin/abinit</filename>
+</para>
+<para>
+Параллельную версию следует использовать с mpich2 , собранный с ntel® Composer XE 2011. Поэтому, если Вы будете самостоятельно собирать скрипты для  abint  - используйте пути:
+
+<constant>MPICH2_PREFIX=/usr/local/mpich2-1.4.INT.20110813/</constant>
+<constant>UNTEL_PREFIX=/usr/local/intel</constant>
+</para>
+</section> <!-- ex_abinit -->
 
 </section> <!-- Примеры запуска задач -->
 </section> <!-- Запуск задач -->
@@ -570,7 +660,7 @@ NetEffect, Qlogic, Myricom, Ohio state university, UBC.
 <itemizedlist>
  <listitem> Версия: 12.0.1.107, 12.0.2.137</listitem>
  <listitem> Расположение: <filename>/usr/local/intel/</filename></listitem>
- <listitem> Ссылки: <ulink url="http://software.intel.com/en-us/articles/intel-composer-xe/">WWW</ulink></listitem>
+ <listitem> Ссылки: <ulink url="http://software.intel.com/en-us/articles/intel-composer-xe/">WWW</ulink>, <link linkend="ex_intel">Пример запуска</link></listitem>
 </itemizedlist>
 </section> <!-- Intel Composer XE -->
 
@@ -590,6 +680,20 @@ NetEffect, Qlogic, Myricom, Ohio state university, UBC.
 </section> <!-- soft_compilers -->
 
 <section id="soft_apps"><title>Пакеты прикладных программ</title>
+<section id="soft_apps_abinit"><title>Abinit</title>
+<command>Abinit</command> — свободное ПО, распространяемое по GNU General Public License3 и предназначенное для расчётов полной 
+энергии, электронной плотности и т. д. систем электронов и ядер (с использованием периодических граничных 
+условий) в рамках метода функционала плотности с использованием базиса из плоских волн и псевдопотенциалов.
+Abinit позволяет оптимизировать геометрию системы минимизируя силы или напряжения, проводить 
+молекулярно-динамическое моделирование, вычислять распределение электронной плотности, определять 
+динамическую матрицу, эффективный заряд и многое другое.
+<itemizedlist>
+ <listitem> Версия: 6.8.1</listitem>
+ <listitem> Расположение: <filename>/usr/local/abinit-6.8.1</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.abinit.org/">WWW</ulink>, <link linkend="ex_abinit">Пример запуска</link></listitem>
+</itemizedlist>
+</section> <!-- soft_apps_abinit -->
+
 <section id="soft_apps_ff"><title>Firefly</title>
 программный пакет для ab initio квантовохимических расчётов. Работает на Intel-совместимых процессорах 
 архитектур x86 и x86-64 (только 32-битная версия). Основана на коде пакета программ GAMESS (US). Автором 
@@ -628,6 +732,25 @@ NetEffect, Qlogic, Myricom, Ohio state university, UBC.
  <listitem> Ссылки: <ulink url="http://www.scilab.org/">WWW</ulink>, <link linkend="ex_array-scilab">Пример запуска</link></listitem>
 </itemizedlist>
 </section> <!-- soft_apps_scilab -->
+
+<section id="soft_apps_wien2k"><title>WIEN2k</title>
+<command>WIEN2k</command> – программный пакет для расчетов электронных структур в твердом веществе, использующий теорию
+функционала плотности (DFT). Основан на методе (линеаризованных) присоединенных плоских волн полного
+потенциала ((L)APW) + локальных орбиталей (lo), что является одной из наиболее точных схем для расчетов
+зонных структур. В DFT может быть использована локальная аппроксимация (спиновой) плотности (LDA) или
+улучшенная версия генерализованной аппроксимации градиента (GGA). Пакет <command>WIEN2k</command> использует полностью
+электронную схему, включая релятивистские эффекты и имеет много достоинств. Грид-порт пакета включает
+прототип последовательности операций для работы в гриде. Пакет разрешено использовать только обладателям
+действительной лицензии <command>WIEN2k</command>.
+<itemizedlist>
+ <listitem> Версия: 11</listitem>
+ <listitem> Расположение: <filename>/usr/local/WIEN2k/WIEN2k_11_executables</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.wien2k.at/">WWW</ulink></listitem>
+</itemizedlist>
+</section> <!-- soft_apps_wien2k -->
+</section> <!-- soft_apps -->
+
+<section id="soft_planed"><title>ПО планируемое к установке</title>
 <section id="soft_apps_gromacs"><title>GROMACS</title>
 <command>GROMACS</command> (GROningen MAchine for Chemical Simulations, дословный перевод названия &#160;&#8212; Гронингенская 
 Машина для Химического Моделирования) пакет молекулярной динамики для моделирования физико-химических 
@@ -653,7 +776,6 @@ NetEffect, Qlogic, Myricom, Ohio state university, UBC.
  <listitem> Ссылки: <ulink url="http://www.fos.su.se/~sasha/mdynamix/">WWW</ulink></listitem>
 </itemizedlist>
 </section> <!-- soft_apps_mdynamix -->
-
 <section id="soft_apps_wien2k"><title>WIEN2k</title>
 <command>WIEN2k</command> – программный пакет для расчетов электронных структур в твердом веществе, использующий теорию
 функционала плотности (DFT). Основан на методе (линеаризованных) присоединенных плоских волн полного
@@ -669,9 +791,8 @@ NetEffect, Qlogic, Myricom, Ohio state university, UBC.
  <listitem> Ссылки: <ulink url="http://www.wien2k.at/">WWW</ulink></listitem>
 </itemizedlist>
 </section> <!-- soft_apps_wien2k -->
-</section> <!-- soft_apps -->
-
-</section> <!-- Программное обеспечение -->
+</section> <!-- soft_planed -->
+</section> <!-- soft -->
 
 <section id="hard"><title>Аппаратное обеспечение</title>
 

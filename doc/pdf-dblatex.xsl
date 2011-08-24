@@ -10,6 +10,16 @@
 <!-- List the examples and equations too -->
 <xsl:param name="doc.lot.show">figure,table,example</xsl:param>
 
+<!-- Collaborators -->
+<xsl:param name="doc.collab.show">1</xsl:param>
+
+<!-- История изменений -->
+<xsl:param name="latex.output.revhistory">1</xsl:param>
+
+<!-- Оглавление -->
+<xsl:param name="doc.toc.show">1</xsl:param>
+
+<!-- Кодировка -->
 <xsl:param name="latex.unicode.use">1</xsl:param>
 <xsl:param name="latex.encoding">utf8</xsl:param>
 
