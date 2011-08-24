@@ -1,0 +1,858 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+<!DOCTYPE article SYSTEM "docbookx.dtd">
+-->
+<article lang="ru">
+    <articleinfo>
+	<title>Правила пользования ресурсом hpc.cc.spbu.ru</title>
+	<authors>
+	    <author>
+		<firstname>Андрей</firstname>
+		<surname>Зароченцев</surname>
+		<othername role="middle">Константинович</othername>
+		<email>andrey.zar@gmail.com</email>
+	    </author>
+	    <author>
+		<firstname>Виталий</firstname>
+		<surname>Лысов</surname>
+		<othername role="middle">Константинович</othername>
+		<email>vij@ptc.spbu.ru</email>
+		<affiliation>
+		 <jobtitle>программист</jobtitle>
+		 <orgname>УСИТ СПбГУ</orgname>
+		</affiliation>
+	    </author>
+	</authors>
+	<copyright>
+	    <year>2011</year>
+	    <holder>Андрей Зароченцев, Виталий Лысов</holder>
+	</copyright>
+	<collabname>Лысов Виталий</collabname>
+	<revhistory>
+	 <revision>
+	  <revnumber>0.1</revnumber>
+	  <date>2011-01-23</date>
+	  <authorinitials>ЗАК</authorinitials>
+	  <revremark>Черновая версия</revremark>
+	 </revision>
+	 <revision>
+	  <revnumber>1.1</revnumber>
+	  <date>2011-05-11</date>
+	  <authorinitials>ЛВК</authorinitials>
+	  <revremark>Черновая docbook-версия</revremark>
+	 </revision>
+	 <revision>
+          <revnumber>2.0</revnumber>
+          <date>2011-06-27</date>
+          <authorinitials>ЛВК</authorinitials>
+          <revremark>Опубликовано на сайте</revremark>
+         </revision>
+	</revhistory>
+
+    </articleinfo>
+    <abstract>
+    <para>
+Сервис создан в дополнение к сервису <quote>Виртуальная машина</quote> (ВМ) для проведения расчетов по программам,
+требующих большую вычислительную мощность (терафлопного уровня). Основные работы по отладке программ, 
+подготовки данных и визуализации результатов проводятся на ВМ (рабочая среда). Выполнение расчетов на 
+высокопроизводительном кластере проводится с использованием системы очередей. 
+    </para>
+    </abstract>
+<!--
+<section id="intro">
+<title>Описание сервиса "Высокопроизводительные вычисления"</title>
+-->
+    <section id="vm">
+    <title>Виртуальная машина</title>
+    <para>
+Доступ к вычислительным ресурсам осуществляется через виртуальную машину пользователя. Назначение ВМ следующее:
+    </para>
+<itemizedlist>
+    <listitem>
+	<para>Хранение обрабатываемых данных</para>
+    </listitem>
+    <listitem>
+	<para>Разработка приложений</para>
+    </listitem>
+    <listitem>
+	<para>Проведение вычислений</para>
+    </listitem>
+</itemizedlist>
+<para>
+Для получения виртуальной машины необходимо заполнить <ulink url="http://www.ptc.spbu.ru/zayavlenie_vm.doc" >заявку</ulink>, 
+которую следует отправить по адресу noc@ptc.spbu.ru.
+По умолчанию заводится виртуальная машина со следующими характеристиками:
+</para>
+<itemizedlist>
+    <listitem>
+	<para>ОС: CentOS 5.6</para>
+    </listitem>
+    <listitem>
+	<para>Количество ядер CPU: 4</para>
+    </listitem>
+    <listitem>
+	<para>ОЗУ: 8Гб</para>
+    </listitem>
+    <listitem>
+	<para>Жёсткий диск: /home &#160;&#8212; 50 Гб, системные разделы &#160;&#8212; 8 Гб. Управление разбиением &#160;&#8212; lvm.</para>
+    </listitem>
+</itemizedlist>
+Список официально поддерживаемых операционных систем (ОС) опубликован в 
+<ulink url="http://www.vmware.com/pdf/vsphere4/r40/vsp_compatibility_matrix.pdf" >документе</ulink> (Таблица 14, столбец Guest OS Cust).
+Не требуют согласования заявки на виртуальные машины со следующими предустановленными ОС: 
+SLES 11 SP1, CentOS 5.5, Scientific Linux 5.5, Debian 5, Debian 6, Ubuntu 10.04 LTS, Fedora 14.
+
+Установку коммерческих программных продуктов, требующих наличия лицензий, например, 
+RHEL 5, RHEL 6 и т.д. необходимо предварительно согласовать со службой технической поддержки &#160;&#8212; noc@ptc.spbu.ru.
+
+В системе заводится пользователь username, которого основан на фамилии и имени человека подавшего заявку на получение 
+виртуальной машины. Наделён правами постановки задач в очереди на имеющиеся HPC-ресурсы. При старте задачи его 
+домашний каталог монтируется на соответствующие вычислительные узлы.
+<!-- В системе заводятся дополнительно два пользователя: 
+<itemizedlist>
+    <listitem>
+	<para>vmuser &#160;&#8212; пользователь с административными (средствами <command>sudo</command>) правами, </para>
+    </listitem>
+    <listitem>
+	<para>Пользователь username, которого основан на фамилии и имени человека подавшего заявку на получение 
+  виртуальной машины. Наделён правами постановки задач в очереди на имеющиеся HPC-ресурсы. При старте задачи его 
+домашний каталог монтируется на соответствующие вычислительные узлы.</para>
+    </listitem>
+</itemizedlist>
+-->
+</section>
+
+    <section id="queues">
+    <title>Типы очередей</title>
+<para>
+Имеются 3 типа очередей &#160;&#8212; короткая short, длинная long, и бесконечная infi. Каждая из них имеет свои особенности.
+</para>
+    <section id="short">
+    <title>short</title>
+<itemizedlist>
+  <listitem><para>Высокий приоритет (задачи меньше стоят в очереди)</para></listitem>
+  <listitem><para>Процессорное время ограничено 6-ю часами</para></listitem>
+  <listitem><para>Память ограничена 2 ГБ на процесс</para></listitem>
+  <listitem><para>Реальное время ограничено 9 часами</para></listitem>
+  <listitem><para>Количество задач разрешенных на выполнение одним пользователем &#160;&#8212; 3</para></listitem>
+  <listitem><para>Количество задач в очереди от одного пользователя 6</para></listitem>
+</itemizedlist>
+</section>
+
+    <section id="long">
+    <title>long</title>
+
+<itemizedlist>
+ <listitem><para>Низкий приоритет (задачи дольше стоят в очереди)</para></listitem>
+ <listitem><para>Процессорное время ограничено 48-ю часами</para></listitem>
+ <listitem><para>Память ограничена 2 ГБ на процесс</para></listitem>
+ <listitem><para>Реальное время ограничено 72-мя часами</para></listitem>
+ <listitem><para>Количество задач разрешенных на выполнение одним пользователем &#160;&#8212; 3</para></listitem>
+ <listitem><para>Количество задач в очереди от одного пользователя 6</para></listitem>
+</itemizedlist>
+</section>
+
+    <section id="infi">
+    <title>infi</title>
+
+<itemizedlist>
+ <listitem><para>Самый низкий приоритет (задачи дольше всех  стоят в очереди)</para></listitem>
+ <listitem><para>Процессорное время не ограничено</para></listitem>
+ <listitem><para>Память ограничена 2 ГБ на процесс</para></listitem>
+ <listitem><para>Реальное время не ограничено</para></listitem>
+ <listitem><para>Количество задач разрешенных на выполнение одним пользователем &#160;&#8212; 3</para></listitem>
+ <listitem><para>Количество задач в очереди от одного пользователя 6</para></listitem>
+</itemizedlist>
+</section>
+<para>
+Доступ к очередям определяется конкретным договором (пользователем, задачей).
+Для вычислений можно использовать 64 ядра (это 16 процессоров или 8 узлов).
+Всего имеется 368 ядер, 46 узлов, 92 процессора.
+Для обеспечения связи между узлами используются 1 Gb Eth и 10 Gb IB.
+Оперативная память на узлах 16 GB (2GB на ядро) + 16GB swap.
+Доступная дисковая память на ноде (<filename>/tmp</filename>) 3GB на процесс.
+Дисковая память в домашней директории (<filename>/home/$username</filename>) определяется конфигурацией ВМ и не рекомендуется для 
+записи временных файлов из-за метода монтирования этой директории на рабочие узлы.
+
+Связь нода - pbs-сервер происходит через форвардинг между инетрфейсам ib-eth, что
+позволяет не задействовать дополнительную машину с IB интерфейсом в качестве
+сервера или роутера.
+</para>
+</section>
+
+    <section id="run-tasks">
+    <title>Запуск задач</title>
+<note>
+Все рассматриваемые скрипты и исходные коды программ доступны вам и располагаются в домашней директории пользователя (<command>~/</command>), имеющего доступ к постановке задач в очередь для счёта на кластере. Отсутствующий файл вы можете скачать <ulink url="http://v105.ptc.spbu.ru/arch/user/">здесь</ulink>.
+</note>
+    <section id="pbs-scripts">
+    <title>Скрипты для управления задачами</title>
+<para>
+Для пользования сервисом используются скрипты, в которых прописано необходимые параметры.
+Для самостоятельного использования интерфейса torque читайте часть 3, с необходимыми параметрами. 
+</para>
+Для запуска задач используется скрипт <filename>submit-tp</filename>.
+<screen><![CDATA[
+$ ~/submit-tp
+usage:  
+        --input -i filename             #input file
+        --np -n N                       #number of threads. Default 1
+        --dir -d dirname                #exec dirname
+        --file -f filename              #exec file
+        --queue -q queue                #queue name (short, long or infi). Default short
+        --mpiver -v version             #MPI version (openmpi,mpich2,openmpi32). Defaul without mpi
+        --output -o  filename           #output file
+        --help -h                       #This message
+        --jobname -j jobname            #Name of job. Default job.1308734148
+        --array -r numbers              #numbers jobs in array
+        --debug                         #Debug option
+]]></screen>
+
+Для мониторинга задач используется скрипт <filename>status-tp</filename>.
+<screen><![CDATA[
+$ ~/status-tp --help
+        -f jobaname     #inforamtion abou "jobname"
+        -q queue        #information about "queue"
+        -a              #information about all queues
+        -p              #information about cluster
+        -h              #this message
+]]></screen>
+</section>
+
+    <section id="start-tasks">
+    <title>Примеры запуска задач</title>
+
+<section id="ex_hello-world">
+<title>Запуск скрипта <quote>Hello World</quote> на 1 ядре</title>
+<screen><![CDATA[
+$ ~/submit-tp -f ~/examples/helloworld.sh
+2880.pbs-tp.hpc.cc.spbu.ru
+
+$ ll *2880
+-rw------- 1 zar users 11 Jan 26 11:19 job.1296029939.e2880
+-rw------- 1 zar users 11 Jan 26 11:19 job.1296029939.o2880
+]]></screen>
+</section>
+
+<section id="ex_intel">
+<title>Запуск компиляторов <orgname>Intel</orgname></title>
+<screen><![CDATA[
+~/submit-tp -f ~/examples/intel.sh
+]]></screen>
+В результате вы получите информацию о версиях соответствующих компиляторов.
+Содержимое скрипта <filename>~/examples/intel.sh</filename>:
+<programlisting>
+#/bin/sh!
+. /usr/local/intel/mkl/bin/mklvars.sh intel64
+. /usr/local/intel/bin/compilervars.sh intel64
+icc -V
+icpc -V
+ifort -V
+</programlisting>
+</section>
+
+<section id="ex_compile-pi">
+<title>Компиляция программы <command>Pi</command> в среде <command>openmpi</command></title>
+<screen><![CDATA[
+~/submit-tp -f ~/examples/Pi/Pi.comp-openmpi.sh -d ~/examples/Pi
+]]></screen>
+Содержимое скрипта <filename>~/examples/Pi/Pi.comp-openmpi.sh</filename>:
+<programlisting>
+#!/bin/sh
+export prefix="/usr/lib64/openmpi/1.4-gcc"
+
+export PATH=$prefix/bin:$PATH
+export LD_LIBRARY_PATH=$prefix/lib:$LD_LIBRARY_PATH
+mpif77 Pi.f -o Pi.openmpi
+</programlisting>
+</section>
+
+<section id="ex_pi"><title>Запуск на 4-х ядрах программы <command>Pi</command> в среде <command>openmpi</command></title>
+<screen><![CDATA[
+$ ~/submit-tp -v openmpi -j Pi-6 -n 4 -f ~/examples/Pi/Pi.openmpi
+2882.pbs-tp.hpc.cc.spbu.ru
+]]></screen>
+<para>
+Просмотр всех очередей: 
+</para>
+<screen><![CDATA[
+$ ~/status-tp -a
+
+pbs-tp.hpc.cc.spbu.ru: 
+                                                                         Req'd  Req'd   Elap
+Job ID               Username Queue    Jobname          SessID NDS   TSK Memory Time  S Time
+-------------------- -------- -------- ---------------- ------ ----- --- ------ ----- - -----
+2882.pbs-tp.hpc.     zar      long-zar Pi-6                --      4  --    --    --  R   -- 
+   node-20/0+node-19/0+node-18/0+node-17/0
+]]></screen>
+
+<para>
+Результат:
+</para>
+
+<screen><![CDATA[
+$ ll Pi-6.*
+-rw------- 1 zar users   0 Jan 26 11:26 Pi-6.e2882
+-rw------- 1 zar users 138 Jan 26 11:28 Pi-6.o2882
+]]></screen>
+</section>
+
+<section id="ex_ff"><title>Запуск пакета <command>Firefly</command> с тестовым примером.</title>
+<screen><![CDATA[
+$ ~/submit-tp -d /usr/local/firefly/mpich2 -f /usr/local/firefly/mpich2/firefly \
+-v mpich2 -j firefly -q short \
+-i /usr/local/firefly/samples/condircbk.inp -o firefly.out -n 32
+2861.pbs-tp.hpc.cc.spbu.ru
+]]></screen>
+Результат:
+<screen><![CDATA[
+$ ll firefly.*
+-rw------- 1 viz users      0 Jan 25 18:02 firefly.e2861
+-rw------- 1 viz users      0 Jan 25 18:02 firefly.o2861
+-rw-r--r-- 1 viz users 992847 Jan 25 18:05 firefly.out
+]]></screen>
+<para>
+В этом случае стандартного вывода нет &#160;&#8212; файл <filename>firefly.o2861</filename> пустой, 
+но создан файл <filename>firefly.out</filename>, где <filename>firefly</filename> &#160;&#8212; это имя задачи, ключ <code language="bash">-j</code>.
+</para>
+</section>
+
+<section id="ex_linpack"><title>Запуск теста <command>linpack</command> на 4 ядрах</title>
+<screen><![CDATA[
+~/submit-tp --input ~/linpack_10.3.3/benchmarks/mp_linpack/bin/intel64_mpich2_hydra/HPL.dat \
+-n 4 --dir ~/linpack_10.3.3/benchmarks/mp_linpack/bin/intel64_mpich2_hydra \
+-f ~/linpack_10.3.3/benchmarks/mp_linpack/bin/intel64_mpich2_hydra/xhpl -q infi -v mpich2 -j hplmpich2-4
+]]></screen>
+<para>
+В этом случае создается файл в директории: <filename>~/linpack_10.3.3/benchmarks/mp_linpack/bin/intel64_mpich2</filename>,
+имя которого было указано во входном файле <filename>~/linpack_10.3.3/benchmarks/mp_linpack/bin/intel64_mpich2/HPL.dat</filename>.
+</para>
+</section>
+
+<section id="ex_stat"><title>Мониторинг загруженности кластера</title>
+<screen><![CDATA[ 
+$ ~/status-tp -p 
+Total=368 
+Free=352 
+]]></screen> 
+Здесь выводится полное кол-во доступных ядер <computeroutput>Total</computeroutput> и количество свободных ядер <computeroutput>Free</computeroutput>.
+</section> 
+
+<section id="ex_g03"><title>Запуск пакета <command>Gaussian</command> с тестовым примером</title>
+<screen><![CDATA[
+$ ~/submit-tp -n 4 -f ~/submit-g03.sh -i ~/test695.com -o ~/test695-n1.log
+2983.pbs-tp.hpc.cc.spbu.ru
+]]></screen>
+
+Результат:
+<screen><![CDATA[
+-rw------- 1 viz users        0 Jan 28 13:18 job.1296209888.o2983
+-rw------- 1 viz users       47 Jan 28 13:30 job.1296209888.e2983
+-rw-r--r-- 1 viz users   966078 Jan 28 13:38 test695-n1.log
+]]></screen>
+
+В этом случае стандартного вывода нет – файл  <filename>job.1296209888.o2983</filename> пустой, но создан файл <filename>test695-n1.log</filename>.
+</section>
+
+<section id="ex_array-scilab"><title>Запуск массива задач в среде <command>scilab</command> с различным параметрами</title>
+<screen><![CDATA[
+$ ~/submit-tp -v pbs -q long -r 6-7 -f ./impkvart01.sh -j scilab-impedanec
+3096.pbs-tp.hpc.cc.spbu.ru
+$
+]]></screen>
+
+Исполняемый скрипт:
+<screen><![CDATA[
+$ cat impkvart01.sh 
+#/bin/sh!
+export PATH=$PATH:/usr/local/scilab-5.3.0/bin
+worckdir=`mktemp -d`;
+cd $worckdir
+
+cat << EOF > startall 
+exec('$HOME/mathlab/all09.03.sce');
+stacksize('max');
+rt=stacksize()
+SQS03('$HOME/math/B23_0708.ts',200,1000,100,0.$PBS_ARRAYID);
+tr=stacksize()
+exit
+EOF
+
+scilab -nwni -f startall
+
+mv  $worckdir $HOME/${PBS_JOBNAME}.outdir
+echo $HOME/${PBS_JOBNAME}.outdir
+]]></screen>
+
+Рассмотрим исполняемый скрипт и объясним его содержание:
+Объявление переменных окружения для исползуемого пакета <command>Scilab</command>.
+<screen><![CDATA[
+export PATH=$PATH:/usr/local/scilab-5.3.0/bin  
+]]></screen>
+
+Создание и преход в тестовую директорию (это будет происходить уже на рабочей ноде)
+<screen><![CDATA[
+worckdir=`mktemp -d`;
+cd $worckdir
+]]></screen>
+
+Создание исполняемого скрипта <command>scilab</command>, с переменным параметром  <constant>$PBS_ARRAYID</constant>, котрый в нашем случае будет принимать значения 6 и 7.
+<screen><![CDATA[
+cat << EOF > startall 
+exec('$HOME/mathlab/all09.03.sce');
+stacksize('max');
+rt=stacksize()
+SQS03('$HOME/math/B23_0708.ts',200,1000,100,0.$PBS_ARRAYID);
+tr=stacksize()
+exit
+EOF
+]]></screen>
+
+Запуск созданного скрипта
+<screen><![CDATA[
+scilab -nwni -f startall
+]]></screen>
+
+Копирование результатов и удаление их с рабочей ноды 
+<screen><![CDATA[
+mv  $worckdir $HOME/${PBS_JOBNAME}.outdir
+]]></screen>
+
+вывод в стандартный вывод имени каталога с результатом:
+<screen><![CDATA[
+echo $HOME/${PBS_JOBNAME}.outdir
+]]></screen>
+
+В итоге мы получаем 2 файла стандартного вывода:
+<screen><![CDATA[
+-rw------- 1 zar users   36 Feb  6 14:48 scilab-impedanec.o3096-6
+-rw------- 1 zar users   36 Feb  6 14:47 scilab-impedanec.o3096-7
+]]></screen>
+
+В которых прописаны имена итоговых каталогов:
+<screen><![CDATA[
+$ cat scilab-impedanec.o3096-6
+/home/zar/scilab-impedanec-6.outdir
+$
+]]></screen>
+
+В итоговом каталоге мы видим результаты вычислений и сам сгенерированный скрипт, который запускался в <command>scilab</command>.
+<screen><![CDATA[
+$ ll /home/zar/scilab-impedanec-6.outdir
+total 6750
+-rw-r--r-- 1 zar users    4995 Feb  6 14:47 R357.1000.100
+-rw-r--r-- 1 zar users     147 Feb  6 14:34 startall
+-rw-r--r-- 1 zar users 1717355 Feb  6 14:47 XYSQS00-IM.357.1000.100
+-rw-r--r-- 1 zar users 1717355 Feb  6 14:47 XYSQS00-RE.357.1000.100
+-rw-r--r-- 1 zar users 1717355 Feb  6 14:47 YXSQS00-IM.357.1000.100
+-rw-r--r-- 1 zar users 1717355 Feb  6 14:47 YXSQS00-RE.357.1000.100
+]]></screen>
+Содержимое файла <filename>/home/zar/scilab-impedanec-6.outdir/startall</filename>: 
+<programlisting>
+exec('/home/zar/mathlab/all09.03.sce');
+stacksize('max');
+rt=stacksize()
+SQS03('/home/zar/math/B23_0708.ts',200,1000,100,0.6);
+tr=stacksize()
+exit
+</programlisting>
+
+Мы видим, что последний параметр, который у нас и был переменным в папке с префиксом <computeroutput>-6</computeroutput> и равен 0.6. В папке с префиксом <computeroutput>-7</computeroutput> &#160;&#8212; соответственно 0.7.
+</section>
+
+<section id="ex_qdel"><title>Мониторинг и удаление задания</title>
+
+Видим в очереди задание, <computeroutput>Job Id</computeroutput> = <quote>имя задания</quote>
+<screen><![CDATA[
+$ ~/status-tp -a
+
+pbs-tp.hpc.cc.spbu.ru: 
+                                                                         Req'd  Req'd   Elap
+Job ID               Username Queue    Jobname          SessID NDS   TSK Memory Time  S Time
+-------------------- -------- -------- ---------------- ------ ----- --- ------ ----- - -----
+3097-5.pbs-tp.hp     zar      long-304 scilab-impedanec   2364     1  --    --    --  R 00:03
+   node-ib-42/0
+]]></screen>
+
+Смотрим подробные  характеристики задания
+<screen><![CDATA[
+$ ~/status-tp -f 3097.pbs-tp.hpc.cc.spbu.ru
+qstat: Unknown Job Id 3097.pbs-tp.hpc.cc.spbu.ru
+Job Id: 3097-5.pbs-tp.hpc.cc.spbu.ru
+    Job_Name = scilab-impedanec-5
+    Job_Owner = zar@alice24.spbu.ru
+    resources_used.cput = 00:02:58
+    resources_used.mem = 38336kb
+    resources_used.vmem = 2316676kb
+    resources_used.walltime = 00:02:59
+    job_state = R
+    queue = long-3046
+    server = pbs-tp.hpc.cc.spbu.ru
+    Checkpoint = u
+    ctime = Sun Feb  6 19:25:17 2011
+    Error_Path = alice24.spbu.ru:/home/zar/scilab-impedanec.e3097-5
+    exec_host = node-ib-42/0
+    Join_Path = n
+    Keep_Files = n
+    Mail_Points = a
+    mtime = Sun Feb  6 19:25:18 2011
+    Output_Path = alice24.spbu.ru:/home/zar/scilab-impedanec.o3097-5
+    Priority = 0
+    qtime = Sun Feb  6 19:25:18 2011
+    Rerunable = True
+    Resource_List.nodect = 1
+    Resource_List.nodes = 1:ppn=1
+    session_id = 2364
+    Variable_List = PBS_O_HOME=/home/zar,PBS_O_LANG=en_US.UTF-8,
+        PBS_O_LOGNAME=zar,
+        PBS_O_PATH=/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:/home/zar/b
+        in,PBS_O_MAIL=/var/spool/mail/zar,PBS_O_SHELL=/bin/bash,
+        PBS_O_HOST=alice24.spbu.ru,PBS_SERVER=localhost,
+        PBS_O_WORKDIR=/home/zar,PBS_O_QUEUE=long-3046,PBS_ARRAYID=5
+    comment = Job started on Sun Feb 06 at 19:25
+    etime = Sun Feb  6 19:25:18 2011
+    submit_args = -t 5 -N scilab-impedanec -l nodes=1:ppn=1 -q long-3046@pbs-t
+        p.hpc.cc.spbu.ru file1297009516.sh
+    job_array_id = 5
+    job_array_request = 5
+    start_time = Sun Feb  6 19:25:18 2011
+    start_count = 1
+]]></screen>
+
+Удаляем задание:
+<screen><![CDATA[
+$ qdel 3097.pbs-tp.hpc.cc.spbu.ru@pbs-tp.hpc.cc.spbu.ru
+]]></screen>
+
+Так же можно воспользоваться скриптом <filename>~/qdel</filename>
+<screen><![CDATA[
+$ ~/qdel 3097
+]]></screen>
+
+Проверяем удаление:
+<screen><![CDATA[
+$ ~/status-tp -f 3097.pbs-tp.hpc.cc.spbu.ru
+qstat: Unknown Job Id 3097.pbs-tp.hpc.cc.spbu.ru
+$
+]]></screen>
+</section>
+
+<section id="ex_abinit"><title>Запуск тестовой задачи <command>abinit</command> на 24-х ядрах</title>
+<screen><![CDATA[
+$ cd examples/
+$ cd abinit01/
+$ ll
+total 1
+-rw-r--r-- 1 zar users 167 Aug 24 15:22 tparal_1.files
+$ ~/submit-abinit.sh ./tparal_1.files 24 ./log long
+10876.pbs-tp.hpc.cc.spbu.ru
+$ ~/status-tp -a
+
+pbs-tp.hpc.cc.spbu.ru:
+                                                                        Req'd  Req'd   Elap
+Job ID               Username Queue    Jobname          SessID NDS   TSK Memory Time  S Time
+-------------------- -------- -------- ---------------- ------ ----- --- ------ ----- - -----
+10876.pbs-tp.hpc     zar      long     abinit.131418499    --     24  --    --  48:00 R   --
+  node-ib-47/7+node-ib-47/6+node-ib-47/5+node-ib-47/4+node-ib-47/3
+  +node-ib-47/2+node-ib-47/1+node-ib-47/0+node-ib-46/7+node-ib-46/6
+  +node-ib-46/5+node-ib-46/4+node-ib-46/3+node-ib-46/2+node-ib-46/1
+  +node-ib-46/0+node-ib-32/7+node-ib-32/6+node-ib-32/5+node-ib-32/4
+  +node-ib-32/3+node-ib-32/2+node-ib-32/1+node-ib-32/0
+
+]]></screen>
+<para>
+Среди созданных фалов будут созданы следующие:
+<filename>tparal_1.out</filename> - результат
+<filename>log</filename>  - аутпут работы команды по которому Вы можете следить за работой в процессе.
+Обязательным параметром является только первый  - с перечислением входных и выходных файлов. Кол-во ядер по умолчанию - 1 , очередь - long, лог пишеться в аутпут (<filename>abinit.1314184998.o10876</filename>)
+</para>
+<para>
+Сам собранный пакет расположен
+<filename>/usr/local/abinit-6.8.1/</filename>
+Исполняемый файл
+<filename>/usr/local/abinit-6.8.1/bin/abinit</filename>
+</para>
+<para>
+Параллельную версию следует использовать с mpich2 , собранный с ntel® Composer XE 2011. Поэтому, если Вы будете самостоятельно собирать скрипты для  abint  - используйте пути:
+
+<constant>MPICH2_PREFIX=/usr/local/mpich2-1.4.INT.20110813/</constant>
+<constant>UNTEL_PREFIX=/usr/local/intel</constant>
+</para>
+</section> <!-- ex_abinit -->
+
+</section> <!-- Примеры запуска задач -->
+</section> <!-- Запуск задач -->
+
+<section id="soft"><title>Программное обеспечение</title>
+
+<section id="soft_os"><title>Операционная система</title>
+На вычислительных узлах установлен <!-- SUSE Linux Enterprise Server 10.1 --> <command>CentOS release 5.6</command>.
+</section> <!-- Операционная система -->
+
+<section id="soft_queue"><title>Очереди</title>
+
+<section id="soft_queue_torque"><title>Torque</title>
+<command>TORQUE</command> (англ. Terascale Open-Source Resource and QUEue Manager) — менеджер распределенных ресурсов для 
+вычислительных кластеров из машин под управлением Linux и других Unix-подобных операционных систем, 
+одна из современных версий Portable Batch System (PBS). Распространяется под свободной лицензией 
+OpenPBS Software License. <command>TORQUE</command> разрабатывается и поддерживается сообществом на базе проекта <command>OpenPBS</command>. Для менеджера существует более 1200 патчей и расширений, написанных крупнейшими организациями и лабораториями, среди которых US DOE, USC, PNLL и др., это позволяет достичь высокой степени масштабируемости и отказоустойчивости менеджера как системы.
+
+Основная функция <command>TORQUE</command> &#160;&#8212; распределение вычислительных задач среди доступных вычислительных ресурсов. 
+<command>TORQUE</command> содержит собственный планировщик заданий, определяющий момент запуска задач. Аналогом <command>TORQUE</command> являются система Cleo, а также другие версии Portable Batch System. Существует также сторонний планировщик заданий <command>Maui</command>, 
+который обладает значительно большей функциональностью по сравнению со стандартным, и, поэтому, часто 
+используется совместно с <command>TORQUE</command>. Возможна интеграция <command>TORQUE</command> с <command>OpenMP</command> и <command>MPICH</command>.
+<itemizedlist>
+ <listitem> Версия: 2.4.8 </listitem>
+ <listitem> Расположение: <filename>/usr/bin</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.clusterresources.com/products/torque-resource-manager.php">WWW</ulink></listitem>
+</itemizedlist>
+
+</section> <!-- Torque -->
+
+<section id="soft_queue_maui"><title>Maui</title>
+<command>Maui cluster scheduler</command> &#160;&#8212; планировщик заданий в параллельных и распределенных вычислительных системах (кластерах).
+Как правило используется совместно с менеджером распределенных ресурсов <command>TORQUE</command>.
+
+Maui позволяет выбирать различные политики планирования, поддерживает динамическое изменение приоритетов, исключения.
+Все это улучшает управляемость и эффективность машин, начиная от простых кластеров до суперкомпьютеров.
+<itemizedlist>
+ <listitem> Версия: 3.3.1 </listitem>
+ <listitem> Расположение: <filename>/usr/local</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.clusterresources.com/products/maui-cluster-scheduler.php">WWW</ulink></listitem>
+</itemizedlist>
+
+</section> <!-- soft_queue_maui -->
+
+</section> <!-- soft_queue -->
+
+<section id="soft_libs"><title>Библиотеки</title>
+<section id="soft_libs_openmpi"><title>OpenMPI</title>
+<command>OpenMPI</command> (Open Multi-Processing) — открытый стандарт для распараллеливания программ на языках Си, Си++ и Фортран.
+Описывает совокупность директив компилятора, библиотечных процедур и переменных окружения, которые предназначены 
+для программирования многопоточных приложений на многопроцессорных системах с общей памятью.
+<itemizedlist>
+ <listitem> Версия: 1.4.4</listitem>
+ <listitem> Расположение: <filename>/usr/lib64/openmpi/1.4-gcc</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.open-mpi.org/">WWW</ulink>, <link linkend="ex_compile-pi">Пример компиляции</link>, <link linkend="ex_pi">Пример запуска</link></listitem>
+</itemizedlist>
+</section> <!-- soft_libs_openmpi -->
+
+<section id="soft_libs_mpich"><title>MPICH2</title>
+<command>MPICH2</command> (Message Passing Interface Chameleon) — это одна из самых первых разработанных библиотек MPI. 
+На её базе было создано большое количество других библиотек как OpenSource, так и коммерческих.
+В настоящее время существует две ветви исходных кодов: MPICH1 и MPICH2. Разработка ветви MPICH1 заморожена. 
+Ветвь MPICH2 активно разрабатывается в Арагонской лаборатории, с участием IBM, Cray, SiCortex, Microsoft, Intel, 
+NetEffect, Qlogic, Myricom, Ohio state university, UBC.
+<itemizedlist>
+ <listitem> Версия: 1.2.1p1, 1.4</listitem>
+ <listitem> Расположение: <filename>/usr/lib/mpich2</filename>, <filename>/usr/local/mpich2-1.4.20110620</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.mcs.anl.gov/research/projects/mpich2/">WWW</ulink></listitem>
+</itemizedlist>
+</section> <!-- soft_libs_mpich -->
+</section> <!-- soft_libs -->
+
+<section id="soft_compilers"><title>Компиляторы</title>
+<section id="soft_compilers_intel"><title>Intel Composer XE</title>
+Средство <command>Intel® Composer XE 2011</command> сочетает в себе оптимизированный компилятор, высокопроизводительные библиотеки,
+расширенные средства векторизации, поддержку OpenMP* и Intel® Parallel Building Blocks. Оно позволяет быстро и
+легко оптимизировать производительность приложения для многоядерных процессоров для разных ОС с одной базой кода.
+В пакет входят компиляторы C, C++, Fortran и библиотека MKL.
+<itemizedlist>
+ <listitem> Версия: 12.0.1.107, 12.0.2.137</listitem>
+ <listitem> Расположение: <filename>/usr/local/intel/</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://software.intel.com/en-us/articles/intel-composer-xe/">WWW</ulink>, <link linkend="ex_intel">Пример запуска</link></listitem>
+</itemizedlist>
+</section> <!-- Intel Composer XE -->
+
+<section id="soft_compilers_gcc"><title>GNU Compiler Collection</title>
+<command>GNU Compiler Collection</command> (обычно используется сокращение <command>GCC</command>) — набор компиляторов для различных языков 
+программирования, разработанный в рамках проекта GNU. <command>GCC</command> является свободным программным обеспечением, 
+распространяется фондом свободного программного обеспечения (FSF) на условиях GNU GPL и GNU LGPL и является 
+ключевым компонентом GNU toolchain. Он используется как стандартный компилятор для свободных UNIX-подобных 
+операционных систем.
+В пакет входят компиляторы C, C++, Fortran и др.
+<itemizedlist>
+ <listitem> Версия: 4.1, 4.4</listitem>
+ <listitem> Расположение: <filename>/usr/</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://gcc.gnu.org/">WWW</ulink></listitem>
+</itemizedlist>
+</section> <!-- soft_compilers_gcc -->
+</section> <!-- soft_compilers -->
+
+<section id="soft_apps"><title>Пакеты прикладных программ</title>
+<section id="soft_apps_abinit"><title>Abinit</title>
+<command>Abinit</command> — свободное ПО, распространяемое по GNU General Public License3 и предназначенное для расчётов полной 
+энергии, электронной плотности и т. д. систем электронов и ядер (с использованием периодических граничных 
+условий) в рамках метода функционала плотности с использованием базиса из плоских волн и псевдопотенциалов.
+Abinit позволяет оптимизировать геометрию системы минимизируя силы или напряжения, проводить 
+молекулярно-динамическое моделирование, вычислять распределение электронной плотности, определять 
+динамическую матрицу, эффективный заряд и многое другое.
+<itemizedlist>
+ <listitem> Версия: 6.8.1</listitem>
+ <listitem> Расположение: <filename>/usr/local/abinit-6.8.1</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.abinit.org/">WWW</ulink>, <link linkend="ex_abinit">Пример запуска</link></listitem>
+</itemizedlist>
+</section> <!-- soft_apps_abinit -->
+
+<section id="soft_apps_ff"><title>Firefly</title>
+программный пакет для ab initio квантовохимических расчётов. Работает на Intel-совместимых процессорах 
+архитектур x86 и x86-64 (только 32-битная версия). Основана на коде пакета программ GAMESS (US). Автором 
+было переписано 60-70% кода. Наибольшие изменения коснулись платформозависимых частей программы 
+(выделение памяти, дисковый ввод-вывод, параллельный запуск), математических функций (например, 
+матричные операции) и квантовохимических методов (метод Хартри-Фока, теория Мёллера-Плессе 
+(англ. Møller–Plesset perturbation theory), теория функционала плотности). Вследствие этого PC GAMESS 
+стал значительно быстрее, чем оригинальная программа. Основной разработчик программы — Александр Грановский.
+С октября 2008 года проект дистанцировался от GAMESS (US) и поменял имя на Firefly. До 17 октября 2009 оба
+имени использовались наравне друг с другом.
+<itemizedlist>
+ <listitem> Версия: 7.1.G</listitem>
+ <listitem> Расположение: <filename>/usr/local/firefly/mpich2</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://classic.chem.msu.su/gran/gamess/">WWW</ulink>, <link linkend="ex_ff">Пример запуска</link></listitem>
+</itemizedlist>
+</section> <!-- soft_apps_ff -->
+
+<section id="soft_apps_g03"><title>Gaussian</title>
+<command>Gaussian</command> (читается как гауссиан) &#160;&#8212; компьютерная программа для расчета структуры и свойств молекулярных 
+систем, включающая большое разнообразие методов вычислительной химии, квантовой химии, молекулярного 
+моделирования. Создана нобелевским лауреатом Джоном Поплом и его исследовательской группой и с тех пор 
+постоянно обновляется. <command>Gaussian 09</command> &#160;&#8212; самая последняя реализация программы.
+<itemizedlist>
+ <listitem> Версия: 03</listitem>
+ <listitem> Расположение: <filename>/usr/local/g03/</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.gaussian.com/">WWW</ulink>, <link linkend="ex_g03">Пример запуска</link></listitem>
+</itemizedlist>
+</section> <!-- soft_apps_g03 -->
+
+<section id="soft_apps_scilab"><title>Scilab</title>
+<command>Scilab</command> &#160;&#8212; пакет прикладных математических программ, предоставляющий мощное открытое окружение для
+инженерных (технических) и научных расчётов.
+<itemizedlist>
+ <listitem> Версия: 5.3.0</listitem>
+ <listitem> Расположение: <filename>/usr/local/scilab-5.3.0/</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.scilab.org/">WWW</ulink>, <link linkend="ex_array-scilab">Пример запуска</link></listitem>
+</itemizedlist>
+</section> <!-- soft_apps_scilab -->
+
+<section id="soft_apps_wien2k"><title>WIEN2k</title>
+<command>WIEN2k</command> – программный пакет для расчетов электронных структур в твердом веществе, использующий теорию
+функционала плотности (DFT). Основан на методе (линеаризованных) присоединенных плоских волн полного
+потенциала ((L)APW) + локальных орбиталей (lo), что является одной из наиболее точных схем для расчетов
+зонных структур. В DFT может быть использована локальная аппроксимация (спиновой) плотности (LDA) или
+улучшенная версия генерализованной аппроксимации градиента (GGA). Пакет <command>WIEN2k</command> использует полностью
+электронную схему, включая релятивистские эффекты и имеет много достоинств. Грид-порт пакета включает
+прототип последовательности операций для работы в гриде. Пакет разрешено использовать только обладателям
+действительной лицензии <command>WIEN2k</command>.
+<itemizedlist>
+ <listitem> Версия: 11</listitem>
+ <listitem> Расположение: <filename>/usr/local/WIEN2k/WIEN2k_11_executables</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.wien2k.at/">WWW</ulink></listitem>
+</itemizedlist>
+</section> <!-- soft_apps_wien2k -->
+</section> <!-- soft_apps -->
+
+<section id="soft_planed"><title>ПО планируемое к установке</title>
+<section id="soft_apps_gromacs"><title>GROMACS</title>
+<command>GROMACS</command> (GROningen MAchine for Chemical Simulations, дословный перевод названия &#160;&#8212; Гронингенская 
+Машина для Химического Моделирования) пакет молекулярной динамики для моделирования физико-химических 
+процессов, первоначально разработанный группой Германа Берендсена из департамента биофизической химии 
+Гронингенского университета, сейчас развивается и поддерживается благодаря усилиям энтузиастов из разных 
+стран, включая университет Уппсалы, Королевский технологический институт. Пакет предназначался в основом 
+для моделирования биомолекул (белки и липиды), имеющих много связанных взаимодействий между атомами, но 
+так как <command>GROMACS</command> обеспечивает высокую скорость расчетов для несвязанных взаимодействий. Считается, что 
+это один из самых быстрых инструментов. <command>GROMACS</command> является программным обеспечением с открытым исходным 
+кодом, выпущенным под лицензией GPL.
+<itemizedlist>
+ <listitem> Версия: 4.5.3</listitem>
+ <listitem> Расположение: <filename>/usr</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.gromacs.org/">WWW</ulink></listitem>
+</itemizedlist>
+</section> <!-- soft_apps_gromacs -->
+
+<section id="soft_apps_mdynamix"><title>MDynaMix</title>
+<command>MDynaMix</command> (Molecular Dynamics of Mixtures)
+<itemizedlist>
+ <listitem> Версия: 5.2 (18.12.2009)</listitem>
+ <listitem> Расположение: <filename>/usr/local/md52</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.fos.su.se/~sasha/mdynamix/">WWW</ulink></listitem>
+</itemizedlist>
+</section> <!-- soft_apps_mdynamix -->
+<section id="soft_apps_wien2k"><title>WIEN2k</title>
+<command>WIEN2k</command> – программный пакет для расчетов электронных структур в твердом веществе, использующий теорию
+функционала плотности (DFT). Основан на методе (линеаризованных) присоединенных плоских волн полного
+потенциала ((L)APW) + локальных орбиталей (lo), что является одной из наиболее точных схем для расчетов
+зонных структур. В DFT может быть использована локальная аппроксимация (спиновой) плотности (LDA) или
+улучшенная версия генерализованной аппроксимации градиента (GGA). Пакет <command>WIEN2k</command> использует полностью
+электронную схему, включая релятивистские эффекты и имеет много достоинств. Грид-порт пакета включает
+прототип последовательности операций для работы в гриде. Пакет разрешено использовать только обладателям
+действительной лицензии <command>WIEN2k</command>.
+<itemizedlist>
+ <listitem> Версия: 11</listitem>
+ <listitem> Расположение: <filename>/usr/local/WIEN2k/WIEN2k_11_executables</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.wien2k.at/">WWW</ulink></listitem>
+</itemizedlist>
+</section> <!-- soft_apps_wien2k -->
+</section> <!-- soft_planed -->
+</section> <!-- soft -->
+
+<section id="hard"><title>Аппаратное обеспечение</title>
+
+<section id="hard_vm"><title>Кластер виртуальных машин</title>
+Вычислительный модуль HP (Шкафы HP 10647 G2, 47U).
+<itemizedlist>
+ <listitem> Две корзины блейд-серверов состоят из:
+    <itemizedlist>
+      <listitem> HP BladeSystem c7000</listitem>
+      <listitem> VC-Flex-10 (10 GbE)</listitem>
+      <listitem> QDR IB</listitem>
+      <listitem> 16xBL460G7 (2 x X5670, 96GB RAM, 2 x 10GbE, 2 x QDR IB)</listitem>
+    </itemizedlist>
+ </listitem>
+  <listitem> Две системы хранения HP состоят из:
+    <itemizedlist>
+      <listitem> StorageWorks P4500 G2</listitem>
+      <listitem> 240 TB сырой ёмкости (120 x 2TB SAS HDD)</listitem>
+    </itemizedlist>
+  </listitem>
+  <listitem> Два коммутатора ProCurve E6600-48G-4XG (48 x 1GbE и 4 x 10GbE)</listitem>
+  <listitem> Два  источника бесперебойного питания R12000/3 (3-фазное питание 12КВт)</listitem>
+</itemizedlist>
+
+Итого: 32 сервера, 64 процессора, 384 ядра, 3 TB RAM, 480 TB HDD, 40Gbps IB, пиковая производительность 4,5TFlop
+</section> <!-- hard_vm -->
+
+<section id="hard_tp"><title>Кластер Т-Платформ</title>
+Вычислительный кластер Т-Платформы T-EDGE96 HPC-0011828-001.
+<itemizedlist>
+ <listitem>  48 вычислительных узлов. Всего: 96 процессоров, ядер 384, 768 Гб ОЗУ, 7,68 Тб дискового пространства.
+  <itemizedlist>
+    <listitem> Размер: 2U</listitem>
+    <listitem> Процессор: 2 процессора E5335 2.0ГГц</listitem>
+    <listitem> ОЗУ: 16 Гб</listitem>
+    <listitem> Диск: 160 Гб</listitem>
+  </itemizedlist>
+  </listitem>
+  <listitem> Управляющий узел 2 x X5640, 8 ГБ RAM, 3 ТБ</listitem>
+  <listitem> Коммутаторы Gigabit Ethernet DGS-3324SR (10/100/1000), DGS-1224T</listitem>
+  <listitem> Коммутаторы Infiniband Mellanox MHGS18-XSC 20 Гбит/с, полный дуплекс 10 Гбит/с, 4X SDR, F-X430046, F-X430047</listitem>
+  <listitem> Аппаратные шкафы (АШ) APC, NetShelter SX 19"42U, AR3100</listitem>
+</itemizedlist>
+
+Итого: 48 серверов, 96 проц, 384 ядра, 768 ГБ RAM, 7,68 ТБ HDD, 20Gbps IB, пиковая производительность 3,07TFlops
+</section> <!-- hard_tp -->
+
+<section id="hard_itanium"><title>Кластер Itanium</title>
+Один вычислительный узел IBM xSeries 450.
+<itemizedlist>
+  <listitem> Размер: 4U</listitem>
+  <listitem> Процессор: 4 ядра Itanium 2 1.4 ГГц</listitem>
+  <listitem> ОЗУ: 8 Гб</listitem>
+  <listitem> Диск: 40 Гб</listitem>
+</itemizedlist>
+</section> <!-- hard_itanium -->
+
+</section> <!-- hard -->
+
+<!-- /section --> <!-- Описание сервиса Высокопроизводительные вычисления -->
+
+
+</article>
