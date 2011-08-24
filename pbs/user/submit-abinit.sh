@@ -90,14 +90,19 @@ else
 	count="${np}:ppn=1";
 fi
 
-cat << EOF >> $submitfile
+cat << EOF > $submitfile
 #/bin/sh!
 . /usr/local/intel/mkl/bin/mklvars.sh intel64
 . /usr/local/intel/bin/compilervars.sh intel64
 cd $PWD;
+
+EOF
+
 if [ -n "$logfile" ]; then
 	logfile=" > $logfile";
 fi
+
+cat << EOF >> $submitfile
 $MPICH2_PREFIX/bin/mpirun -np $np  -machinefile  \$PBS_NODEFILE /usr/local/abinit-6.8.1/bin/abinit < $input  $logfile
 
 EOF
