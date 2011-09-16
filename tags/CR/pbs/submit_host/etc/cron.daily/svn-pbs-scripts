@@ -1,6 +1,0 @@
-#!/bin/sh
-cd /home/pbsuser/
-#svn checkout --force http://hpc-cc.googlecode.com/svn/tags/CR/pbs/user/ .
-svn --force update
-cd -
-exit 0
