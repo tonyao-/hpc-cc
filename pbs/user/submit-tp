@@ -10,7 +10,7 @@ np="";
 ex="";
 mpifile="";
 debug=0;
-mail=1;
+mail=0;
 
 while [ -n "$1" ]; do
   case "$1" in
@@ -94,7 +94,7 @@ usage:
 	--debug				#Debug option
 	--count -c			#count by user (for advanced)
 	--nodelimit limit		#limit jobs per node (fore more RAM per cpu)
-	--mail -c a(be)			#Sends email to the submitter when the job aborts (a), begins(b),  ends (e).
+	--mail -m a(be)			#Sends email to the submitter when the job aborts (a), begins(b),  ends (e).
 	
 EOF
 	exit
