@@ -121,7 +121,7 @@ case $queue in
 	test)
 	qolor=red
 	;;
-	virtshort)
+	virtshort|virt)
 	qolor=blue
 	;;
 esac
