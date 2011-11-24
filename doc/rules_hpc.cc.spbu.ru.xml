@@ -218,6 +218,9 @@ usage:
         --jobname -j jobname            #Name of job. Default job.1308734148
         --array -r numbers              #numbers jobs in array
         --debug                         #Debug option
+	--count -c                      #count by user (for advanced)
+        --nodelimit limit               #limit jobs per node (fore more RAM per cpu)
+        --mail -m a(be)                 #Sends email to the submitter when the job aborts (a), begins(b),  ends (e)
 ]]></screen>
 
 Для мониторинга задач используется скрипт <filename>status-tp</filename>.
@@ -237,13 +240,14 @@ $ ~/status-tp --help
 <section id="ex_hello-world">
 <title>Запуск скрипта <quote>Hello World</quote> на 1 ядре</title>
 <screen><![CDATA[
-$ ~/submit-tp -f ~/examples/helloworld.sh
+$ ~/submit-tp -f ~/examples/helloworld.sh -m abe
 2880.pbs-tp.hpc.cc.spbu.ru
 
 $ ll *2880
 -rw------- 1 zar users 11 Jan 26 11:19 job.1296029939.e2880
 -rw------- 1 zar users 11 Jan 26 11:19 job.1296029939.o2880
 ]]></screen>
+Ключ -m abe означает, что Вам на почту, указанную при регистрации, приходит письмо с репортом о состоянии Вашей задачи: a - abort, b - begin, e - end.
 </section>
 
 <section id="ex_intel">
