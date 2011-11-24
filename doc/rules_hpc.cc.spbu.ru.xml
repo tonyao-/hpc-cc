@@ -460,6 +460,60 @@ exit
 Мы видим, что последний параметр, который у нас и был переменным в папке с префиксом <computeroutput>-6</computeroutput> и равен 0.6. В папке с префиксом <computeroutput>-7</computeroutput> &#160;&#8212; соответственно 0.7.
 </section>
 
+<section id="ex_ANSYS-on-virt">
+<title>Запуск тестовой задачи ANSYS  на 1 ядре</title>
+<screen><![CDATA[
+$cd examples/ansys/
+$ ll
+total 3
+-rw-r--r-- 1 zar users 1172 Nov 20 05:29 ansys_demo.inp
+-rwxr-xr-x 1 zar users  231 Nov 20 06:30 run_ansys_tp.sh
+$ ~/submit-tp -q virt -d `pwd` -f ./run_ansys_tp.sh -j `dirname \`pwd\`/. `
+16019.pbs-tp.hpc.cc.spbu.ru
+$ ll
+total 2280
+-rw-r--r-- 1 zar users    1742 Nov 20 06:43 ansys_demo.BCS
+-rw-r--r-- 1 zar users 2031616 Nov 20 06:43 ansys_demo.db
+-rw-r--r-- 1 zar users   65536 Nov 20 06:43 ansys_demo.emat
+-rw-r--r-- 1 zar users      67 Nov 20 06:43 ansys_demo.err
+-rw-r--r-- 1 zar users   65536 Nov 20 06:43 ansys_demo.esav
+-rw-r--r-- 1 zar users   65536 Nov 20 06:43 ansys_demo.full
+-rw-r--r-- 1 zar users    1172 Nov 20 05:29 ansys_demo.inp
+-rw-r--r-- 1 zar users      76 Nov 20 06:43 ansys_demo.log
+-rw-r--r-- 1 zar users     658 Nov 20 06:43 ansys_demo.mntr
+-rw-r--r-- 1 zar users   15920 Nov 20 06:43 ansys_demo.out
+-rw-r--r-- 1 zar users   65536 Nov 20 06:43 ansys_demo.rst
+-rw------- 1 zar users       0 Nov 20 06:43 ansys.e16019
+-rw------- 1 zar users       4 Nov 20 06:43 ansys.o16019
+-rwxr-xr-x 1 zar users     231 Nov 20 06:30 run_ansys_tp.sh
+-rw-r--r-- 1 zar users     272 Nov 20 06:43 vm1.vrt
+$
+]]></screen>
+<para>
+Где ansys_demo.out - выходной файл, ansys_demo.inp - исполняемый ansys файл.
+В скрипте run_ansys_tp.sh следующие значения выжны:
+</para>
+Содержимое скрипта <filename>~/examples/ansys/run_ansys_tp.sh</filename>:
+<programlisting>
+#/bin/sh!
+export ANSYSLMD_LICENSE_FILE="1055@v161.cc.spbu.ru"     #Параметры соединения с сервером лицензий.
+export ANSYSLI_SERVERS="2325@v161.cc.spbu.ru"           #Параметры соединения с сервером лицензий.
+export ANSYS130_DIR=/usr/local/ansys_inc/v130/ansys     #Путь к установленному на кластере пакету ANSYS
+cd $PWD
+$ANSYS130_DIR/bin/ansys130 -b nolist -p aa_r -j ansys_demo  -i ansys_demo.inp -o ansys_demo.out
+</programlisting>
+<para>
+<computeroutput>-p aa_r </computeroutput> Лицензия.
+Важно!! В примере использована просто  исследовательская лицензия. Если Ваша программа использует лицензию hpc (всегда, если задача распределенная)  - проставляйте параметр <computeroutput> -p aa_r_hpc  </computeroutput> или <computeroutput> -P aa_r_hpc </computeroutput>
+(Может отличаться в зависимости от пакета).
+</para>
+
+При запуске используется очередь virt - на данный момент оптимизированная очередь н авиртуальном кластере для работы с пакетом ANSYS. В случае оптимизации для ANSYS ТП кластере будет размещено объявление на сайте ПТЦ.
+
+
+</section><!--ex_ANSYS-on-virt-->
+
+
 <section id="ex_qdel"><title>Мониторинг и удаление задания</title>
 
 Видим в очереди задание, <computeroutput>Job Id</computeroutput> = <quote>имя задания</quote>
@@ -749,6 +803,17 @@ Abinit позволяет оптимизировать геометрию сис
 </itemizedlist>
 </section> <!-- soft_apps_wien2k -->
 </section> <!-- soft_apps -->
+
+<section id="soft_apps_ANSYS"><title>ANSYS</title>
+<command>ANSYS</command>— универсальная программная система конечно-элементного (МКЭ) анализа, существующая и развивающаяся на протяжении последних 30 лет, является довольно популярной у специалистов в области компьютерного инжиниринга (CAE, Computer-Aided Engineering) и КЭ решения линейных и нелинейных, стационарных и нестационарных пространственных задач механики деформируемого твёрдого тела и механики конструкций (включая нестационарные геометрически и физически нелинейные задачи контактного взаимодействия элементов конструкций), задач механики жидкости и газа, теплопередачи и теплообмена, электродинамики, акустики, а также механики связанных полей. Моделирование и анализв некоторых областях промышленности позволяет избежать дорогостоящих и длительных циклов разработки типа «проектирование — изготовление — испытания». Система работает на основе геометрического ядра Parasolid.
+<itemizedlist>
+ <listitem> Версия: 130</listitem>
+ <listitem> Расположение: <filename>/usr/local/ansys_inc/v130/ansys</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.ansys.com/">WWW</ulink></listitem>
+</itemizedlist>
+
+
+</section> <!-- soft_apps_ANSYS -->
 
 <section id="soft_planed"><title>ПО планируемое к установке</title>
 <section id="soft_apps_gromacs"><title>GROMACS</title>
