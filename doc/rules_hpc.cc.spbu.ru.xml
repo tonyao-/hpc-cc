@@ -7,6 +7,12 @@
 	<title>Правила пользования ресурсом hpc.cc.spbu.ru</title>
 	<authors>
 	    <author>
+		<firstname>Владимир</firstname>
+		<surname>Гайдучок</surname>
+		<othername role="middle">Юрьевич</othername>
+		<email>gvladimiru@gmail.com</email>
+	    </author>
+	    <author>
 		<firstname>Андрей</firstname>
 		<surname>Зароченцев</surname>
 		<othername role="middle">Константинович</othername>
@@ -25,7 +31,7 @@
 	</authors>
 	<copyright>
 	    <year>2011</year>
-	    <holder>Андрей Зароченцев, Виталий Лысов</holder>
+	    <holder>Гайдучок Владимир, Зароченцев Андрей, Лысов Виталий</holder>
 	</copyright>
 	<collabname>Лысов Виталий</collabname>
 	<revhistory>
@@ -265,6 +271,67 @@ icc -V
 icpc -V
 ifort -V
 </programlisting>
+</section>
+
+<section id="ex_nag">
+<title>Запуск компилятора <orgname>NAG</orgname></title>
+<screen><![CDATA[
+~/submit-tp -f ~/examples/test_nag.sh
+]]></screen>
+В результате вы получите информацию о версии компилятора. Содержимое скрипта <filename>~/examples/test_nag.sh</filename>:
+<programlisting>
+#!/bin/bash
+
+# Specify licence server
+export NAG_KUSARI_FILE=192.168.0.58:
+
+# Check version
+/usr/local/NAG/nagfor -V
+</programlisting>
+</section>
+
+<section id="ex_nag_compiling">
+<title>Компиляция с помощью <orgname>NAG</orgname></title>
+Сначала необходимо указать сервер лицензий. Для этого нужно выполнить команду:
+<screen><![CDATA[
+export NAG_KUSARI_FILE=192.168.0.58:
+]]></screen>
+Затем можно запустить компиляцию (здесь она производится локально):
+<screen><![CDATA[
+/usr/local/NAG/nagfor ~/examples/Pi/Pi.f -o ~/NAG_pi
+]]></screen>
+Также можно использовать скрипт (который выполнит все эти действия). 
+Ниже приведен пример запуска компиляции программы <filename>Pi.f</filename> (локально):
+<screen><![CDATA[
+~/examples/nag.sh ~/examples/Pi/Pi.f -o ~/NAG_pi 
+]]></screen>
+В результате будет создан файл <filename>~/NAG_pi</filename>.
+Содержимое скрипта: <filename>~/examples/nag.sh</filename>:
+<programlisting>
+	#!/bin/bash
+
+	# Specify licence server
+	export NAG_KUSARI_FILE=192.168.0.58:
+
+	# Start compilation
+	/usr/local/NAG/nagfor $*
+</programlisting>
+Компиляция с поддержкой High Performance Fortran:
+<screen><![CDATA[
+~/examples/nag.sh -hpf ~/examples/Pi/Pi.f -o ~/NAG_pi
+]]></screen>
+Запуск компиляции на кластере:
+<screen><![CDATA[
+~/submit-tp -f "~/examples/nag.sh ~/examples/Pi/Pi.f -o ~/NAG_pi"
+]]></screen>
+Запуск скомпилированного приложения (локально):
+<screen><![CDATA[
+~/NAG_pi
+]]></screen>
+Запуск скомпилированного приложения на кластере:
+<screen><![CDATA[
+~/submit-tp -f ~/NAG_pi
+]]></screen>
 </section>
 
 <section id="ex_compile-pi">
@@ -747,6 +814,19 @@ NetEffect, Qlogic, Myricom, Ohio state university, UBC.
  <listitem> Ссылки: <ulink url="http://gcc.gnu.org/">WWW</ulink></listitem>
 </itemizedlist>
 </section> <!-- soft_compilers_gcc -->
+
+<section id="soft_compilers_nag"><title>NAG Fortran Compiler</title>
+<command>NAG Fortran Compiler</command> надежный и эффективный компилятор, признанный разработчиками 
+во всем мире. Он поддерживает 77, 90, 95 и практически полностью 2003 стандарты языка Fortran. 
+Написан на языке C. Доступен для различных UNIX платформ. NAG Fortran Compiler обеспечивает 
+высокую скорость компиляции и эффективность скомпилированных программ. Также данный компилятор 
+поддерживает High Performance Fortran и ряд других расширений.
+<itemizedlist>
+ <listitem> Версия: 5.2</listitem>
+ <listitem> Расположение: <filename>/usr/local/NAG/</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.nag.co.uk/nagware/np.asp">WWW</ulink>, <link linkend="ex_nag">Пример запуска</link></listitem>
+</itemizedlist>
+</section> <!-- soft_compilers_nag -->
 </section> <!-- soft_compilers -->
 
 <section id="soft_apps"><title>Пакеты прикладных программ</title>
