@@ -13,6 +13,12 @@
 		<email>gvladimiru@gmail.com</email>
 	    </author>
 	    <author>
+		<firstname>Иван</firstname>
+		<surname>Ганкевич</surname>
+		<othername role="middle">Геннадьевич</othername>
+		<email>gig.spb@gmail.com</email>
+	    </author>
+	    <author>
 		<firstname>Андрей</firstname>
 		<surname>Зароченцев</surname>
 		<othername role="middle">Константинович</othername>
@@ -31,7 +37,7 @@
 	</authors>
 	<copyright>
 	    <year>2011</year>
-	    <holder>Гайдучок Владимир, Зароченцев Андрей, Лысов Виталий</holder>
+	    <holder>Гайдучок Владимир, Ганкевич Иван, Зароченцев Андрей, Лысов Виталий</holder>
 	</copyright>
 	<collabname>Лысов Виталий</collabname>
 	<revhistory>
@@ -271,6 +277,80 @@ icc -V
 icpc -V
 ifort -V
 </programlisting>
+</section>
+
+<section id="ex_pgi">
+<title>Запуск компиляторов <orgname>PGI</orgname></title>
+
+<!--
+<para>Установка. Для установки компиляторов на конкретную машину необходимо выполнить следующие команды.
+<screen><![CDATA[
+$ . /usr/local/pgi/linux86-64/11.10/pgi.sh
+$ sudo mkdir -p /usr/pgi/11.10/share_objects
+$ sudo makelocalrc -x /usr/local/pgi/linux86-64/11.10 -net /usr/pgi/11.10/share_objects
+/usr/local/pgi/linux86-64/11.10/bin is not writable
+$ ls /usr/pgi/11.10/share_objects/lib64/libnuma.so
+/usr/pgi/11.10/share_objects/lib64/libnuma.so
+$ cp /usr/local/pgi/linux86-64/11.10/bin/localrc.wind ~/localrc.`hostname`
+]]></screen>
+</para>
+-->
+<para>Запуск на виртуальной машине. Перед запуском компилятора PGI необходимо установить переменные окружения, затем воспользоваться одной из команд для соответствующего языка программирования (pgCC для С++, pgcc для C, pgfortran для Fortran). Например:
+<screen><![CDATA[
+$ . /usr/local/pgi/linux86-64/11.10/pgi.sh
+$ cd examples/
+$ cat main.c
+#include <stdio.h>
+int main()
+{
+	printf("Hello\n");
+	return 0;
+}
+$ pgcc main.c -o main
+$ ./main
+Hello
+]]></screen>
+</para>
+
+<para>Запуск на кластере. Для запуска компилятора PGI на кластере удобно воспользоваться скриптом use-pgi-to.sh, которому в качестве аргумента передается любая команда, использующая компилятор. Например:
+<screen><![CDATA[
+$ . /usr/local/pgi/linux86-64/11.10/pgi.sh
+$ cd examples/
+$ cat main.c
+#include <stdio.h>
+int main()
+{
+	printf("Hello\n");
+	return 0;
+}
+$ ~/use-pgi-to.sh pgcc main.c -o main2
+17048.pbs-tp.hpc.cc.spbu.ru
+$ cat job*17048
+$ ./main2
+Hello
+]]></screen>
+</para>
+
+<para>Диагностика.
+<screen><![CDATA[
+$ ~/submit-tp -f ~/examples/pgi.sh 
+17027.pbs-tp.hpc.cc.spbu.ru
+$ cat job*o17027
+
+pgcc 11.10-0 64-bit target on x86-64 Linux -tp core2 
+Copyright 1989-2000, The Portland Group, Inc.  All Rights Reserved.
+Copyright 2000-2011, STMicroelectronics, Inc.  All Rights Reserved.
+
+pgCC 11.10-0 64-bit target on x86-64 Linux -tp core2 
+Copyright 1989-2000, The Portland Group, Inc.  All Rights Reserved.
+Copyright 2000-2011, STMicroelectronics, Inc.  All Rights Reserved.
+
+pgfortran 11.10-0 64-bit target on x86-64 Linux -tp core2 
+Copyright 1989-2000, The Portland Group, Inc.  All Rights Reserved.
+Copyright 2000-2011, STMicroelectronics, Inc.  All Rights Reserved.
+
+]]></screen>
+</para>
 </section>
 
 <section id="ex_nag">
@@ -827,6 +907,15 @@ NetEffect, Qlogic, Myricom, Ohio state university, UBC.
  <listitem> Ссылки: <ulink url="http://www.nag.co.uk/nagware/np.asp">WWW</ulink>, <link linkend="ex_nag">Пример запуска</link></listitem>
 </itemizedlist>
 </section> <!-- soft_compilers_nag -->
+<section id="soft_compilers_pgi"><title>PGI</title>
+Пакет <command>PGI</command> — набор из компиляторов для языков C, C++, Fortran, HPF, параллельного отладчика pgdbg, 
+профилера pgprof, предназначенных для создания и отладки программ в параллельной распределенной среде.
+<itemizedlist>
+ <listitem> Версия: 11.10</listitem>
+ <listitem> Расположение: <filename>/usr/local/pgi</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.pgroup.com/">WWW</ulink>, <link linkend="ex_pgi">Пример запуска</link></listitem>
+</itemizedlist>
+</section> <!-- soft_compilers_pgi -->
 </section> <!-- soft_compilers -->
 
 <section id="soft_apps"><title>Пакеты прикладных программ</title>
