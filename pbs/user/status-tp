@@ -6,6 +6,12 @@ nodelist=`mktemp`;
 pbsnodes -a -s $servername > $nodelist
 export Total=0;
 export Free=0;
+export Total_green=0;
+export Free_green=0;
+export Total_blue=0;
+export Free_blue=0;
+
+
 jobs="";
 cat $nodelist |
 while read line; do
@@ -30,19 +36,35 @@ case $env in
 	status)
 #	echo "env=$env Total=$Total;np=$np";
 	if [ ! "$state" = down ]; then
-		Total=`expr $Total + $np`;
+		if [ $properties = "green" ]; then
+			Total_green=`expr $Total_green + $np`;
+		fi
+                if [ $properties = "blue" ]; then
+                        Total_blue=`expr $Total_blue + $np`;
+                fi
+
+	
 	fi
 	if [ "$state" = "free" ]; then
-		fn=`for i in $jobs; do echo $i; done|wc -l`;
-		Free=`expr $Free + $np - $fn`;
+                if [ $properties = "green" ]; then
+			fn=`for i in $jobs; do echo $i; done|wc -l`;
+			Free_green=`expr $Free_green + $np - $fn`;
+		fi
+		if [ $properties = "blue" ]; then
+			fn=`for i in $jobs; do echo $i; done|wc -l`;
+                        Free_blue=`expr $Free_blue + $np - $fn`;
+		fi			
 	fi
 	jobs="";
 	;;		
 esac
 #export Total;
 #export Free;
-echo "Total=$Total" > ${nodelist}.nn;
-echo "Free=$Free" >> ${nodelist}.nn;
+echo -en "Total_TP="'\E[32m'"\033[1m  $Total_green  \033[0m\n" > ${nodelist}.nn;
+echo -en "Free_TP=" '\E[32m'"\033[1m $Free_green \033[0m\n" >> ${nodelist}.nn;
+echo -en "Total_virt="'\E[34m'"\033[1m $Total_blue \033[0m\n" >> ${nodelist}.nn;
+echo -en "Free_virt="'\E[34m'"\033[1m $Free_blue\033[0m\n" >> ${nodelist}.nn;
+
 
 
 #k=`expr $k + 1`
