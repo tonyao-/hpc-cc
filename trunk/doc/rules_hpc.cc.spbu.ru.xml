@@ -279,6 +279,9 @@ ifort -V
 </programlisting>
 </section>
 
+
+
+
 <section id="ex_pgi">
 <title>Запуск компиляторов <orgname>PGI</orgname></title>
 
@@ -500,7 +503,7 @@ $ ~/submit-tp -n 4 -f ~/submit-g03.sh -i ~/test695.com -o ~/test695-n1.log
 ]]></screen>
 
 В этом случае стандартного вывода нет – файл  <filename>job.1296209888.o2983</filename> пустой, но создан файл <filename>test695-n1.log</filename>.
-</section>
+</section> <!-- ex_g03 -->
 
 <section id="ex_array-scilab"><title>Запуск массива задач в среде <command>scilab</command> с различным параметрами</title>
 <screen><![CDATA[
@@ -782,6 +785,22 @@ Job ID               Username Queue    Jobname          SessID NDS   TSK Memory 
 </para>
 </section> <!-- ex_abinit -->
 
+<section id="ex_crystal"><title>Запуск пакета <command>Crystal</command> с тестовым примером</title>
+<screen><![CDATA[
+$ ~/submit-tp -n 4 -f ~/submit-g03.sh -i ~/test695.com -o ~/test695-n1.log
+2983.pbs-tp.hpc.cc.spbu.ru
+]]></screen>
+
+Результат:
+<screen><![CDATA[
+-rw------- 1 viz users        0 Jan 28 13:18 job.1296209888.o2983
+-rw------- 1 viz users       47 Jan 28 13:30 job.1296209888.e2983
+-rw-r--r-- 1 viz users   966078 Jan 28 13:38 test695-n1.log
+]]></screen>
+
+В этом случае стандартного вывода нет – файл  <filename>job.1296209888.o2983</filename> пустой, но создан файл <filename>test695-n1.log</filename>.
+</section> <!-- ex_crystal -->
+
 </section> <!-- Примеры запуска задач -->
 </section> <!-- Запуск задач -->
 
@@ -901,6 +920,61 @@ NetEffect, Qlogic, Myricom, Ohio state university, UBC.
  <listitem> Ссылки: <ulink url="http://www.pgroup.com/">WWW</ulink>, <link linkend="ex_pgi">Пример запуска</link></listitem>
 </itemizedlist>
 </section> <!-- soft_compilers_pgi -->
+
+<section id="soft_compilers_intel_ics">
+<title>Intel Cluster Studio</title>
+Intel Cluster Studio включает в себя набор интсрументов для разработки параллельных приложений, работающих на кластере или многопроцессорной среде. Для использования этих инструментов необходимо инициализировать переменные окружения:
+<screen><![CDATA[
+. ~/examples/intel-cluster-studio.sh
+]]></screen>
+После этого станут доступны следующие программы (многие из них имеют графический интерфейс):
+<itemizedlist>
+	<listitem><para>icc, icpc, ifort — компиляторы для языков C, C++, Fortran</para></listitem>
+	<listitem><para>idb — отладчик</para></listitem>
+	<listitem><para>amplxe-gui — профайлер и анализатор многопоточных программ</para></listitem>
+	<listitem><para>traceanalyzer — профайлер программ MPI</para></listitem>
+	<listitem><para>mpitune — оптимизатор программ MPI под конкретный кластер</para></listitem>
+</itemizedlist>
+Также в системе станут доступны библиотеки:
+<itemizedlist>
+	<listitem><para>Math Kernel Library (MKL), включающую в себя ScaLAPACK, BLAS, FFTW и др.</para></listitem>
+	<listitem><para>библиотека MPI для кластерных приложений</para></listitem>
+	<listitem><para>Thread Building Blocks (TBB) для многопоточных приложений</para></listitem>
+	<listitem><para>Integrated Performance Primitives (IPP) для ускорения обработки мультимедийных данных</para></listitem>
+</itemizedlist>
+<itemizedlist>
+ <listitem> Версия: 6.8.1</listitem>
+ <listitem> Расположение: <filename>/usr/local/abinit-6.8.1</filename></listitem>
+ <listitem> Ссылки: <link linkend="ex_compilers_intel_ics">Пример запуска</link></listitem>
+ <listitem> Документация:
+    <itemizedlist>
+	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-mkl-link-line-advisor/">Сборка приложений с библиотекой MKL</ulink></listitem>
+	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-math-kernel-library-documentation/">MKL</ulink></listitem>
+	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-threading-building-blocks-documentation/">TBB</ulink></listitem>
+	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-integrated-performance-primitives-documentation/">IPP</ulink></listitem>
+	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-mpi-library-documentation/">MPI</ulink></listitem>
+	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-c-compiler-professional-edition-for-linux-documentation/">компилятор C, C++</ulink></listitem>
+	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-fortran-compiler-professional-edition-for-linux-documentation/">компилятор Fortran</ulink></listitem>
+	<listitem><ulink url="http://software.intel.com/sites/products/documentation/hpc/clusterxe/ICSXE2012Linux_GettingStarted.pdf">краткая документация по всем инструментам ICS</ulink></listitem>
+    </itemizedlist>
+ </listitem>
+</itemizedlist>
+Для профилирования MPI приложений можно воспользоваться скриптом <filename>trace-mpi.sh</filename>, например:
+<screen><![CDATA[
+$ . ~/examples/intel-cluster-studio.sh
+$ cd ~/examples
+$ mpiicc hello_mpi.c -o hello_mpi
+$ ~/trace-mpi.sh mpirun -n 2 -- ~/examples/hello_mpi
+Trace directory: /home/igankevich/examples/trace_mpi
+Executing command:  mpirun -n 2 itcpin --run --  /home/igankevich/examples/hello_mpi
+Hello world from process 0 of 2
+Hello world from process 1 of 2
+[0] Intel(R) Trace Collector INFO: Writing tracefile hello_mpi.stf in /home/igankevich/examples/trace_mpi
+$ ls trace_mpi
+hello_mpi.prot  hello_mpi.stf  hello_mpi.stf.dcl  hello_mpi.stf.f.0  hello_mpi.stf.f.0.anc  hello_mpi.stf.f.1  hello_mpi.stf.f.1.anc  hello_mpi.stf.sts
+$ traceanalyzer trace_mpi/autoreg-mpi.stf
+]]></screen>
+</section> <!-- soft_compilers_intel_ics -->
 </section> <!-- soft_compilers -->
 
 <section id="soft_apps"><title>Пакеты прикладных программ</title>
