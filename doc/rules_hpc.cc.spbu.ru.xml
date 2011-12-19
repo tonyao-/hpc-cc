@@ -786,16 +786,30 @@ Job ID               Username Queue    Jobname          SessID NDS   TSK Memory 
 </section> <!-- ex_abinit -->
 
 <section id="ex_crystal"><title>Запуск пакета <command>Crystal</command> с тестовым примером</title>
+Входной файл необходимо поместить в директорию <filename>~/crystal/inputs</filename>. В качестве теста используется файл <filename>~/examples/crystal/tio2pr.d12</filename>
 <screen><![CDATA[
-$ ~/submit-tp -n 4 -f ~/submit-g03.sh -i ~/test695.com -o ~/test695-n1.log
-2983.pbs-tp.hpc.cc.spbu.ru
+$ mkdir -p ~/crystal/inputs
+$ cp ~/examples/crystal/tio2pr.d12 ~/crystal/inputs
+$ ~/submit-tp -q short -n 24 -f ~/submit-crystal.sh -j cr09_tio2pr-n4 -i tio2pr
+18216.pbs-tp.hpc.cc.spbu.ru
+]]></screen>
+В директории, где запускался скрипт, по окончании вычисления будут располагаться файлы:
+<screen><![CDATA[
+$ ls -l *18216
+-rw------- 1 vij users  493 Dec 19 22:12 cr09_tio2pr-n4.e18216
+-rw------- 1 vij users 1285 Dec 19 22:12 cr09_tio2pr-n4.o18216
 ]]></screen>
 
-Результат:
+Результат будет располагаться в директории <filename>~/crystal/tio2pr.20111219-221158</filename>. Название её образовывается из имени входного файла, даты и времени запуска задачи:
 <screen><![CDATA[
--rw------- 1 viz users        0 Jan 28 13:18 job.1296209888.o2983
--rw------- 1 viz users       47 Jan 28 13:30 job.1296209888.e2983
--rw-r--r-- 1 viz users   966078 Jan 28 13:38 test695-n1.log
+$ ls -l ~/crystal/tio2pr.20111219-221158
+total 680
+-rw-r--r-- 1 vij users    264 Dec 19 22:11 machines.LINUX
+-rw-r--r-- 1 vij users     33 Dec 19 22:11 nodes.par
+-rw-r--r-- 1 vij users    455 Dec 19 22:11 tio2pr.d12
+-rw-r--r-- 1 vij users 172428 Dec 19 22:12 tio2pr.f9
+-rw-r--r-- 1 vij users 442793 Dec 19 22:12 tio2pr.f98
+-rw-r--r-- 1 vij users  58837 Dec 19 22:12 tio2pr.out
 ]]></screen>
 
 В этом случае стандартного вывода нет – файл  <filename>job.1296209888.o2983</filename> пустой, но создан файл <filename>test695-n1.log</filename>.
@@ -942,23 +956,6 @@ Intel Cluster Studio включает в себя набор интсрумен�
 	<listitem><para>Thread Building Blocks (TBB) для многопоточных приложений</para></listitem>
 	<listitem><para>Integrated Performance Primitives (IPP) для ускорения обработки мультимедийных данных</para></listitem>
 </itemizedlist>
-<itemizedlist>
- <listitem> Версия: 6.8.1</listitem>
- <listitem> Расположение: <filename>/usr/local/abinit-6.8.1</filename></listitem>
- <listitem> Ссылки: <link linkend="ex_compilers_intel_ics">Пример запуска</link></listitem>
- <listitem> Документация:
-    <itemizedlist>
-	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-mkl-link-line-advisor/">Сборка приложений с библиотекой MKL</ulink></listitem>
-	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-math-kernel-library-documentation/">MKL</ulink></listitem>
-	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-threading-building-blocks-documentation/">TBB</ulink></listitem>
-	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-integrated-performance-primitives-documentation/">IPP</ulink></listitem>
-	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-mpi-library-documentation/">MPI</ulink></listitem>
-	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-c-compiler-professional-edition-for-linux-documentation/">компилятор C, C++</ulink></listitem>
-	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-fortran-compiler-professional-edition-for-linux-documentation/">компилятор Fortran</ulink></listitem>
-	<listitem><ulink url="http://software.intel.com/sites/products/documentation/hpc/clusterxe/ICSXE2012Linux_GettingStarted.pdf">краткая документация по всем инструментам ICS</ulink></listitem>
-    </itemizedlist>
- </listitem>
-</itemizedlist>
 Для профилирования MPI приложений можно воспользоваться скриптом <filename>trace-mpi.sh</filename>, например:
 <screen><![CDATA[
 $ . ~/examples/intel-cluster-studio.sh
@@ -974,6 +971,23 @@ $ ls trace_mpi
 hello_mpi.prot  hello_mpi.stf  hello_mpi.stf.dcl  hello_mpi.stf.f.0  hello_mpi.stf.f.0.anc  hello_mpi.stf.f.1  hello_mpi.stf.f.1.anc  hello_mpi.stf.sts
 $ traceanalyzer trace_mpi/autoreg-mpi.stf
 ]]></screen>
+<itemizedlist>
+ <listitem> Версия: </listitem>
+ <listitem> Расположение: <filename>/usr/local/</filename></listitem>
+ <listitem> Ссылки: <link linkend="ex_compilers_intel_ics">Пример запуска</link></listitem>
+ <listitem> Документация:
+    <itemizedlist>
+	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-mkl-link-line-advisor/">Сборка приложений с библиотекой MKL</ulink></listitem>
+	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-math-kernel-library-documentation/">MKL</ulink></listitem>
+	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-threading-building-blocks-documentation/">TBB</ulink></listitem>
+	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-integrated-performance-primitives-documentation/">IPP</ulink></listitem>
+	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-mpi-library-documentation/">MPI</ulink></listitem>
+	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-c-compiler-professional-edition-for-linux-documentation/">компилятор C, C++</ulink></listitem>
+	<listitem><ulink url="http://software.intel.com/en-us/articles/intel-fortran-compiler-professional-edition-for-linux-documentation/">компилятор Fortran</ulink></listitem>
+	<listitem><ulink url="http://software.intel.com/sites/products/documentation/hpc/clusterxe/ICSXE2012Linux_GettingStarted.pdf">краткая документация по всем инструментам ICS</ulink></listitem>
+    </itemizedlist>
+ </listitem>
+</itemizedlist>
 </section> <!-- soft_compilers_intel_ics -->
 </section> <!-- soft_compilers -->
 
