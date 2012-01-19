@@ -304,7 +304,7 @@ Hello
 $ . ~/examples/intel-cluster-studio.sh
 $ cd ~/examples
 $ mpiicc hello_mpi.c -o hello_mpi
-$ ~/submit-tp -n 2 -d `pwd` -f "~/trace-mpi.sh `pwd`/hello_mpi"
+$ ~/submit-tp -n 2 -d `pwd` -f "~/examples/trace-mpi.sh `pwd`/hello_mpi"
 19490.pbs-tp.hpc.cc.spbu.ru
 $ tail -2 *o19490
 Trace directory: /home/igankevich/examples/trace-mpi-2012.01.10-16.03.26
