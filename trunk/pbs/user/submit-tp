@@ -258,8 +258,8 @@ if [ -n "$ver" ];then
 		D="PREFIX$ver"
 		prefix=${!D}
 		cat << EOF >> $submitfile
-export PATH=${prefix}/bin:$PATH
-export LD_LIBRARY_PATH=${prefix}/lib:$LD_LIBRARY_PATH:/usr/lib/mpich2/lib:/usr/lib64/mpich2/lib/:${prefix}/../lib/
+export PATH=${prefix}/bin:\$PATH
+export LD_LIBRARY_PATH=${prefix}/lib:\$LD_LIBRARY_PATH:/usr/lib/mpich2/lib:/usr/lib64/mpich2/lib/:${prefix}/../lib/
 PREFIX=$prefix
 
 if [ -n "$ex" ];then
