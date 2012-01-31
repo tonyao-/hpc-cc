@@ -160,6 +160,7 @@ PREFIXmpich2=/usr/local/mpich2
 cat << EOF >> $submitfile
 #/bin/sh!
 TMPDIR=\`mktemp -d\`
+export $env
 EOF
 
 mpiarg="";
@@ -187,9 +188,9 @@ else
 	exit
 fi
 
-if [ -n "$env" ]; then
-	mpiarg="$mpiarg $env";
-fi
+#if [ -n "$env" ]; then
+#	mpiarg="$mpiarg $env";
+#fi
 
 if [ -n "$inputfile" ];then
         mpiarg="$mpiarg -i $inputfile";
@@ -242,7 +243,7 @@ if [ -n "$ver" ];then
 		mpiarg=" -x LD_LIBRARY_PATH $mpiarg"
 		;;
 		mpich2)
-		mpiarg=" -envlist LD_LIBRARY_PATH $mpiarg"
+		mpiarg=" -envlist LD_LIBRARY_PATH  $mpiarg"
 		;;
 		*)
 		;;
