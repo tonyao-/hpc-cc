@@ -1,4 +1,0 @@
-#/bin/sh!
-for q in $@; do
-	qdel $q.pbs-tp.hpc.cc.spbu.ru@pbs-tp.hpc.cc.spbu.ru;
-done
