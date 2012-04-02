@@ -958,7 +958,234 @@ $ ls -l *19089
 ]]></screen>
 
 Результат вычислений будет располагаться в директории <filename>~/WIEN2k/Fe</filename>.
+Стоит также упомянуть о проблеме, связанной с интерактивным вводом.
+Для задач, требующих участия пользователя (интерактивного ввода пользовательских данных)
+можно использовать следующее решение. Для передачи таких данных программе в скрипте
+небходимо написать код вида:
+<screen><![CDATA[
+echo -e "<параметр 1>\n <параметр 2>\n ... <параметр k>\n" | <программа>
+]]></screen>
+При этом i-ый параметр соответствует i-ому преждложению ввода от программы.
+Поясним это на примере. В пакете WIEN2k есть приложение kgen, которое удобно запускать
+через программу x (получается x kgen). Ему требуется получить от пользователя 2 значения.
+Вначале появляется предложение ввести данные. После того, как пользователь ввел данные,
+приложение обрабатывает их и через некоторое время от пользователя снова требуется ввод данных.
+Таким образом, приложение дважды задаст пользователю вопрос и потребует ввода данных.
+Но как быть, если приложение запускается на кластере, где пользовательский ввод невозможен?
+Решение - указанная выше конструкция. В данном случае она будет выглядеть так 
+(вместо "3" и "0" могут быть любые другие значения):
+<screen><![CDATA[
+echo -e "3\n 0\n" | x kgen
+]]></screen>
+Таким образом, на первый запрос приложению будет передано значение "3", а на второй - "0".
 </section> <!-- ex_wien2k -->
+
+<section id="ex_molpro"><title>Запуск пакета <command>Molpro</command></title>
+Последовательная версия находится в директории <filename>/usr/local/molpro/molpros_2010_1_Linux_x86_64_i8</filename> .
+Параллельная версия - в директории <filename>/usr/local/molpro/molprop_2010_1_Linux_x86_64_i8</filename> .
+В качесте теста используется файл <filename>h2.com</filename>. Для запуска последовательной версии нужно выполнить команду:
+<screen><![CDATA[
+/usr/local/molpro/molpros_2010_1_Linux_x86_64_i8/bin/molpro ~/examples/molpro/h2.com
+]]></screen>
+Запуск параллельной версии на кластере. Прежде всего нужно добавить следующую строчку
+в файл <filename>~/.bashrc</filename>:
+<screen><![CDATA[
+source ~/.bashrc.molpro
+]]></screen>
+Содержимое файла <filename>~/.bashrc.molpro</filename>:
+<screen><![CDATA[
+export TCGRSH=/usr/bin/ssh
+]]></screen>
+Простой пример запуска приведен ниже:
+<screen><![CDATA[
+mkdir ~/Molpro
+cp ~/examples/molpro/h2.com ~/Molpro/
+~/submit-tp -n 4 -f "~/submit-molpro.sh ~/Molpro/h2.com"
+]]></screen>
+Содержимое файла <filename>~/submit-molpro.sh</filename>:
+<screen><![CDATA[
+#!/bin/bash
+
+SPECIFIED_FILE="$1"
+MOLPRO_DIR=/usr/local/molpro/molprop_2010_1_Linux_x86_64_i8/bin/
+time $MOLPRO_DIR/molpro $SPECIFIED_FILE
+]]></screen>
+В директории, где запускался скрипт, по окончании вычисления будут располагаться файлы: 
+<screen><![CDATA[
+[gajduchok@v339 ~]$ ls -l job.1328546324.*
+-rw------- 1 gajduchok users  43 Feb  6 20:39 job.1328546324.e21459
+-rw------- 1 gajduchok users 716 Feb  6 20:39 job.1328546324.o21459
+]]></screen>
+Результаты вычислений для данного примера будут располагаться в директории 
+<filename>~/Molpro/</filename> в файле <filename>h2.out</filename> 
+(либо <filename>h2.out_*</filename> для последующих запусков, где вместо "*"
+будет стоять число).
+</section> <!-- ex_molpro -->
+
+<section id="ex_openfoam"><title>Запуск пакета <command>OpenFOAM</command></title>
+Последняя версия OpenFOAM расположена в <filename>/usr/local/OpenFOAM/openfoam</filename> .
+Последняя версия third party software для OpenFOAM - в <filename>/usr/local/OpenFOAM/thirdparty</filename> 
+(в первую очередь стоит упомянуть ParaView). Расчеты могут выполняться как последовательно,
+так и параллельно (с использованием MPI). Для начала работы с OpenFOAM нужно добавить
+следующую строчку в файл <filename>~/.bashrc</filename>:
+<screen><![CDATA[
+source ~/.bashrc.openfoam
+]]></screen>
+Содержимое файла <filename>~/.bashrc.openfoam</filename>:
+<screen><![CDATA[
+export FOAM_INST_DIR=/usr/local/OpenFOAM
+source ${FOAM_INST_DIR}/openfoam/etc/bashrc
+# For Qt libs
+export LD_LIBRARY_PATH=${FOAM_INST_DIR}/qt/lib/:$LD_LIBRARY_PATH
+# Use this version of MPI for OpenFOAM
+export PATH=${FOAM_INST_DIR}/mpi/bin/:$PATH
+]]></screen>
+Теперь можно перейти к примеру. Тестовые задачи расположены в папке 
+<filename>/usr/local/OpenFOAM/OpenFOAM-2.1.0/tutorials</filename> . Рассмотрим задачу - 
+расчет течения жидкости в каверне. Данные для задачи хранятся в директории 
+<filename>/usr/local/OpenFOAM/OpenFOAM-2.1.0/tutorials/incompressible/icoFoam/cavity</filename> .
+Скопируем данный каталог в директорию <filename>~/examples/openfoam/</filename> для проведения расчетов:
+<screen><![CDATA[
+mkdir ~/examples/openfoam/
+cp -r /usr/local/OpenFOAM/OpenFOAM-2.1.0/tutorials/incompressible/icoFoam/cavity ~/examples/openfoam/
+]]></screen>
+Теперь перейдем в папку <filename>~/examples/openfoam/cavity/</filename> . До конца этого примера мы будем работать в ней:
+<screen><![CDATA[
+cd ~/examples/openfoam/cavity/
+]]></screen>
+Перед расчетом необходимо выполнить команду blockMesh для формирования сетки.
+Для проверки можно использовать команду checkMesh.
+<screen><![CDATA[
+blockMesh
+checkMesh
+]]></screen>
+Все. Теперь осталось запустить расчет при помощи команды icoFoam:
+<screen><![CDATA[
+icoFoam
+]]></screen>
+На самом деле OpenFOAM содержит множесто программ (solvers) для различных расчетов.
+Так, в следующем примере мы будем использовать программу pisoFoam.
+Теперь рассмотрим запуск расчета на кластере. Мы возьмем пример pitzDaily:
+<screen><![CDATA[
+cp -r /usr/local/OpenFOAM/OpenFOAM-2.1.0/tutorials/incompressible/pisoFoam/les/pitzDaily/ ~/examples/openfoam/
+cd ~/examples/openfoam/pitzDaily/
+]]></screen>
+Запускаем blockMesh для формирования сетки. 
+И снова мы можем проверить результат при помощи команды checkMesh.
+<screen><![CDATA[
+blockMesh
+checkMesh
+]]></screen>
+Если все получилось удачно (Mesh OK), идем дальше. Теперь нужно произвести декомпозицию задачи.
+Для этого нам нужно создать файл <filename>decomposeParDict</filename> в папке
+<filename>system</filename> (<filename>~/examples/openfoam/pitzDaily/system/</filename>).
+Этот файл содержит сведения о том как именно разбить задачу для параллельного выполнения.
+Мы возьмем уже существующий файл из примера dambreak:
+<screen><![CDATA[
+cp /usr/local/OpenFOAM/OpenFOAM-2.1.0/tutorials/multiphase/interFoam/laminar/damBreak/system/decomposeParDict ~/examples/openfoam/pitzDaily/system/
+]]></screen>
+Теперь запустим собственно разбиение задачи (в данном примере на 4 части):
+<screen><![CDATA[
+decomposePar
+]]></screen>
+После этого мы готовы запустить расчет на кластере. Для этого используем скрипты 
+<filename>~/submit-tp</filename> и <filename>~/submit-openfoam.sh</filename>
+(непосредственно для расчетов используется программа pisoFoam):
+<screen><![CDATA[
+~/submit-tp -n 4 -f "~/submit-openfoam.sh ~/examples/openfoam/pitzDaily/ pisoFoam"
+]]></screen>
+Для скрипта <filename>~/submit-openfoam.sh</filename> сначала указывается директория с данными, затем команда (solver) с опциями,
+которая будет выпонять вычисления. Опцию "-parallel" указывать не нужно - она будет добавлена при запуске расчетов.
+Указанная команда запустит счет на 4 ядрах. Обратите внимание, что задействованных ядер
+должно быть ровно числу участков, на которые поделена задача при помощи decomposePar 
+(в нашем случае их 4, это указывается в файле decomposeParDict). 
+Расчет завершится ошибкой, если указать другое число ядер (как меньшее, так и большее).
+Содержимое <filename>~/submit-openfoam.sh</filename>:
+<screen><![CDATA[
+#!/bin/bash
+
+DIRECTORY="$1"
+shift
+COMMAND_WITH_OPTIONS="$*"
+
+cd $DIRECTORY
+NP=`cat $PBS_NODEFILE | wc -l`
+time ${FOAM_INST_DIR}/mpi/bin/mpirun --hostfile $PBS_NODEFILE -np $NP $COMMAND_WITH_OPTIONS -parallel
+]]></screen>	
+В директории, где запускался скрипт, по окончании вычисления будут располагаться файлы (примерные названия): 
+<screen><![CDATA[
+[gajduchok@v339 pitzDaily]$ ls -l job*   
+-rw------- 1 gajduchok users     44 Mar 19 17:00 job.1332161937.e24146
+-rw------- 1 gajduchok users 896892 Mar 19 17:00 job.1332161937.o24146
+]]></screen>
+В них содержится стандартный вывод и ошибки (если есть), выданные в процессе вычислений.
+Результат вычислений будет располагаться в директории <filename>~/examples/openfoam/pitzDaily/</filename> .
+Обратимся к нему. Сперва необходимо объединить результаты, полученные
+на отдельных ядрах. Для этого вызовем команду:
+<screen><![CDATA[
+reconstructPar
+]]></screen>
+Вот и все. Теперь можно просмотреть результат. Визуализацией занимается программа ParaView.
+Для ее вызова в OpenFOAM есть стандратный скрипт - paraFoam. Его и вызываем:
+<screen><![CDATA[
+paraFoam
+]]></screen>
+Появится окно программы paraView (если вы используете ssh, не забудьте про опцию "-X"
+при подключении к своей машине для запуска графических приложений: ssh user@hostname -X).
+Нажмите на кнопку "Apply" во вкладке "Properties" панлеи "Object Inspector" (слева внизу).
+Затем перейдите во вкладку "Display" той же панели и выберите из списка "Color by" то, что 
+необходимо отображать. Например, "U". Для просмотра движения жидкости в трубе нажмите
+кнопку "Play". Для перехода к конкретному моменту времени можно воспользоваться панелью 
+"Time" (справа вверху) и задать нужный момент (один из тех, для которых проводился расчет). 
+</section> <!-- ex_openfoam -->
+
+<section id="ex_concorde"><title>Запуск пакета <command>Concorde</command></title>
+Последняя скомпилированная версия Concorde расположена в <filename>/usr/local/Concorde/concorde</filename> .
+Есть также прекомпилированная версия, расположенная в <filename>/usr/local/Concorde/binaries</filename> .
+Здесь будет рассмотрен пример запуска на кластере нескольких независимых вычислений Concorde:
+<screen><![CDATA[
+~/submit-tp -n 8 -f ~/submit-concorde.sh 
+]]></screen>
+Эта команда запустит 8 независимых расчетов на 8 ядрах.
+Содержимое скрипта <filename>~/submit-concorde.sh</filename>:
+<screen><![CDATA[
+#!/bin/bash
+
+i=1
+for node in `cat $PBS_NODEFILE`; do
+  echo node=$node i=$i
+  ssh $node "~/examples/concorde/concorde-script.sh $i" &
+  let i=i+1
+done
+wait
+]]></screen>
+Как видно, в цикле запускается скрипт <filename>concorde-script.sh</filename> на каждом из выделенных узлов (по ssh).
+При этом число запусков скрипта на узле соответствует числу выделенных на нем ядер (все выделенные ядра используются).
+Задача не завершится, пока хотя бы один процесс не завершил расчет. Для этого используется команда wait.
+Таким образом, все выделенные ядра задействованы, но их вычисления независимы.
+Это видно по тексту скрипта <filename>concorde-script.sh</filename>:
+<screen><![CDATA[
+#!/bin/bash
+
+NUM="$1"
+if [ ! -d ~/examples/concorde/$NUM ]; then
+  mkdir -p ~/examples/concorde/$NUM;
+fi
+cd ~/examples/concorde/$NUM
+# Start calculations
+time /usr/local/Concorde/concorde/TSP/concorde -s 99 -k $((NUM * 100))
+]]></screen>
+Этот скрипт является просто тестом для проверки работы Concorde.
+Он создает директорию в ~/examples/concorde/, переходит туда и начинает вычисления
+(результаты будут храниться в созданной директории).
+После выполнения задачи в текущей директории появятся файлы (примерные имена):
+<screen><![CDATA[
+[gajduchok@v339 ~]$ ls -l job.1332447269.*
+-rw------- 1 gajduchok users  170 Mar 23 00:15 job.1332447269.e24279
+-rw------- 1 gajduchok users 6205 Mar 23 00:15 job.1332447269.o24279
+]]></screen>
+В них содержится стандартный вывод и ошибки (если есть), выданные в процессе вычислений.
+</section> <!-- ex_concorde -->
 
 </section> <!-- Примеры запуска задач -->
 </section> <!-- Запуск задач -->
@@ -1205,6 +1432,46 @@ Abinit позволяет оптимизировать геометрию сис
  <listitem> Ссылки: <ulink url="http://www.crystal.unito.it/">WWW</ulink>, <ulink url="http://www.cryscor.unito.it/cms/index.php?id=49">Тестовые задачи</ulink>, <ulink url="http://www.theochem.unito.it/crystal_tuto/mssc2008_cd/tutorials/index.html">Учебные материалы</ulink>, <link linkend="ex_crystal">Пример запуска</link></listitem>
 </itemizedlist>
 </section> <!-- soft_apps_ANSYS -->
+
+<section id="soft_apps_molpro"><title>Molpro</title>
+<command>Molpro</command> - программа для ab initio квантово-химических расчетов. 
+Основные разработчики: H.-J. Werner и P. J. Knowles (университет Штутгарта). 
+Основное отличие от аналогичных программ - 
+особое внимание к корреляционным эффектам (мультиконфигурационное взаимодействие,
+метод объединенных кластеров ... ). Эффективна для расчета больших молкулярных систем. 
+Доступны как последовательная (molpros_2010_1_Linux_x86_64_i8), 
+так и параллельная (molprop_2010_1_Linux_x86_64_i8) версии.
+<itemizedlist>
+ <listitem> Версия: 2010.1</listitem>
+ <listitem> Расположение: <filename>/usr/local/molpro</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.molpro.net/">WWW</ulink>, <link linkend="ex_molpro">Пример запуска</link></listitem>
+</itemizedlist>
+</section> <!-- soft_apps_molpro -->
+
+<section id="soft_apps_openfoam"><title>OpenFOAM</title>
+<command>OpenFOAM</command> (Open Field Operation and Manipulation) - открытая интегрируемая платформа для численного 
+моделирования задач механики сплошных сред. OpenFOAM — свободно распространяемый инструментарий вычислительной гидродинамики 
+для операций с полями. Он позволяет решать следующие задачи: прочностные расчеты, задачи гидродинамики и аэродинамики, 
+теплопроводности и т.д. В основе кода лежит набор библиотек, предоставляющих инструменты для решения систем дифференциальных 
+уравнений в частных производных как в пространстве, так и во времени. Написан на C++.
+<itemizedlist>
+ <listitem> Версия: 2.1.0</listitem>
+ <listitem> Расположение: <filename>/usr/local/OpenFOAM</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.openfoam.org">WWW</ulink>, <link linkend="ex_openfoam">Пример запуска</link></listitem>
+</itemizedlist>
+</section> <!-- soft_apps_openfoam -->
+
+<section id="soft_apps_concorde"><title>Concorde</title>
+<command>Concorde</command> - пакет для решения задачи коммивояжера и некоторых других 
+подобных оптимизационных задач. Код написан на ANSI C и доступен для академических целей.
+Библиотека Concorde включает более 700 функций, которые могут быть использованы
+для создания программ, нацеленных на решение подобных задач.	
+<itemizedlist>
+ <listitem> Версия: 031219</listitem>
+ <listitem> Расположение: <filename>/usr/local/Concorde/concorde</filename></listitem>
+ <listitem> Ссылки: <ulink url="http://www.tsp.gatech.edu/concorde/index.html">WWW</ulink>, <link linkend="ex_concorde">Пример запуска</link></listitem>
+</itemizedlist>
+</section> <!-- soft_apps_concorde -->
 
 </section> <!-- soft_apps -->
 
