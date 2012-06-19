@@ -160,7 +160,7 @@ PREFIXmpich2=/usr/local/mpich2
 cat << EOF >> $submitfile
 #/bin/sh!
 TMPDIR=\`mktemp -d\`
-export $env
+#export $env
 EOF
 
 mpiarg="";
