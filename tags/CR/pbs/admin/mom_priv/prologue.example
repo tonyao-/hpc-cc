@@ -1,0 +1,14 @@
+#!/bin/sh
+
+echo "Prologue Args:"
+echo "job id: $1"
+echo "job execution user name: $2"
+echo "job execution group name: $3"
+echo "job name: $4"
+echo "list of requested resource limits: $5"
+echo "job execution queue: $6"
+echo "job account: $7"
+echo ""
+
+exit 0
+
