@@ -1,0 +1,10 @@
+export FOAM_INST_DIR=/usr/local/OpenFOAM
+source ${FOAM_INST_DIR}/openfoam/etc/bashrc
+# For Qt libs
+export LD_LIBRARY_PATH=${FOAM_INST_DIR}/qt/lib/:$LD_LIBRARY_PATH
+# Use this version of MPI for OpenFOAM
+export PATH=${FOAM_INST_DIR}/mpi/bin/:$PATH
+# For Intel libraries (compiled with Intel compilers)
+source /usr/local/intel/mkl/bin/mklvars.sh intel64
+source /usr/local/intel/bin/compilervars.sh intel64
+

@@ -1,0 +1,4 @@
+export g09root="/usr/local/Gaussian/current-legacy"
+source $g09root/g09/bsd/g09.profile
+export GAUSS_LFLAGS='-opt "Tsnet.Node.lindarsharg: ssh"'
+export GAUSS_SCRDIR="/tmp"
