@@ -1,8 +1,8 @@
 #!/bin/bash
 
 function printUsage {
-  echo "Usage:   `basename $0` <nodes_num> <proc_num> <input_file> [output_file]"
-  echo "Example: `basename $0` 2 4 ~/examples/test-gaussian ~/gaussian.log"; 
+  echo "Usage:   `basename $0` <nodes_num> <proc_num> <input_file>"
+  echo "Example: `basename $0` 2 4 ~/examples/test-gaussian"; 
 }
 
 if [[ -z "$1" ]]; then echo "Error! Please specify number of nodes!"; printUsage;  exit 1; fi
@@ -12,20 +12,29 @@ if [[ -z "$3" ]]; then echo "Error! Please specify an input file!"; printUsage; 
 NODES_NUM="$1"
 PROC_NUM="$2"
 INPUT_FILE="$3"
-INPUT_DIR="$(dirname `readlink -m $INPUT_FILE`)"
+INPUT_NAME="`basename $INPUT_FILE`"
 
-OUTPUT_FILE="/dev/null"
-if [[ -n "$4" ]]; then 
-  OUTPUT_FILE="$4"
-fi
+GAUSSIAN_DIR="$HOME/Gaussian/"
+if [[ ! -d "$GAUSSIAN_DIR" ]]; then mkdir $GAUSSIAN_DIR; fi
 
+JOB_DIR="${GAUSSIAN_DIR}/${INPUT_NAME%.*}-`date +%Y%m%d`-`date +%H%M%S`-`date +%3N`"
+mkdir $JOB_DIR
+if [[ ! -d "$JOB_DIR" ]]; then echo "Error! Job dir '$JOB_DIR' doesn't exist!"; exit 2; fi
+
+# Copy input file to $JOB_DIR
+JOB_FILE="${JOB_DIR}/${INPUT_NAME}"
+cp $INPUT_FILE $JOB_FILE
+# File with result
+OUTPUT_FILE="${JOB_DIR}/${INPUT_NAME%.*}.log"
 # File for Gaussian properties
-NODES_FILE="$INPUT_DIR/Default.Route"
+NODES_FILE="${JOB_DIR}/Default.Route"
+
+echo "Working directory: $JOB_DIR"
 
 qsub -q long -N Gaussian -l nodes=$NODES_NUM:ppn=$PROC_NUM <<< "
 #!/bin/bash
 
-cd $INPUT_DIR
+cd $JOB_DIR
 
 NODES_STR=\`cat \$PBS_NODEFILE | uniq\`
 NODES_STR=\`echo \$NODES_STR | sed 's/ /,/g'\`
@@ -34,11 +43,12 @@ NODES_STR=\`echo \$NODES_STR | sed 's/ /,/g'\`
 echo \"-P- $PROC_NUM\" > $NODES_FILE
 echo \"-W- \$NODES_STR\" >> $NODES_FILE
 
-# If output file wasn't specified Gaussian will write to *.log file 
-if [[ \"$OUTPUT_FILE\" != \"/dev/null\" ]]; then
-  time g09 < $INPUT_FILE > $OUTPUT_FILE
-else
-  time g09 $INPUT_FILE
-fi
+echo \"Working directory: $JOB_DIR\"
+echo \"Parallel settings:\"
+echo \"Nodes: \$NODES_STR\"
+echo \"Number of processes on each node: $PROC_NUM\"
+
+# Start calculations
+time g09 < $JOB_FILE > $OUTPUT_FILE
 
 rm $NODES_FILE"
